@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header
+      class="flex justify-between items-center bg-gray-100 px-6 py-4 border-b"
+    >
+      <h1 class="text-gray-600 text-lg font-semibold">Listening Word</h1>
+      <nav class="flex items-center space-x-6">
+        <a href="#" class="text-gray-800 hover:underline">Home</a>
+        <a href="#" class="text-gray-800 hover:underline">Profile</a>
+        <div
+          class="w-8 h-8 rounded-full bg-orange-300 text-white flex items-center justify-center font-bold"
+        >
+          A
+        </div>
+      </nav>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="max-w-6xl mx-auto px-4 relative min-h-[665px] flex">
+      <!-- Gambar orang di kiri bawah -->
+      <img
+        class="absolute left-0 bottom-0 w-72 h-auto"
+        src="./assets/people-word.png"
+        alt="people"
+        style="z-index: 1"
+      />
+      <div class="flex flex-col items-center w-full">
+        <!-- Gambar speaker di tengah atas -->
+        <img class="w-80 h-100" src="./assets/speaker.png" alt="speaker" />
+        <h3 class="text-4xl font-bold mb-12">
+          What <span class="text-blue-500">word</span> do you hear?
+        </h3>
+        <input
+          type="text"
+          placeholder="Type the word here"
+          class="border bg-blue-950 rounded-full p-2 text-white text-xl py-4 px-8 w-[750px] max-w-full text-center"
+        />
+        <button
+          class="bg-blue-500 text-white rounded-full py-2 px-6 mt-8 text-lg font-semibold"
+        >
+          Submit
+        </button>
+      </div>
+    </main>
+  </body>
+</html>
