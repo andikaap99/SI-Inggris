@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listening Evaluation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center p-6">
+    <div class="bg-white p-4 rounded-lg shadow max-w-xl w-full">
+        <h1 class="text-2xl font-bold text-center">Listening Evaluation</h1>
+        <img id="imaji" class="bg-gray-300 p-4 rounded mt-4">
+
+        <div class="mt-4">
+            <label class="font-semibold">Your Answer:</label>
+            <textarea id="answer" class="w-full p-2 border rounded" rows="3"></textarea>
+        </div>
+
+        <div class="mt-4 flex justify-center">
+            <button id="evaluateBtn" class="bg-blue-500 hover:bg-blue-600 text-white rounded p-2">Evaluate</button>
+        </div>
+    </div>
+
+    <script>
+        let currentId;
+
+        async function loadQuestion(id) {
+            const url = id 
+                ? `/listening/${id}/` 
+                : '/listening/start/';
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+            currentId = data.id_iw;
+            document.getElementById("imaji").src = data.image_url;
+        }
+
+        async function evaluateAnswer() {
+            const answer = document.getElementById("answer").value;
+            const res = await fetch("/listening/answer/", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ id_iw: currentId, student_answer: answer})
+            });
+            const result = await res.json();
+
+            alert(result.correct ? "Jawaban Benar!" : "Jawaban Salah!");
+            
+            if (result.next_id) {
+                loadQuestion(result.next_id);
+                document.getElementById("answer").value = ""; 
+            } else {
+                alert("Selesai! Tidak ada soal selanjutnya.");
+            }
+        }
+
+        document.getElementById("evaluateBtn").onclick = evaluateAnswer;
+
+        // START
+        loadQuestion();
+    </script>
+</body>
+</html>
