@@ -23,7 +23,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- CARD 1 -->
-      <div class="bg-black p-6 rounded-lg shadow hover:bg-gray-900 transition">
+      <button id="listening-word" class="bg-black p-6 rounded-lg shadow hover:bg-gray-900 transition">
         <div class="flex items-start gap-3 mb-3 text-white">
           <span class="text-xl">🎤</span>
           <div>
@@ -31,10 +31,10 @@
             <p class="text-sm text-gray-300 mt-1">Fokus pada pengenalan kata dengan mendengarkan kata-kata individual.</p>
           </div>
         </div>
-      </div>
+      </button>
 
       <!-- CARD 2 -->
-      <div class="bg-black p-6 rounded-lg shadow hover:bg-gray-900 transition">
+      <button id="complete-sentence" class="bg-black p-6 rounded-lg shadow hover:bg-gray-900 transition">
         <div class="flex items-start gap-3 mb-3 text-white">
           <span class="text-xl">🅱️</span>
           <div>
@@ -42,10 +42,10 @@
             <p class="text-sm text-gray-300 mt-1">Uji kemampuan tata bahasa Anda dengan melengkapi kalimat yang hilang.</p>
           </div>
         </div>
-      </div>
+      </button>
 
       <!-- CARD 3 -->
-      <div class="bg-black p-6 rounded-lg shadow hover:bg-gray-900 transition">
+      <button id="listening-sentence" class="bg-black p-6 rounded-lg shadow hover:bg-gray-900 transition">
         <div class="flex items-start gap-3 mb-3 text-white">
           <span class="text-xl">🎧</span>
           <div>
@@ -53,10 +53,10 @@
             <p class="text-sm text-gray-300 mt-1">Latih pemahaman Anda dengan mendengarkan kalimat lengkap.</p>
           </div>
         </div>
-      </div>
+      </button>
 
       <!-- CARD 4 -->
-      <div class="bg-black p-6 rounded-lg shadow hover:bg-gray-900 transition">
+      <button id="image-word" class="bg-black p-6 rounded-lg shadow hover:bg-gray-900 transition">
         <div class="flex items-start gap-3 mb-3 text-white">
           <span class="text-xl">🖼️</span>
           <div>
@@ -64,9 +64,27 @@
             <p class="text-sm text-gray-300 mt-1">Belajar melalui asosiasi visual dengan mencocokkan kata-kata dengan gambar.</p>
           </div>
         </div>
-      </div>
+      </button>
     </div>
   </main>
+
+  <script>
+    document.getElementById("listening-word").onclick = function () {
+      window.location.href = "/listening-word";
+    };
+
+    document.getElementById("complete-sentence").onclick = function () {
+      window.location.href = "/complete-sentence";
+    };
+
+    document.getElementById("listening-sentence").onclick = function () {
+      window.location.href = "/listening-sentence";
+    };
+
+    document.getElementById("image-word").onclick = function () {
+      window.location.href = "/image-word";
+    };
+  </script>
 
 </body>
 </html>
