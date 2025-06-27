@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-500 to-blue-700 min-h-screen flex items-center justify-center">
+  <div class="w-[800px] h-[500px] bg-white/10 backdrop-blur-md rounded-2xl flex shadow-lg overflow-hidden">
+    
+    <!-- GAMBAR -->
+    <div class="w-1/2 flex items-center justify-center p-4 bg-white/20">
+      <img src="https://img.pikbest.com/origin/10/10/74/87tpIkbEsTgVC.png!bw700"
+           alt="Gambar Naga"
+           class="max-h-[90%] object-contain rounded-xl shadow-md">
+    </div>
+
+    <!-- FORM LOGIN -->
+    <div class="w-1/2 flex items-center justify-center">
+      <form class="w-3/4 space-y-5 bg-white/10 p-6 rounded-xl backdrop-blur-md shadow">
+        <h2 class="text-white text-2xl font-bold text-center mb-4">Login</h2>
+
+        <div>
+          <label class="text-white block mb-1">Username</label>
+          <input type="text" placeholder="Enter username" class="w-full px-4 py-2 rounded bg-white/80 text-black focus:outline-none">
+        </div>
+
+        <div>
+          <label class="text-white block mb-1">Password</label>
+          <input type="password" placeholder="Enter password" class="w-full px-4 py-2 rounded bg-white/80 text-black focus:outline-none">
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="bg-white text-blue-700 font-bold px-6 py-2 rounded hover:bg-blue-100 transition">Login</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</body>
+</html>
