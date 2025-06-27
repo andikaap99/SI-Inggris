@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 # from sentence_transformers import SentenceTransformer, util
 from sqlalchemy.orm import Session
 from db import SessionLocal, engine, Base
-from models import Image_Word
+from models import Image_Word, Listening_Word
 
 app = FastAPI()
 Base.metadata.create_all(bind=engine)
@@ -28,7 +28,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request, "result": None})
+    return templates.TemplateResponse("listening-word.html", {"request": request, "result": None})
 
 # @app.post("/evaluate/")
 # async def evaluate(audio_text: str = Form(...), student_summary: str = Form(...)):
@@ -48,49 +48,97 @@ async def read_root(request: Request):
         "final_score": round(final_score, 2)
     })
 
-@app.get("/listening/start/")
-def start(db: Session = Depends(get_db)):
-    first_question = db.query(Image_Word).order_by(Image_Word.Id_iw).first()
-    if first_question:
-        return {
-            "id_iw": first_question.Id_iw,
-            "image_url": first_question.image_iw
-        }
-    return {"error": "Tidak ada soal"}
+# @app.get("/listening/start/")
+# def start(db: Session = Depends(get_db)):
+#     first_question = db.query(Image_Word).order_by(Image_Word.Id_iw).first()
+#     if first_question:
+#         return {
+#             "id_iw": first_question.Id_iw,
+#             "image_url": first_question.image_iw
+#         }
+#     return {"error": "Tidak ada soal"}
 
 
-@app.get("/listening/{id_iw}/")
-def get_question(id_iw: int, db: Session = Depends(get_db)):
-    item = db.query(Image_Word).filter(Image_Word.Id_iw == id_iw).first()
-    if item:
-        return {
-            "id_iw": item.Id_iw,
-            "image_url": item.image_iw
-        }
-    return {"error": "Soal tidak ditemukan"}
+# @app.get("/listening/{id_iw}/")
+# def get_question(id_iw: int, db: Session = Depends(get_db)):
+#     item = db.query(Image_Word).filter(Image_Word.Id_iw == id_iw).first()
+#     if item:
+#         return {
+#             "id_iw": item.Id_iw,
+#             "image_url": item.image_iw
+#         }
+#     return {"error": "Soal tidak ditemukan"}
 
 
-@app.post("/listening/answer/")
-async def answer(request: Request, db: Session = Depends(get_db)):
-    data = await request.json()
-    id_iw = data.get("id_iw")
-    student_answer = data.get("student_answer", "").strip().lower()
+# @app.post("/listening/answer/")
+# async def answer(request: Request, db: Session = Depends(get_db)):
+#     data = await request.json()
+#     id_iw = data.get("id_iw")
+#     student_answer = data.get("student_answer", "").strip().lower()
 
-    item = db.query(Image_Word).filter(Image_Word.Id_iw == id_iw).first()
-    if not item:
-        return JSONResponse({"correct": False, "error": "Soal tidak ditemukan"})
+#     item = db.query(Image_Word).filter(Image_Word.Id_iw == id_iw).first()
+#     if not item:
+#         return JSONResponse({"correct": False, "error": "Soal tidak ditemukan"})
 
-    is_correct = item.iw_answer.strip().lower() == student_answer
-    next_item = db.query(Image_Word).filter(Image_Word.Id_iw > id_iw).order_by(Image_Word.Id_iw).first()
+#     is_correct = item.iw_answer.strip().lower() == student_answer
+#     next_item = db.query(Image_Word).filter(Image_Word.Id_iw > id_iw).order_by(Image_Word.Id_iw).first()
 
-    return {
-        "correct": is_correct,
-        "next_id": next_item.Id_iw if next_item else None,
-        "next_image": next_item.image_iw if next_item else None
-    }
+#     return {
+#         "correct": is_correct,
+#         "next_id": next_item.Id_iw if next_item else None,
+#         "next_image": next_item.image_iw if next_item else None
+#     }
+
+
+# @app.get("/listening/app/", response_class=None)
+# def listening_app(request: Request):
+#     """Render halaman HTML"""
+#     return templates.TemplateResponse("index.html", {"request": request})
 
 
 @app.get("/listening/app/", response_class=None)
 def listening_app(request: Request):
     """Render halaman HTML"""
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("listening-word.html", {"request": request})
+
+
+@app.get("/listening-word/start/")
+def start(db: Session = Depends(get_db)):
+    first_question = db.query(Listening_Word).order_by(Listening_Word.Id_lw).first()
+    if first_question:
+        return {
+            "id_lw": first_question.Id_lw,
+            "audio_url": first_question.audio_lw
+        }
+    return {"error": "Tidak ada soal"}
+
+
+@app.get("/listening-word/{id_lw}/")
+def get_question(id_lw: int, db: Session = Depends(get_db)):
+    item = db.query(Listening_Word).filter(Listening_Word.Id_lw == id_lw).first()
+    if item:
+        return {
+            "id_lw": item.Id_lw,
+            "audio_url": item.audio_lw
+        }
+    return {"error": "Soal tidak ditemukan"}
+
+
+@app.post("/listening-word/answer/")
+async def answer(request: Request, db: Session = Depends(get_db)):
+    data = await request.json()
+    id_lw = data.get("id_lw")
+    student_answer = data.get("student_answer", "").strip().lower()
+
+    item = db.query(Listening_Word).filter(Listening_Word.Id_lw == id_lw).first()
+    if not item:
+        return JSONResponse({"correct": False, "error": "Soal tidak ditemukan"})
+
+    is_correct = item.lw_answer.strip().lower() == student_answer
+    next_item = db.query(Listening_Word).filter(Listening_Word.Id_lw > id_lw).order_by(Listening_Word.Id_lw).first()
+
+    return {
+        "correct": is_correct,
+        "next_id": next_item.Id_lw if next_item else None,
+        "next_audio": next_item.audio_lw if next_item else None
+    }
