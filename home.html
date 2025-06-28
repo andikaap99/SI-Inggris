@@ -7,15 +7,39 @@
 </head>
 <body class="bg-white text-gray-900 min-h-screen font-sans">
 
-  <!-- HEADER -->
-  <header class="flex justify-between items-center bg-gray-100 px-6 py-4 border-b">
-    <h1 class="text-gray-600 text-lg font-semibold">HOME</h1>
-    <nav class="flex items-center space-x-6">
-      <a href="#" class="text-gray-800 hover:underline">Home</a>
-      <a href="#" class="text-gray-800 hover:underline">Profile</a>
-      <div class="w-8 h-8 rounded-full bg-orange-300 text-white flex items-center justify-center font-bold">A</div>
-    </nav>
-  </header>
+<!-- Navbar -->
+<nav class="flex justify-between items-center px-6 py-4 border-b">
+  <!-- Left: Hamburger -->
+  <button id="menu-toggle"  class="flex items-center justify-center w-8 h-8">
+    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+
+  <!-- Center: Title -->
+  <h1 class="text-lg font-semibold text-gray-800">ENGLISH COURSE</h1>
+
+  <!-- Right: Profile Picture -->
+  <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM6 20c0-2.21 
+               3.58-4 6-4s6 1.79 6 4"/>
+    </svg>
+  </div>
+</nav>
+
+<!-- Sidebar -->
+<div id="sidebar"
+     class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
+    <div class="p-4 border-b font-semibold text-lg">Menu</div>
+    <ul class="p-4 space-y-3">
+        <li><a href="/EngCourse/listening-sentence/listening-sentence.html" class="block text-gray-700 hover:text-blue-600">Word Listening</a></li>
+        <li><a href="/EngCourse/listening-word/listening-word.html" class="block text-gray-700 hover:text-blue-600">Sentence Listening</a></li>
+        <li><a href="/EngCourse/wordimg/Menu.html" class="block text-gray-700 hover:text-blue-600">Word Image</a></li>
+        <li><a href="/EngCourse/listening-word/listening-word.html" class="block text-gray-700 hover:text-blue-600">Sentence</a></li>
+    </ul>
+</div>
 
   <!-- CONTENT -->
   <main class="max-w-6xl mx-auto py-12 px-4">

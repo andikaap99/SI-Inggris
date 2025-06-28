@@ -33,13 +33,22 @@
 <!-- Sidebar -->
 <div id="sidebar"
      class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
-    <div class="p-4 border-b font-semibold text-lg">Menu</div>
-    <ul class="p-4 space-y-3">
-        <li><a href="/EngCourse/listening-sentence/Menu.html" class="block text-gray-700 hover:text-blue-600">Sentence Listening</a></li>
-        <li><a href="/EngCourse/listening-word/Menu.html" class="block text-gray-700 hover:text-blue-600">Word Listening</a></li>
-        <li><a href="/EngCourse/wordimg/Menu.html" class="block text-gray-700 hover:text-blue-600">Word Image</a></li>
-        <li><a href="#" class="block text-gray-700 hover:text-blue-600">Sentence</a></li>
-    </ul>
+    <!-- Tombol X -->
+      <div class="flex items-center justify-between p-4 border-b">
+        <span class="font-semibold text-lg">Menu</span>
+        <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <ul class="p-4 space-y-3">
+          <li><a href="/EngCourse/listening-sentence/Menu.html" class="block text-gray-700 hover:text-blue-600">Sentence Listening</a></li>
+          <li><a href="/EngCourse/listening-word/Menu.html" class="block text-gray-700 hover:text-blue-600">Word Listening</a></li>
+          <li><a href="/EngCourse/wordimg/Menu.html" class="block text-gray-700 hover:text-blue-600">Word Image</a></li>
+          <li><a href="#" class="block text-gray-700 hover:text-blue-600">Sentence</a></li>
+      </ul>
 </div>
 
   <!-- Category Grid -->
