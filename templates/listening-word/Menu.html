@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu Image Word</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body class="bg-white text-gray-900">
+  <!-- Navbar -->
+<nav class="flex justify-between items-center px-6 py-4 border-b">
+  <!-- Left: Hamburger -->
+  <button id="menu-toggle"  class="flex items-center justify-center w-8 h-8">
+    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+
+  <!-- Center: Title -->
+  <h1 class="text-lg font-semibold text-gray-800">Listening Word</h1>
+
+  <!-- Right: Profile Picture -->
+  <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM6 20c0-2.21 
+               3.58-4 6-4s6 1.79 6 4"/>
+    </svg>
+  </div>
+</nav>
+
+<!-- Sidebar -->
+<div id="sidebar"
+     class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
+    <div class="p-4 border-b font-semibold text-lg">Menu</div>
+    <ul class="p-4 space-y-3">
+        <li><a href="/EngCourse/listening-sentence/Menu.html" class="block text-gray-700 hover:text-blue-600">Sentence Listening</a></li>
+        <li><a href="/EngCourse/listening-word/Menu.html" class="block text-gray-700 hover:text-blue-600">Word Listening</a></li>
+        <li><a href="/EngCourse/wordimg/Menu.html" class="block text-gray-700 hover:text-blue-600">Word Image</a></li>
+        <li><a href="#" class="block text-gray-700 hover:text-blue-600">Sentence</a></li>
+    </ul>
+</div>
+
+  <!-- Category Grid -->
+  <main class="max-w-5xl mx-auto px-4 py-10">
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+      <!-- Card -->
+      <div class="text-center">
+        <a href="/listening-word-word?category=Daily Object">
+          <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
+            <img src="static\image\listening-word\menu\object.png" alt="Daily Object" class="aspect-square object-cover w-full transition" />
+            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                <p class="text-white font-semibold text-lg">Daily Object</p>
+            </div>
+          </div>
+        </a>
+        <p class="mt-2 font-medium">Daily Object</p>
+      </div>
+
+      <div class="text-center">
+        <a href="/listening-word-word?category=Food and Drink">
+          <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
+            <img src="static\image\listening-word\menu\food.png" alt="Food" class="aspect-square object-cover w-full transition" />
+            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                <p class="text-white font-semibold text-lg">Food and Drink</p>
+            </div>
+          </div>
+        </a>
+        <p class="mt-2 font-medium">Food and Drink</p>
+      </div>
+
+      <div class="text-center">
+            <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
+            <img src="static\image\listening-word\menu\sc.png" alt="Color" class="aspect-square object-cover w-full transition" />
+            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                <p class="text-white font-semibold text-lg">Color and Shape</p>
+            </div>
+        </div>
+            <p class="mt-2 font-medium">Color and Shape</p>
+        </div>
+
+      <div class="text-center">
+            <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
+            <img src="static\image\listening-word\menu\trans.png" alt="Transportation" class="aspect-square object-cover w-full transition" />
+            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                <p class="text-white font-semibold text-lg">Transportations</p>
+            </div>
+        </div>
+            <p class="mt-2 font-medium">Transportations</p>
+        </div>
+
+      <div class="text-center">
+            <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
+            <img src="static\image\listening-word\menu\animal.png" alt="Animals" class="aspect-square object-cover w-full transition" />
+            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                <p class="text-white font-semibold text-lg">Animals</p>
+            </div>
+        </div>
+            <p class="mt-2 font-medium">Animals</p>
+        </div>
+
+      <div class="text-center">
+            <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
+            <img src="static\image\listening-word\menu\st.png" alt="School" class="aspect-square object-cover w-full transition" />
+            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                <p class="text-white font-semibold text-lg">School Things</p>
+            </div>
+        </div>
+            <p class="mt-2 font-medium">School Things</p>
+        </div>
+    </div>
+  </main>
+<script src="/static/script.js"></script>
+</body>
+</html>
