@@ -18,7 +18,7 @@
   </button>
 
   <!-- Center: Title -->
-  <h1 class="text-lg font-semibold text-gray-800">English Course</h1>
+  <h1 class="text-lg font-semibold text-gray-800">Image Word</h1>
 
   <!-- Right: Profile Picture -->
   <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
@@ -31,15 +31,25 @@
 </nav>
 
 <!-- Sidebar -->
-<div id="sidebar"
-     class="fixed top-0 left-0 h-full w-40 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
-    <div class="p-4 border-b font-semibold text-lg">Menu</div>
-    <ul class="p-4 space-y-3">
-        <li><a href="#" class="block text-gray-700 hover:text-blue-600">Listening</a></li>
-        <li><a href="#" class="block text-gray-700 hover:text-blue-600">Word Image</a></li>
-        <li><a href="#" class="block text-gray-700 hover:text-blue-600">Sentence</a></li>
-    </ul>
-</div>
+<!-- Sidebar -->
+  <div id="sidebar"
+      class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
+      <!-- Tombol X -->
+        <div class="flex items-center justify-between p-4 border-b">
+          <span class="font-semibold text-lg">Menu</span>
+          <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <ul class="p-4 space-y-3">
+            <li><a href="/listening-sentence" class="block text-gray-700 hover:text-blue-600">Sentence Listening</a></li>
+            <li><a href="/listening-word" class="block text-gray-700 hover:text-blue-600">Word Listening</a></li>
+            <li><a href="/image-word" class="block text-gray-700 hover:text-blue-600">Word Image</a></li>
+            <li><a href="#" class="block text-gray-700 hover:text-blue-600">Complete Sentence</a></li>
+        </ul>
+  </div>
 
   <main class="max-w-5xl mx-auto px-4 py-10 text-center">
     <h2 class="text-lg font-semibold mb-6">Guess The Object </h2>
@@ -53,48 +63,48 @@
     </div>
     
   </main>
-<script src="/static/script.js"></script>
-<script>
-  let currentId;
-      let currentCategory = new URLSearchParams(window.location.search).get("category") || "Default";
+  <script src="/static/script.js"></script>
+  <script>
+    let currentId;
+        let currentCategory = new URLSearchParams(window.location.search).get("category") || "Default";
 
-      async function loadQuestion(id) {
-          const url = id 
-              ? `/image-word/${id}/` 
-              : `/image-word/start/${encodeURIComponent(currentCategory)}`;  // Kirim kategori!
-          const res = await fetch(url);
-          const data = await res.json();
-          if (data.error) {
-              alert(data.error);
-              return;
-          }
-          currentId = data.id_iw;
-          document.getElementById("imaji").src = data.image_url;
-      }
+        async function loadQuestion(id) {
+            const url = id 
+                ? `/image-word/${id}/` 
+                : `/image-word/start/${encodeURIComponent(currentCategory)}`;  // Kirim kategori!
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+            currentId = data.id_iw;
+            document.getElementById("imaji").src = data.image_url;
+        }
 
-      async function evaluateAnswer() {
-          const answer = document.getElementById("answer").value;
-          const res = await fetch("/image-word/answer/", {
-              method: "POST",
-              headers: {"Content-Type": "application/json"},
-              body: JSON.stringify({ id_iw: currentId, student_answer: answer})
-          });
-          const result = await res.json();
+        async function evaluateAnswer() {
+            const answer = document.getElementById("answer").value;
+            const res = await fetch("/image-word/answer/", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ id_iw: currentId, student_answer: answer})
+            });
+            const result = await res.json();
 
-          alert(result.correct ? "Jawaban Benar!" : "Jawaban Salah!");
-          
-          if (result.next_id) {
-              loadQuestion(result.next_id);
-              document.getElementById("answer").value = ""; 
-          } else {
-              alert("Selesai! Tidak ada soal selanjutnya.");
-          }
-      }
+            alert(result.correct ? "Jawaban Benar!" : "Jawaban Salah!");
+            
+            if (result.next_id) {
+                loadQuestion(result.next_id);
+                document.getElementById("answer").value = ""; 
+            } else {
+                alert("Selesai! Tidak ada soal selanjutnya.");
+            }
+        }
 
-      document.getElementById("evaluateBtn").onclick = evaluateAnswer;
+        document.getElementById("evaluateBtn").onclick = evaluateAnswer;
 
-      // START
-      loadQuestion();
-  </script>
+        // START
+        loadQuestion();
+    </script>
 </body>
 </html>

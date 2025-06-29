@@ -33,13 +33,21 @@
 <!-- Sidebar -->
 <div id="sidebar"
      class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
-    <div class="p-4 border-b font-semibold text-lg">Menu</div>
-    <ul class="p-4 space-y-3">
-        <li><a href="/EngCourse/listening-sentence/Menu.html" class="block text-gray-700 hover:text-blue-600">Sentence Listening</a></li>
-        <li><a href="/EngCourse/listening-word/Menu.html" class="block text-gray-700 hover:text-blue-600">Word Listening</a></li>
-        <li><a href="/EngCourse/wordimg/Menu.html" class="block text-gray-700 hover:text-blue-600">Word Image</a></li>
-        <li><a href="#" class="block text-gray-700 hover:text-blue-600">Sentence</a></li>
-    </ul>
+    <!-- Tombol X -->
+      <div class="flex items-center justify-between p-4 border-b">
+        <span class="font-semibold text-lg">Menu</span>
+        <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <ul class="p-4 space-y-3">
+          <li><a href="/listening-sentence" class="block text-gray-700 hover:text-blue-600">Sentence Listening</a></li>
+          <li><a href="/listening-word" class="block text-gray-700 hover:text-blue-600">Word Listening</a></li>
+          <li><a href="/image-word" class="block text-gray-700 hover:text-blue-600">Word Image</a></li>
+          <li><a href="#" class="block text-gray-700 hover:text-blue-600">Sentence</a></li>
+      </ul>
 </div>
 
   <!-- Category Grid -->
@@ -49,7 +57,7 @@
        <div class="text-center">
         <a href="/listening-sentence-sentence?category=Daily Object">
             <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
-            <img src="static\image\listening-sentence\menu\object.png" alt="Daily Object" class="aspect-square object-cover w-full transition" />
+            <img src="/static/image/listening-sentence/menu/object.png" alt="Daily Object" class="aspect-square object-cover w-full transition" />
             <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                 <p class="text-white font-semibold text-lg">Daily Object</p>
             </div>
@@ -59,59 +67,66 @@
         </div>
 
       <div class="text-center">
-        <a href="/listening-sentence-sentence?category=Food and Drink">
-          <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
-            <img src="static\image\listening-sentence\menu\food.png" alt="Food" class="aspect-square object-cover w-full transition" />
+        <a href= "/listening-sentence-sentence?category=Food and Drink">
+            <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
+            <img src="/static/image/listening-sentence/menu/food.png" alt="Food" class="aspect-square object-cover w-full transition" />
             <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-              <p class="text-white font-semibold text-lg">Food and Drink</p>
+                <p class="text-white font-semibold text-lg">Food and Drink</p>
             </div>
-          </div>
+        </div>
         </a>
-        <p class="mt-2 font-medium">Food and Drink</p>
-      </div>
-
-      <div class="text-center">
+            <p class="mt-2 font-medium">Food and Drink</p>
+        </div>
         
-          <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
-            <img src="static\image/listening-sentence/menu/sc.png" alt="Color" class="aspect-square object-cover w-full transition" />
+      <div class="text-center">
+        <a href="/listening-sentence-sentence?category=Color and Shape">
+            <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
+            <img src="/static/image/listening-sentence/menu/sc.png" alt="Color" class="aspect-square object-cover w-full transition" />
             <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                 <p class="text-white font-semibold text-lg">Color and Shape</p>
             </div>
-          </div>
-        <p class="mt-2 font-medium">Color and Shape</p>
-      </div>
+        </div>
+        </a>
+            <p class="mt-2 font-medium">Color and Shape</p>
+        </div>
 
       <div class="text-center">
+        <a href="/listening-sentence-sentence?category=Transportations">
             <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
-            <img src="static\image/listening-sentence/menu/trans.png" alt="Transportation" class="aspect-square object-cover w-full transition" />
+            <img src="/static/image/listening-sentence/menu/trans.png" alt="Transportation" class="aspect-square object-cover w-full transition" />
             <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                 <p class="text-white font-semibold text-lg">Transportations</p>
             </div>
         </div>
+        </a>
             <p class="mt-2 font-medium">Transportations</p>
         </div>
 
       <div class="text-center">
+        <a href="/listening-sentence-sentence?category=Animals">
             <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
-            <img src="static\image/listening-sentence/menu/animal.png" alt="Animals" class="aspect-square object-cover w-full transition" />
+            <img src="/static/image/listening-sentence/menu/animal.png" alt="Animals" class="aspect-square object-cover w-full transition" />
             <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                 <p class="text-white font-semibold text-lg">Animals</p>
             </div>
         </div>
+        </a>
             <p class="mt-2 font-medium">Animals</p>
         </div>
 
       <div class="text-center">
+        <a href="/listening-sentence-sentence?category=School Things">
             <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
-            <img src="static\image/listening-sentence/menu/st.png" alt="School" class="aspect-square object-cover w-full transition" />
+            <img src="/static/image/listening-sentence/menu/st.png " alt="School" class="aspect-square object-cover w-full transition" />
             <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                 <p class="text-white font-semibold text-lg">School Things</p>
             </div>
         </div>
+        </a>
             <p class="mt-2 font-medium">School Things</p>
         </div>
     </div>
   </main>
-<script src="..\..\static/script.js"></script>
+<script src="../../static/script.js"></script>
 </body>
 </html>
