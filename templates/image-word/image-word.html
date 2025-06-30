@@ -1,110 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Menu Image Word</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="/EngCourse/style.css" />
-</head>
-<body class="bg-white text-gray-900">
-  <!-- Navbar -->
-<nav class="flex justify-between items-center px-6 py-4 border-b">
-  <!-- Left: Hamburger -->
-  <button id="menu-toggle"  class="flex items-center justify-center w-8 h-8">
-    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  </button>
-
-  <!-- Center: Title -->
-  <h1 class="text-lg font-semibold text-gray-800">Image Word</h1>
-
-  <!-- Right: Profile Picture -->
-  <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round"
-            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM6 20c0-2.21 
-               3.58-4 6-4s6 1.79 6 4"/>
-    </svg>
-  </div>
-</nav>
-
-<!-- Sidebar -->
-<!-- Sidebar -->
-  <div id="sidebar"
-      class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
-      <!-- Tombol X -->
-        <div class="flex items-center justify-between p-4 border-b">
-          <span class="font-semibold text-lg">Menu</span>
-          <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <ul class="p-4 space-y-3">
-            <li><a href="/listening-sentence" class="block text-gray-700 hover:text-blue-600">Sentence Listening</a></li>
-            <li><a href="/listening-word" class="block text-gray-700 hover:text-blue-600">Word Listening</a></li>
-            <li><a href="/image-word" class="block text-gray-700 hover:text-blue-600">Word Image</a></li>
-            <li><a href="#" class="block text-gray-700 hover:text-blue-600">Complete Sentence</a></li>
-        </ul>
-  </div>
-
-  <main class="max-w-5xl mx-auto px-4 py-10 text-center">
-    <h2 class="text-lg font-semibold mb-6">Guess The Object </h2>
-    <img id="imaji" src="" alt="Guess" class="w-60 h-60 object-cover bg-gray-300 mx-auto rounded mb-6">
-    <input id="answer" type="text" placeholder="Type your answer..."
-           class="w-full rounded-full bg-gray-200 px-6 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"/>
-    <div class="flex justify-center gap-4">
-      <button id="evaluateBtn" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
-        Submit
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu Image Word</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/EngCourse/style.css" />
+  </head>
+  <body class="bg-white text-gray-900">
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center px-6 py-4 border-b">
+      <!-- Left: Hamburger -->
+      <button id="menu-toggle" class="flex items-center justify-center w-8 h-8">
+        <svg
+          class="w-6 h-6 text-gray-700"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
       </button>
+
+      <!-- Center: Title -->
+      <h1 class="text-lg font-semibold text-gray-800">Image Word</h1>
+
+      <!-- Right: Profile Picture -->
+      <div
+        class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM6 20c0-2.21 
+               3.58-4 6-4s6 1.79 6 4"
+          />
+        </svg>
+      </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <!-- Sidebar -->
+    <div
+      id="sidebar"
+      class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50"
+    >
+      <!-- Tombol X -->
+      <div class="flex items-center justify-between p-4 border-b">
+        <span class="font-semibold text-lg">Menu</span>
+        <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+      <ul class="p-4 space-y-3">
+        <li>
+          <a
+            href="/templates/listening-sentence/listening-sentence.html"
+            class="block text-gray-700 hover:text-blue-600"
+            >Sentence Listening</a
+          >
+        </li>
+        <li>
+          <a
+            href="/templates/listening-word/listening-word.html"
+            class="block text-gray-700 hover:text-blue-600"
+            >Word Listening</a
+          >
+        </li>
+        <li>
+          <a
+            href="/templates/image-word/image-word.html"
+            class="block text-gray-700 hover:text-blue-600"
+            >Word Image</a
+          >
+        </li>
+        <li>
+          <a href="#" class="block text-gray-700 hover:text-blue-600"
+            >Complete Sentence</a
+          >
+        </li>
+      </ul>
     </div>
-    
-  </main>
-  <script src="/static/script.js"></script>
-  <script>
-    let currentId;
-        let currentCategory = new URLSearchParams(window.location.search).get("category") || "Default";
 
-        async function loadQuestion(id) {
-            const url = id 
-                ? `/image-word/${id}/` 
-                : `/image-word/start/${encodeURIComponent(currentCategory)}`;  // Kirim kategori!
-            const res = await fetch(url);
-            const data = await res.json();
-            if (data.error) {
-                alert(data.error);
-                return;
-            }
-            currentId = data.id_iw;
-            document.getElementById("imaji").src = data.image_url;
+    <main class="max-w-5xl mx-auto px-4 py-10 text-center">
+      <h2 class="text-lg font-semibold mb-6">Guess The Object</h2>
+      <img
+        id="imaji"
+        src=""
+        alt="Guess"
+        class="w-60 h-60 object-cover bg-gray-300 mx-auto rounded mb-6"
+      />
+      <input
+        id="answer"
+        type="text"
+        placeholder="Type your answer..."
+        class="w-full rounded-full bg-gray-200 px-6 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
+      />
+      <div class="flex justify-center gap-4">
+        <button
+          id="evaluateBtn"
+          class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+        >
+          Submit
+        </button>
+      </div>
+    </main>
+    <script src="/static/script.js"></script>
+    <script>
+      let currentId;
+      let currentCategory =
+        new URLSearchParams(window.location.search).get("category") ||
+        "Default";
+
+      async function loadQuestion(id) {
+        const url = id
+          ? `/image-word/${id}/`
+          : `/image-word/start/${encodeURIComponent(currentCategory)}`; // Kirim kategori!
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.error) {
+          alert(data.error);
+          return;
         }
+        currentId = data.id_iw;
+        document.getElementById("imaji").src = data.image_url;
+      }
 
-        async function evaluateAnswer() {
-            const answer = document.getElementById("answer").value;
-            const res = await fetch("/image-word/answer/", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ id_iw: currentId, student_answer: answer})
-            });
-            const result = await res.json();
+      async function evaluateAnswer() {
+        const answer = document.getElementById("answer").value;
+        const res = await fetch("/image-word/answer/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id_iw: currentId, student_answer: answer }),
+        });
+        const result = await res.json();
 
-            alert(result.correct ? "Jawaban Benar!" : "Jawaban Salah!");
-            
-            if (result.next_id) {
-                loadQuestion(result.next_id);
-                document.getElementById("answer").value = ""; 
-            } else {
-                alert("Selesai! Tidak ada soal selanjutnya.");
-            }
+        alert(result.correct ? "Jawaban Benar!" : "Jawaban Salah!");
+
+        if (result.next_id) {
+          loadQuestion(result.next_id);
+          document.getElementById("answer").value = "";
+        } else {
+          alert("Selesai! Tidak ada soal selanjutnya.");
         }
+      }
 
-        document.getElementById("evaluateBtn").onclick = evaluateAnswer;
+      document.getElementById("evaluateBtn").onclick = evaluateAnswer;
 
-        // START
-        loadQuestion();
+      // START
+      loadQuestion();
     </script>
-</body>
+  </body>
 </html>

@@ -50,36 +50,55 @@
       </div>
     </nav>
 
+    <!-- Overlay -->
+    <div
+      id="overlay"
+      class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"
+    ></div>
+
     <!-- Sidebar -->
     <div
       id="sidebar"
-      class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
-       <!-- Tombol X -->
-       <div class="flex items-center justify-between p-4 border-b">
+      class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50"
+    >
+      <!-- Tombol X -->
+      <div class="flex items-center justify-between p-4 border-b">
         <span class="font-semibold text-lg">Menu</span>
         <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>
       <ul class="p-4 space-y-3">
         <li>
           <a
-            href="/listening-sentence"
+            href="/templates/listening-sentence/listening-sentence.html"
             class="block text-gray-700 hover:text-blue-600"
             >Sentence Listening</a
           >
         </li>
         <li>
           <a
-            href="/listening-word"
+            href="/templates/listening-word/listening-word.html"
             class="block text-gray-700 hover:text-blue-600"
             >Word Listening</a
           >
         </li>
         <li>
-          <a href="/image-word" class="block text-gray-700 hover:text-blue-600"
+          <a
+            href="/templates/image-word/image-word.html"
+            class="block text-gray-700 hover:text-blue-600"
             >Word Image</a
           >
         </li>
@@ -97,108 +116,137 @@
     <main
       class="min-h-[660px] max-w-6xl mx-auto px-4 relative flex"
       style="
-        background-image: url('/static/image/listening-sentence/bg-listening-sentence.png');
+        background-image: url('/static/image/bg-listening-sentence.png');
         background-size: cover;
         background-position: center;
       "
     >
       <div class="flex flex-col items-center w-full z-10 text-center">
-        
         <!-- Gambar speaker -->
         <button onclick="playAudio()">
-          <img class="w-48 sm:w-64 md:w-80 mb-6" src="/static/image/speaker.png" alt="speaker" />
+          <img
+            id="speaker-img"
+            class="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 object-contain my-20"
+            src="/static/image/speaker.png"
+            alt="speaker"
+          />
         </button>
-        <audio id="audio" src="" hidden></audio> 
+        <audio id="audio" src="" hidden></audio>
         <!-- Judul -->
-        <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-10">
-          What <span class="text-blue-500">Sentence</span> do you hear?
-        </h3>
+        <p class="text-1xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-10">
+          What <span class="text-purple-800">Sentence</span> do you hear?
+        </p>
 
         <!-- Input -->
         <input
           id="answer"
           type="text"
           placeholder="Type the word here"
-          class="border bg-blue-950 rounded-full py-3 px-6 text-white text-lg sm:text-xl w-full max-w-[90%] sm:max-w-[600px] text-center"
+          class="border bg-blue-950 rounded-full p-2 text-white text-base sm:text-lg md:text-2xl py-3 px-4 sm:py-4 sm:px-8 w-full max-w-[750px] text-center"
         />
 
         <!-- Tombol -->
         <button
           id="evaluateBtn"
-          class="bg-blue-500 text-white rounded-full py-2 px-6 mt-6 text-base sm:text-lg font-semibold hover:bg-blue-600 transition">
+          class="bg-blue-500 text-white rounded-full py-2 px-6 mt-6 text-base sm:text-lg font-semibold hover:bg-blue-600 transition"
+        >
           Submit
         </button>
       </div>
     </main>
+
+    <style>
+      #speaker-img:hover {
+        filter: brightness(0) saturate(100%) invert(21%) sepia(98%)
+          saturate(7482%) hue-rotate(199deg) brightness(98%) contrast(101%);
+      }
+    </style>
+
     <script>
       let currentId;
-      let currentCategory = new URLSearchParams(window.location.search).get("category") || "Default";
+      let currentCategory =
+        new URLSearchParams(window.location.search).get("category") ||
+        "Default";
 
       async function loadQuestion(id) {
-          const url = id 
-              ? `/listening-sentence/${id}/` 
-              : `/listening-sentence/start/${encodeURIComponent(currentCategory)}`;  // Kirim kategori!
-          const res = await fetch(url);
-          const data = await res.json();
-          if (data.error) {
-              alert(data.error);
-              return;
-          }
-          currentId = data.id_ls;
-          document.getElementById("audio").src = data.audio_url;
+        const url = id
+          ? `/listening-sentence/${id}/`
+          : `/listening-sentence/start/${encodeURIComponent(currentCategory)}`; // Kirim kategori!
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.error) {
+          alert(data.error);
+          return;
+        }
+        currentId = data.id_ls;
+        document.getElementById("audio").src = data.audio_url;
       }
 
       async function evaluateAnswer() {
-          const answer = document.getElementById("answer").value;
-          const res = await fetch("/listening-sentence/answer/", {
-              method: "POST",
-              headers: {"Content-Type": "application/json"},
-              body: JSON.stringify({ id_ls: currentId, student_answer: answer })
-          });
-          const result = await res.json();
-          alert("Your Score: " + result.final_score);
+        const answer = document.getElementById("answer").value;
+        const res = await fetch("/listening-sentence/answer/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id_ls: currentId, student_answer: answer }),
+        });
+        const result = await res.json();
+        alert("Your Score: " + result.final_score);
 
-          if (result.next_id) {
-              loadQuestion(result.next_id);
-              document.getElementById("answer").value = ""; 
-          } else {
-              alert("Selesai! Tidak ada soal selanjutnya.");
-          }
+        if (result.next_id) {
+          loadQuestion(result.next_id);
+          document.getElementById("answer").value = "";
+        } else {
+          alert("Selesai! Tidak ada soal selanjutnya.");
+        }
       }
 
       function playAudio() {
         document.getElementById("audio").play();
-        document.getElementById("audio").volume=0.5;
+        document.getElementById("audio").volume = 0.5;
       }
 
       document.getElementById("evaluateBtn").onclick = evaluateAnswer;
-      document.addEventListener('DOMContentLoaded', () => {
-      const toggleBtn = document.getElementById('menu-toggle');
-      const closeBtn = document.getElementById('close-sidebar');
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('overlay');
 
-      // Open sidebar
-      toggleBtn.addEventListener('click', () => {
-        sidebar.classList.remove('-translate-x-full');
-        overlay.classList.remove('hidden');
+      document.addEventListener("DOMContentLoaded", () => {
+        const toggleBtn = document.getElementById("menu-toggle");
+        const closeBtn = document.getElementById("close-sidebar");
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("overlay");
+
+        // Open sidebar
+        toggleBtn.addEventListener("click", () => {
+          sidebar.classList.remove("-translate-x-full");
+          overlay.classList.remove("hidden");
+        });
+
+        // Close sidebar via X
+        closeBtn.addEventListener("click", () => {
+          sidebar.classList.add("-translate-x-full");
+          overlay.classList.add("hidden");
+        });
+
+        // Close sidebar via overlay
+        overlay.addEventListener("click", () => {
+          sidebar.classList.add("-translate-x-full");
+          overlay.classList.add("hidden");
+        });
+
+        // Close sidebar jika klik di luar sidebar (selain sidebar & overlay)
+        document.addEventListener("mousedown", (e) => {
+          if (
+            !sidebar.classList.contains("-translate-x-full") && // sidebar sedang terbuka
+            !sidebar.contains(e.target) && // klik bukan di sidebar
+            !toggleBtn.contains(e.target) && // klik bukan di tombol menu
+            !overlay.contains(e.target) // klik bukan di overlay (karena overlay sudah handle sendiri)
+          ) {
+            sidebar.classList.add("-translate-x-full");
+            overlay.classList.add("hidden");
+          }
+        });
       });
 
-      // Close sidebar via X
-      closeBtn.addEventListener('click', () => {
-        sidebar.classList.add('-translate-x-full');
-        overlay.classList.add('hidden');
-      });
-
-      // Close sidebar via overlay
-      overlay.addEventListener('click', () => {
-        sidebar.classList.add('-translate-x-full');
-        overlay.classList.add('hidden');
-      });
-    });
       // Start awal
       loadQuestion();
     </script>
-    
   </body>
 </html>
