@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Complete Sentence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white font-sans">
+
+  <!-- Navbar -->
+  <header class="flex justify-between items-center px-4 py-3 border-b bg-gray-100 text-gray-800">
+    <h1 class="text-sm font-semibold text-gray-500">complete sentence</h1>
+    <nav class="flex items-center space-x-4">
+      <a href="#" class="text-sm hover:underline">Home</a>
+      <a href="#" class="text-sm hover:underline">Profile</a>
+      <div class="w-7 h-7 bg-orange-300 rounded-full flex items-center justify-center text-white text-xs font-bold">A</div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex flex-col items-center justify-start px-4 py-10 min-h-screen">
+
+    <!-- Gambar Placeholder -->
+    <img src="gigi.jpg" alt="Gambar Gigi"
+     class="w-40 h-40 object-cover rounded mb-6">
+
+
+    <!-- Kalimat Rumpang -->
+    <div class="rounded-2xl border px-5 py-4 text-center text-lg font-medium max-w-xs mb-10">
+      This <span class="inline-block border-b-2 border-black px-6"></span> makes my teeth white
+    </div>
+
+    <!-- Input Text -->
+    <form class="w-full max-w-sm">
+      <input
+        type="text"
+        placeholder="Ketik jawaban di sini"
+        class="w-full border-0 border-b-2 border-gray-400 text-center text-lg focus:outline-none mb-10"
+      />
+
+      <!-- Tombol Next -->
+      <button type="submit"
+              class="bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold w-full py-3 rounded-lg transition">
+        Next
+      </button>
+    </form>
+  </main>
+</body>
+</html>

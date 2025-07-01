@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Complete Sentence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white font-sans">
+
+  <!-- Header -->
+  <header class="bg-gray-200 rounded-b-3xl px-6 py-4 text-center shadow">
+    <h1 class="text-xl font-semibold text-black">AMAZING !</h1>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-2xl mx-auto px-6 py-10 text-center">
+
+    <!-- Gambar dan Kalimat -->
+    <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-12">
+
+      <!-- Gambar -->
+      <img src="gigi.jpg" alt="Gambar Gigi"
+           class="w-40 h-40 object-cover rounded shadow-md" />
+
+      <!-- Kalimat -->
+      <div class="border rounded-xl px-6 py-4 text-lg font-medium max-w-md text-black">
+        This <span class="inline-block border-b-2 border-black px-6">__________</span> makes my theeth white
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="mb-8">
+      <input
+        type="text"
+        placeholder="Ketik jawaban di sini"
+        class="w-full border-0 border-b-2 border-gray-400 text-center text-lg focus:outline-none mb-6"
+      />
+    </div>
+
+    <!-- Tombol -->
+    <button
+      class="bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold px-6 py-2 rounded-md transition">
+      Next
+    </button>
+
+  </main>
+</body>
+</html>
