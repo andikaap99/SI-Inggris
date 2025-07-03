@@ -100,6 +100,27 @@
       alert("Terjadi kesalahan saat logout");
     }
     });
+
+    // Ambil token dari cookie (opsional), lalu ambil user info dari token atau endpoint
+    async function fetchUserProfile() {
+      try {
+        const res = await fetch("/api/me"); // Tidak perlu header Authorization manual
+        if (!res.ok) throw new Error("Unauthorized");
+
+        const user = await res.json();
+        console.log("✅ User:", user);
+        localStorage.setItem("user", JSON.stringify(user)); // Simpan ke localStorage
+      } catch (err) {
+        console.error(" Gagal mengambil user profile:", err);
+        window.location.href = "/login"; // Redirect kalau belum login
+      }
+    }
+
+    
+  window.onload = function () {
+    fetchUserProfile();
+  };
+
   </script>
 </body>
 </html>

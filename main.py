@@ -8,8 +8,9 @@ from sentence_transformers import SentenceTransformer, util
 from sqlalchemy.orm import Session
 from db import SessionLocal, engine, Base, get_db
 from routes import auth_routes, protected
-from models import Image_Word, Listening_Word, Complete_Sentence, Listening_Sentence, Category_Listening_Word, Category_Listening_Sentence, Category_Image_Word, Category_Complete_Sentence
+from models import User, Image_Word, Listening_Word, Complete_Sentence, Listening_Sentence, Category_Listening_Word, Category_Listening_Sentence, Category_Image_Word, Category_Complete_Sentence, Attempt_Complete_Sentences
 from auth import hash_password
+from auth import router as auth_router
 
 
 app = FastAPI()
@@ -24,12 +25,13 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(auth_routes.router)
 app.include_router(protected.router)
+app.include_router(auth_router)
 
 
-@app.get("/", response_class=HTMLResponse)
-async def read_root(request: Request):
+# @app.get("/", response_class=HTMLResponse)
+# async def read_root(request: Request):
 
-    return templates.TemplateResponse("home.html", {"request": request, "result": None})
+#     return templates.TemplateResponse("home.html", {"request": request, "result": None})
 
 # print(hash_password("primer33"))
 
@@ -72,6 +74,11 @@ def listening_app(request: Request):
 def listening_app(request: Request):
  
     return templates.TemplateResponse("image-word/image-word.html", {"request": request})
+
+@app.get("/result", response_class=None)
+def listening_app(request: Request):
+ 
+    return templates.TemplateResponse("score/score.html", {"request": request})
 
 
 
@@ -246,33 +253,53 @@ async def answer(request: Request, db: Session = Depends(get_db)):
 @app.post("/complete-sentence/save-attempt/")
 async def save_attempt(request: Request, db: Session = Depends(get_db)):
     data = await request.json()
+    print("=== DATA MASUK ===", data)
+
     student_id = data.get("student_id")
-    category_id = data.get("category_id")
+    category_name = data.get("category_id")
     questions = data.get("questions", [])
 
-    if not student_id or not category_id or not questions:
+    if not student_id or not category_name or not questions:
+        print("❌ Data tidak lengkap:")
+        print("student_id:", student_id)
+        print("category_id:", category_name)
+        print("questions:", questions)
         return JSONResponse({"error": "Data tidak lengkap"}, status_code=400)
 
+    # Ambil ID kategori dari nama
+    category = db.query(Category_Complete_Sentence).filter(
+        Category_Complete_Sentence.name == category_name).first()
+    if not category:
+        return JSONResponse({"error": "Kategori tidak ditemukan"}, status_code=404)
+    category_id = category.Id_ccs
+
+    correct_count = 0
     for q in questions:
         question_id = q.get("id_cs")
-        question_text = q.get("question")
-        student_answer = q.get("answer")
-
+        student_answer = q.get("answer", "").strip().lower()
         item = db.query(Complete_Sentence).filter(Complete_Sentence.Id_cs == question_id).first()
         if not item:
             continue
+        if student_answer == item.cs_answer.strip().lower():
+            correct_count += 1
 
-        new_attempt = Attempt_Complete_Sentences(
-            Id_cs=question_id,
-            question_cs=question_text,
-            cs_answer=student_answer,
-            NIS=student_id,
-            Id_category=category_id
-        )
-        db.add(new_attempt)
+    score = round((correct_count / len(questions)) * 100, 2)
 
+    # Ambil user dari NIS
+    user = db.query(User).filter(User.nis == student_id).first()
+    if not user:
+        return JSONResponse({"error": "User tidak ditemukan"}, status_code=404)
+
+    attempt = Attempt_Complete_Sentences(
+        score=score,
+        user_id=user.id,
+        Id_category=category_id
+    )
+    db.add(attempt)
     db.commit()
-    return {"message": "Attempt berhasil disimpan"}
+
+    return {"message": "Attempt berhasil disimpan", "score": score}
+
 
 
 

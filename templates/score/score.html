@@ -169,11 +169,11 @@
       <div class="score-container">
         <div class="score-box">
           <div class="score-label">Total Questions Answered</div>
-          <div class="score-value">30</div>
+          <div id="score-many"></div>
         </div>
         <div class="score-box">
           <div class="score-label">Total Score</div>
-          <div class="score-value">83%</div>
+          <div id="score-value"></div>
         </div>
       </div>
       <button class="btn-home" onclick="window.location.href='/home.html'">
@@ -192,8 +192,8 @@
         const scorePercent = Math.round((correctAnswers / totalQuestions) * 100);
 
         // Update tampilan skor
-        document.querySelectorAll(".score-value")[0].innerText = totalQuestions;
-        document.querySelectorAll(".score-value")[1].innerText = scorePercent + "%";
+        document.getElementById("score-many").innerText = totalQuestions;
+        document.getElementById("score-value").innerText = scorePercent + "%";
 
         try {
           const res = await fetch("/complete-sentence/save-attempt/", {

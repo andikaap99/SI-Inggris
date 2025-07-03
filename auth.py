@@ -1,5 +1,6 @@
 # auth.py
 from fastapi import FastAPI, Request, Form, Depends, Cookie, HTTPException, status
+from fastapi import APIRouter
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
@@ -10,6 +11,8 @@ from sqlalchemy.orm import Session
 SECRET_KEY = "your_super_secret_key"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+router = APIRouter()
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -54,4 +57,8 @@ def get_current_user(request: Request):
 def admin_required(current_user: dict = Depends(get_current_user)):
     if current_user["role"] != "admin":
         raise HTTPException(status_code=403, detail="Access forbidden: Admins only")
+    return current_user
+
+@router.get("/api/me")
+def get_me(current_user: dict = Depends(get_current_user)):
     return current_user

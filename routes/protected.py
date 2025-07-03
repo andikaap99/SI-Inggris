@@ -21,10 +21,10 @@ router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 
-# @router.get("/home", response_class=HTMLResponse)
-# async def read_root(request: Request, current_user: User = Depends(get_current_user)):
+@router.get("/home", response_class=HTMLResponse)
+async def read_root(request: Request, current_user: User = Depends(get_current_user)):
 
-#     return templates.TemplateResponse("home.html", {"request": request, "result": None})
+    return templates.TemplateResponse("home.html", {"request": request, "result": None})
 
 
 # @router.get("/listening-word", response_class=None)

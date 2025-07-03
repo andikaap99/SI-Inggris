@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 from db import Base
 
 # !!!USER!!!
@@ -9,6 +10,8 @@ class User(Base):
     nis = Column(String(20), unique=True, index=True)
     hashed_password = Column(String(255))
     role = Column(String(20), default="siswa")
+
+    attempts_cs = relationship("Attempt_Complete_Sentences", back_populates="user")
 
 # !!!IMAGE WORD!!!
 class Image_Word(Base):
@@ -68,6 +71,23 @@ class Category_Complete_Sentence(Base):
     name = Column(String(30))
 
     question = relationship("Complete_Sentence", back_populates="category")
+    attempts = relationship("Attempt_Complete_Sentences", back_populates="category")
+
+class Attempt_Complete_Sentences(Base):
+    __tablename__ = "Attempt_Complete_Sentences"
+
+    Id_attempt = Column(Integer, primary_key=True, autoincrement=True)
+    score = Column(Float)  # Bisa juga pakai Integer jika skornya selalu bulat
+    attempted_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    # Relasi ke User (pakai user.id)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user = relationship("User", back_populates="attempts_cs")
+
+    # Relasi ke kategori
+    Id_category = Column(Integer, ForeignKey("Category_Complete_Sentence.Id_ccs"))
+    category = relationship("Category_Complete_Sentence", back_populates="attempts")
+
 
 
 class Listening_Sentence(Base):

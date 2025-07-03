@@ -7,6 +7,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi import APIRouter, Depends, HTTPException, Form
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from db import SessionLocal, get_db
 from models import User
@@ -22,8 +23,6 @@ async def login_page(request: Request):
 
     return templates.TemplateResponse("login.html", {"request": request, "result": None})
 
-
-from fastapi.responses import RedirectResponse
 
 @router.post("/login")
 async def login(request: Request, nis: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):

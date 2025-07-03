@@ -4,41 +4,70 @@
   <meta charset="UTF-8">
   <title>Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-500 to-blue-700 min-h-screen flex items-center justify-center">
-  <div class="w-[800px] h-[500px] bg-white/10 backdrop-blur-md rounded-2xl flex shadow-lg overflow-hidden">
-    
-    <!-- GAMBAR -->
-    <div class="w-1/2 flex items-center justify-center p-4 bg-white/20">
-      <img src="https://img.pikbest.com/origin/10/10/74/87tpIkbEsTgVC.png!bw700"
-           alt="Gambar Naga"
-           class="max-h-[90%] object-contain rounded-xl shadow-md">
+<body class="text-gray-800">
+
+    <div class="relative min-h-screen">
+        <!-- Background Image & Overlay -->
+        <div class="absolute inset-0">
+            <img src="/static/image/bg-login.jpg" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black/50"></div> 
+        </div>
+
+        <!-- Login Content -->
+        <div class="relative min-h-screen flex flex-col items-center justify-center px-4">   
+            <div class="w-full max-w-md">
+                <!-- Login Box -->
+                <div class="bg-white/80 backdrop-blur-sm p-8 md:p-10 rounded-2xl shadow-xl border border-white/20">
+                    <div class="text-center mb-8">
+                        <h1 class="text-3xl font-bold text-gray-800">English Club</h1>
+                        <p class="text-gray-600">Selamat datang! Silakan masuk.</p>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form id="loginForm" class="space-y-6">
+                        <div>
+                            <label for="nis" class="block text-sm font-medium text-gray-700 mb-1">
+                                NIS
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <i data-lucide="user" class="w-5 h-5 text-gray-400"></i>
+                                </span>
+                                <input type="text" id="nis" name="nis" placeholder="Masukkan NIS kamu" class="w-full pl-10 pr-4 py-3 bg-white/70 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                                Password
+                            </label>
+                             <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <i data-lucide="lock" class="w-5 h-5 text-gray-400"></i>
+                                </span>
+                                <input type="password" id="password" name="password" placeholder="••••••••" class="w-full pl-10 pr-4 py-3 bg-white/70 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105">
+                                Masuk
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- FORM LOGIN -->
-    <div class="w-1/2 flex items-center justify-center">
-      <form id="loginForm" class="w-3/4 space-y-5 bg-white/10 p-6 rounded-xl backdrop-blur-md shadow">
-        <h2 class="text-white text-2xl font-bold text-center mb-4">Login</h2>
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+  </script>
 
-        <div>
-          <label class="text-white block mb-1">NIS</label>
-          <input type="text" id="nis" name="nis" placeholder="Enter NIS" class="w-full px-4 py-2 rounded bg-white/80 text-black focus:outline-none">
-        </div>
-
-        <div>
-          <label class="text-white block mb-1">Password</label>
-          <input type="password" id="password" name="password" placeholder="Enter password" class="w-full px-4 py-2 rounded bg-white/80 text-black focus:outline-none">
-        </div>
-
-        <div class="text-center">
-          <button type="submit" class="bg-white text-blue-700 font-bold px-6 py-2 rounded hover:bg-blue-100 transition">Login</button>
-        </div>
-      </form>
-    </div>
-
-  </div>
-
-  <!-- SCRIPT LOGIN -->
+  <!-- SCRIPT LOGIN (Same as the second code) -->
   <script>
     document.getElementById('loginForm').addEventListener('submit', async function (e) {
       e.preventDefault();

@@ -69,27 +69,51 @@
       document.getElementById("question").innerHTML = data.question;
     }
 
+
     async function evaluateAnswer() {
-        const answer = document.getElementById("answer").value;
-        const res = await fetch("/complete-sentence/answer/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id_cs: currentId, student_answer: answer }),
-        });
-        const result = await res.json();
+      const answer = document.getElementById("answer").value;
+      const res = await fetch("/complete-sentence/answer/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id_cs: currentId, student_answer: answer }),
+      });
+      const result = await res.json();
 
-        alert(result.correct ? "Jawaban Benar!" : "Jawaban Salah!");
+      alert(result.correct ? "Jawaban Benar!" : "Jawaban Salah!");
 
-        if (result.next_id) {
-          loadQuestion(result.next_id);
-          document.getElementById("answer").value = "";
-        } else {
-          alert("Selesai! Tidak ada soal selanjutnya.");
-        }
+      // Simpan jawaban
+      window.attemptAnswers = window.attemptAnswers || [];
+      window.attemptAnswers.push({
+        id_cs: currentId,
+        answer: answer,
+        is_correct: result.correct
+      });
+
+      if (result.next_id) {
+        loadQuestion(result.next_id);
+        document.getElementById("answer").value = "";
+      } else {
+        // Ambil user dari localStorage
+        const user = JSON.parse(localStorage.getItem("user"));
+        const nis = user?.nis;
+
+        // Ambil kategori dari URL
+        const category = new URLSearchParams(window.location.search).get("category");
+
+        const completeAttempt = {
+          student_id: nis,
+          category_id: category,
+          questions: window.attemptAnswers
+        };
+
+        localStorage.setItem("complete_attempt", JSON.stringify(completeAttempt));
+
+        // Arahkan ke halaman hasil
+        window.location.href = "/result";
       }
+    }
 
     document.getElementById("evaluateBtn").onclick = evaluateAnswer;
-  
 
     // Start awal
     loadQuestion();
