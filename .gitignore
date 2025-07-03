@@ -29,3 +29,4 @@ models/model/model.safetensors
 # Jangan upload test result / temp
 *.log
 *.tmp
+models/model/model.safetensors 
