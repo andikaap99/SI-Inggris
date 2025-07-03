@@ -20,6 +20,9 @@ Thumbs.db
 *.sqlite3
 *.db
 
+# models
+models/model/model.safetensors
+
 # Ignore compiled files
 *.pyc
 
