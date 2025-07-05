@@ -5,12 +5,14 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from sentence_transformers import SentenceTransformer, util
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from db import SessionLocal, engine, Base, get_db
 from routes import auth_routes, protected
-from models import User, Image_Word, Listening_Word, Complete_Sentence, Listening_Sentence, Category_Listening_Word, Category_Listening_Sentence, Category_Image_Word, Category_Complete_Sentence, Attempt_Complete_Sentences
+from models import User, Image_Word, Listening_Word, Complete_Sentence, Listening_Sentence, Category_Listening_Word, Category_Listening_Sentence, Category_Image_Word, Category_Complete_Sentence, Attempt_Complete_Sentences, Attempt_Listening_Word, Attempt_Listening_Sentence, Attempt_Image_Word, Global_Attempt
 from auth import hash_password
 from auth import router as auth_router
+from datetime import datetime
 
 
 app = FastAPI()
@@ -33,52 +35,52 @@ app.include_router(auth_router)
 
 #     return templates.TemplateResponse("home.html", {"request": request, "result": None})
 
-# print(hash_password("primer33"))
+print(hash_password("admin123"))
 
-@app.get("/listening-word", response_class=None)
-def listening_app(request: Request):
+# @app.get("/listening-word", response_class=None)
+# def listening_app(request: Request):
  
-    return templates.TemplateResponse("listening-word/Menu.html", {"request": request})
+#     return templates.TemplateResponse("listening-word/Menu.html", {"request": request})
 
-@app.get("/listening-word-word", response_class=None)
-def listening_app(request: Request):
+# @app.get("/listening-word-word", response_class=None)
+# def listening_app(request: Request):
  
-    return templates.TemplateResponse("listening-word/listening-word.html", {"request": request})
+#     return templates.TemplateResponse("listening-word/listening-word.html", {"request": request})
 
-@app.get("/complete-sentence", response_class=None)
-def listening_app(request: Request):
+# @app.get("/complete-sentence", response_class=None)
+# def listening_app(request: Request):
  
-    return templates.TemplateResponse("complete-sentence/Menu.html", {"request": request})
+#     return templates.TemplateResponse("complete-sentence/Menu.html", {"request": request})
 
-@app.get("/complete-sentence-sentence", response_class=None)
-def listening_app(request: Request):
+# @app.get("/complete-sentence-sentence", response_class=None)
+# def listening_app(request: Request):
  
-    return templates.TemplateResponse("complete-sentence/complete-sentence.html", {"request": request})
+#     return templates.TemplateResponse("complete-sentence/complete-sentence.html", {"request": request})
 
-@app.get("/listening-sentence", response_class=None)
-def listening_app(request: Request):
+# @app.get("/listening-sentence", response_class=None)
+# def listening_app(request: Request):
  
-    return templates.TemplateResponse("listening-sentence/Menu.html", {"request": request})
+#     return templates.TemplateResponse("listening-sentence/Menu.html", {"request": request})
 
-@app.get("/listening-sentence-sentence", response_class=None)
-def listening_app(request: Request):
+# @app.get("/listening-sentence-sentence", response_class=None)
+# def listening_app(request: Request):
  
-    return templates.TemplateResponse("listening-sentence/listening-sentence.html", {"request": request})
+#     return templates.TemplateResponse("listening-sentence/listening-sentence.html", {"request": request})
 
-@app.get("/image-word", response_class=None)
-def listening_app(request: Request):
+# @app.get("/image-word", response_class=None)
+# def listening_app(request: Request):
  
-    return templates.TemplateResponse("image-word/Menu.html", {"request": request})
+#     return templates.TemplateResponse("image-word/Menu.html", {"request": request})
 
-@app.get("/image-word-word", response_class=None)
-def listening_app(request: Request):
+# @app.get("/image-word-word", response_class=None)
+# def listening_app(request: Request):
  
-    return templates.TemplateResponse("image-word/image-word.html", {"request": request})
+#     return templates.TemplateResponse("image-word/image-word.html", {"request": request})
 
-@app.get("/result", response_class=None)
-def listening_app(request: Request):
+# @app.get("/result", response_class=None)
+# def listening_app(request: Request):
  
-    return templates.TemplateResponse("score/score.html", {"request": request})
+#     return templates.TemplateResponse("score/score.html", {"request": request})
 
 
 
@@ -133,6 +135,95 @@ async def answer(request: Request, db: Session = Depends(get_db)):
         "next_id": next_item.Id_iw if next_item else None,
         "next_image": next_item.image_iw if next_item else None
     }
+
+@app.post("/image-word/save-attempt/")
+async def save_attempt(request: Request, db: Session = Depends(get_db)):
+    data = await request.json()
+    print("=== DATA MASUK ===", data)
+
+    student_id = data.get("student_id")
+    category_name = data.get("category_id")
+    questions = data.get("questions", [])
+
+    if not student_id or not category_name or not questions:
+        print("❌ Data tidak lengkap:")
+        print("student_id:", student_id)
+        print("category_id:", category_name)
+        print("questions:", questions)
+        return JSONResponse({"error": "Data tidak lengkap"}, status_code=400)
+
+    # Ambil ID kategori dari nama
+    category = db.query(Category_Image_Word).filter(
+        Category_Image_Word.name == category_name).first()
+    if not category:
+        return JSONResponse({"error": "Kategori tidak ditemukan"}, status_code=404)
+    category_id = category.Id_ciw
+
+    # Hitung skor
+    correct_count = 0
+    for q in questions:
+        question_id = q.get("id_iw")
+        student_answer = q.get("answer", "").strip().lower()
+        item = db.query(Image_Word).filter(Image_Word.Id_iw == question_id).first()
+        if not item:
+            continue
+        if student_answer == item.iw_answer.strip().lower():
+            correct_count += 1
+
+    score = round((correct_count / len(questions)) * 100, 2)
+
+    # Ambil user dari NIS
+    user = db.query(User).filter(User.nis == student_id).first()
+    if not user:
+        return JSONResponse({"error": "User tidak ditemukan"}, status_code=404)
+
+    existing_attempt = db.query(Attempt_Image_Word).filter(
+        Attempt_Image_Word.user_id == user.id,
+        Attempt_Image_Word.Id_category == category_id
+    ).first()
+
+    if existing_attempt:
+        # Update existing attempt
+        existing_attempt.score = score
+        existing_attempt.attempted_at = datetime.utcnow()
+    else:
+        # Buat baru jika belum ada
+        new_attempt = Attempt_Image_Word(
+            score=score,
+            user_id=user.id,
+            Id_category=category_id
+        )
+        db.add(new_attempt)
+
+    existing_global = db.query(Global_Attempt).filter(
+        Global_Attempt.user_id == user.id,
+        Global_Attempt.category_id == category_id,
+        Global_Attempt.feature_type == "Image_Word"
+    ).first()
+
+    if existing_global:
+        # Update global attempt
+        existing_global.score = score
+        existing_global.attempted_at = datetime.utcnow()
+    else:
+        new_global = Global_Attempt(
+            score=score,
+            user_id=user.id,
+            category_id=category_id,
+            feature_type="Image_Word"
+        )
+        db.add(new_global)
+
+    db.flush()
+
+    total_score = db.query(func.sum(Global_Attempt.score)).filter(
+        Global_Attempt.user_id == user.id
+    ).scalar() or 0
+
+    user.total_score = total_score
+    db.commit()
+
+    return {"message": "Attempt berhasil disimpan", "score": score}
 
 
 # !!! INI LISTENING WORD !!!
@@ -190,6 +281,94 @@ async def answer(request: Request, db: Session = Depends(get_db)):
         "next_id": next_item.Id_lw if next_item else None,
         "next_audio": next_item.audio_lw if next_item else None
     }
+
+@app.post("/listening-word/save-attempt/")
+async def save_attempt(request: Request, db: Session =Depends(get_db)):
+    data = await request.json()
+    print("=== DATA MASUK ===", data)
+
+    student_id = data.get("student_id")
+    category_name = data.get("category_id")
+    questions = data.get("questions", [])
+
+    if not student_id or not category_name or not questions:
+        print("❌ Data tidak lengkap:")
+        print("student_id:", student_id)
+        print("category_id:", category_name)
+        print("questions:", questions)
+        return JSONResponse({"error": "Data tidak lengkap"}, status_code=400)
+    
+    # Ambil ID kategori dari nama
+    category = db.query(Category_Listening_Word).filter(
+        Category_Listening_Word.name == category_name).first()
+    if not category:
+        return JSONResponse({"error": "Kategori tidak ditemukan"}, status_code=404)
+    category_id = category.Id_clw
+
+    correct_count = 0
+    for q in questions:
+        question_id = q.get("id_lw")
+        student_answer = q.get("answer", "").strip().lower()
+        item = db.query(Listening_Word).filter(Listening_Word.Id_lw == question_id).first()
+        if not item:
+            continue
+        if student_answer == item.lw_answer.strip().lower():
+            correct_count += 1
+
+    score = round((correct_count / len(questions)) * 100, 2)
+
+    # Ambil user dari NIS
+    user = db.query(User).filter(User.nis == student_id).first()
+    if not user:
+        return JSONResponse({"error": "User tidak ditemukan"}, status_code=404)
+
+    existing_attempt = db.query(Attempt_Listening_Word).filter(
+        Attempt_Listening_Word.user_id == user.id,
+        Attempt_Listening_Word.Id_category == category_id
+    ).first()
+
+    if existing_attempt:
+        # Update existing attempt
+        existing_attempt.score = score
+        existing_attempt.attempted_at = datetime.utcnow()
+    else:
+        # Buat baru jika belum ada
+        new_attempt = Attempt_Listening_Word(
+            score=score,
+            user_id=user.id,
+            Id_category=category_id
+        )
+        db.add(new_attempt)
+
+    existing_global = db.query(Global_Attempt).filter(
+        Global_Attempt.user_id == user.id,
+        Global_Attempt.category_id == category_id,
+        Global_Attempt.feature_type == "Listening_Word"
+    ).first()
+
+    if existing_global:
+        # Update global attempt
+        existing_global.score = score
+        existing_global.attempted_at = datetime.utcnow()
+    else:
+        new_global = Global_Attempt(
+            score=score,
+            user_id=user.id,
+            category_id=category_id,
+            feature_type="Listening_Word"
+        )
+        db.add(new_global)
+
+    db.flush()
+
+    total_score = db.query(func.sum(Global_Attempt.score)).filter(
+        Global_Attempt.user_id == user.id
+    ).scalar() or 0
+
+    user.total_score = total_score
+    db.commit()
+
+    return {"message": "Attempt berhasil disimpan", "score": score}  
 
 
 # !!! INI COMPLETE SENTECE !!!
@@ -289,18 +468,54 @@ async def save_attempt(request: Request, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.nis == student_id).first()
     if not user:
         return JSONResponse({"error": "User tidak ditemukan"}, status_code=404)
+    
+    existing_attempt = db.query(Attempt_Complete_Sentences).filter(
+        Attempt_Complete_Sentences.user_id == user.id,
+        Attempt_Complete_Sentences.Id_category == category_id
+    ).first()
 
-    attempt = Attempt_Complete_Sentences(
-        score=score,
-        user_id=user.id,
-        Id_category=category_id
-    )
-    db.add(attempt)
+    if existing_attempt:
+        # Update existing attempt
+        existing_attempt.score = score
+        existing_attempt.attempted_at = datetime.utcnow()
+    else:
+        # Buat baru jika belum ada
+        new_attempt = Attempt_Complete_Sentences(
+            score=score,
+            user_id=user.id,
+            Id_category=category_id
+        )
+        db.add(new_attempt)
+
+    existing_global = db.query(Global_Attempt).filter(
+        Global_Attempt.user_id == user.id,
+        Global_Attempt.category_id == category_id,
+        Global_Attempt.feature_type == "Complete_Sentences"
+    ).first()
+
+    if existing_global:
+        # Update global attempt
+        existing_global.score = score
+        existing_global.attempted_at = datetime.utcnow()
+    else:
+        new_global = Global_Attempt(
+            score=score,
+            user_id=user.id,
+            category_id=category_id,
+            feature_type="Complete_Sentences"
+        )
+        db.add(new_global)
+
+    db.flush()
+
+    total_score = db.query(func.sum(Global_Attempt.score)).filter(
+        Global_Attempt.user_id == user.id
+    ).scalar() or 0
+
+    user.total_score = total_score
     db.commit()
 
     return {"message": "Attempt berhasil disimpan", "score": score}
-
-
 
 
 # !!! INI LISTENING SENTENCE !!!

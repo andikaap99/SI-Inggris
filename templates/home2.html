@@ -10,19 +10,22 @@
 
   <!-- Header -->
   <header class="bg-white shadow-sm border-b sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold">
-                <a href="#" class="gradient-text">English Club</a>
-            </div>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">Home</a>
-                <a href="#latihan" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Latihan</a>
-                <a href="#peringkat" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Papan Peringkat</a>
-            </div>
-            <a href="#" class="bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
-                Profil Kamu
-            </a>
-        </nav>
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold">
+          <a href="#" class="gradient-text">English Club</a>
+      </div>
+      <div class="hidden md:flex items-center space-x-8">
+          <a href="/home" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">Home</a>
+          <a href="#latihan" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Latihan</a>
+          <a href="#peringkat" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Papan Peringkat</a>
+      </div>
+      <div class="items-center space-x-8">
+          <a href="/profile" class="bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
+              Profil
+          </a>
+          <button id="logoutBtn" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 transform hover:scale-105">Logout</button>
+      </div>
+    </nav>
   </header>
 
   <!-- CONTENT -->
@@ -54,30 +57,36 @@
                 <div class="bg-blue-100 p-4 rounded-full"><i data-lucide="headphones" class="w-10 h-10 text-blue-600"></i></div>
                 <h3 class="mt-6 text-xl font-bold text-gray-900">Mendengarkan Kalimat</h3>
                 <p class="mt-2 text-gray-500 text-sm">Dengerin cerita pendek, terus jawab pertanyaannya. Seru, lho!</p>
-                <a href="#" class="mt-6 bg-blue-50 text-blue-700 font-semibold py-2 px-5 rounded-full hover:bg-blue-200 transition-colors">Mulai</a>
+                <a href="/listening-sentence" class="mt-6 bg-blue-50 text-blue-700 font-semibold py-2 px-5 rounded-full hover:bg-blue-200 transition-colors">
+                  Mulai
+                </a>
             </div>
             <!-- Card 2: Mendengarkan Kata -->
             <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center">
                 <div class="bg-green-100 p-4 rounded-full"><i data-lucide="ear" class="w-10 h-10 text-green-600"></i></div>
                 <h3 class="mt-6 text-xl font-bold text-gray-900">Mendengarkan Kata</h3>
                 <p class="mt-2 text-gray-500 text-sm">Tebak kata yang diucapin. Latihan ini bagus buat spelling.</p>
-                <a href="#" class="mt-6 bg-green-50 text-green-700 font-semibold py-2 px-5 rounded-full hover:bg-green-200 transition-colors">Mulai</a>
+                <a href="/listening-word" class="mt-6 bg-green-50 text-green-700 font-semibold py-2 px-5 rounded-full hover:bg-green-200 transition-colors">
+                  Mulai
+                </a>
             </div>
             <!-- Card 3: Tebak Gambar -->
             <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center">
                 <div class="bg-yellow-100 p-4 rounded-full"><i data-lucide="image" class="w-10 h-10 text-yellow-600"></i></div>
                 <h3 class="mt-6 text-xl font-bold text-gray-900">Tebak Gambar</h3>
                 <p class="mt-2 text-gray-500 text-sm">Lihat gambarnya, tebak namanya dalam bahasa Inggris. Gampang!</p>
-                <a href="#" class="mt-6 bg-yellow-50 text-yellow-700 font-semibold py-2 px-5 rounded-full hover:bg-yellow-200 transition-colors">Mulai</a>
+                <a href="/image-word" class="mt-6 bg-yellow-50 text-yellow-700 font-semibold py-2 px-5 rounded-full hover:bg-yellow-200 transition-colors">
+                  Mulai
+                </a>
             </div>
             <!-- Card 4: Melengkapi Kalimat -->
             <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center">
                 <div class="bg-purple-100 p-4 rounded-full"><i data-lucide="file-pen-line" class="w-10 h-10 text-purple-600"></i></div>
                 <h3 class="mt-6 text-xl font-bold text-gray-900">Melengkapi Kalimat</h3>
                 <p class="mt-2 text-gray-500 text-sm">Isi bagian yang kosong. Tes grammar-mu di sini!</p>
-                <button id="complete-sentence" class="mt-6 inline-block bg-purple-50 text-purple-700 font-semibold py-2 px-5 rounded-full hover:bg-purple-200 transition-colors">
+                <a href="/complete-sentence" class="mt-6 inline-block bg-purple-50 text-purple-700 font-semibold py-2 px-5 rounded-full hover:bg-purple-200 transition-colors">
                   Mulai
-                </button>
+                </a>
             </div>
         </div>
     </section>
@@ -88,9 +97,9 @@
             <div class="lg:col-span-3 bg-white p-8 rounded-xl shadow-lg">
                 <h3 class="text-2xl font-bold text-gray-900 flex items-center mb-6">
                     <i data-lucide="trophy" class="w-7 h-7 text-yellow-500 mr-3"></i>
-                    Papan Peringkat Mingguan
+                    Leaderboard Orang Ganteng
                 </h3>
-                <div class="space-y-4">
+                <div id="leaderboard-container" class="space-y-4">
                     <!-- Contoh Peringkat -->
                     <div class="flex items-center bg-gray-50 p-4 rounded-lg">
                         <span class="text-lg font-bold text-gray-700 w-8">1.</span>
@@ -142,23 +151,6 @@
     </footer>
 
   <script>
-    document.getElementById("listening-word").onclick = function () {
-      window.location.href = "/listening-word";
-    };
-
-    document.getElementById("complete-sentence").onclick = function () {
-      alert('jalan jing')
-      window.location.href = "/complete-sentence";
-    };
-
-    document.getElementById("listening-sentence").onclick = function () {
-      window.location.href = "/listening-sentence";
-    };
-
-    document.getElementById("image-word").onclick = function () {
-      window.location.href = "/image-word";
-    };
-
     document.getElementById("logoutBtn").addEventListener("click", async function () {
     try {
       const res = await fetch("/logout", {
@@ -188,11 +180,43 @@
         window.location.href = "/login"; // Redirect kalau belum login
       }
     }
-    
+
+
+    async function loadLeaderboard() {
+      try {
+        const res = await fetch("/home-leaderboard");
+        const data = await res.json();
+
+        const container = document.getElementById("leaderboard-container");
+        container.innerHTML = ""; // Kosongkan isi lama
+
+        data.forEach((user, index) => {
+          const rank = index + 1;
+          const avatarColor = ["60a5fa", "f472b6", "34d399", "facc15", "fb923c"][index % 5];
+          const initial = user.name?.charAt(0).toUpperCase() || "U";
+
+          const el = document.createElement("div");
+          el.className = "flex items-center bg-gray-50 p-4 rounded-lg";
+          el.innerHTML = `
+            <span class="text-lg font-bold text-gray-700 w-8">${rank}.</span>
+            <img src="https://placehold.co/40x40/${avatarColor}/FFFFFF?text=${initial}" alt="Avatar"
+                class="w-10 h-10 rounded-full mr-4"
+                onerror="this.onerror=null;this.src='https://placehold.co/40x40/cccccc/FFFFFF?text=${initial}';">
+            <span class="font-semibold text-gray-800 flex-grow">${user.name}</span>
+            <span class="font-bold text-blue-600">${user.score} Poin</span>
+          `;
+          container.appendChild(el);
+        });
+      } catch (err) {
+        console.error("❌ Gagal memuat leaderboard:", err);
+      }
+    }
+
     window.onload = function () {
       fetchUserProfile();
+      loadLeaderboard();
     };
   </script>
-  <script src="/static/script.js"></script>
+  <!-- <script src="/static/script.js"></script> -->
 </body>
 </html>

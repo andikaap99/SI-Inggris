@@ -60,5 +60,19 @@ def admin_required(current_user: dict = Depends(get_current_user)):
     return current_user
 
 @router.get("/api/me")
-def get_me(current_user: dict = Depends(get_current_user)):
-    return current_user
+def get_user_profile(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    user = db.query(User).filter(User.nis == current_user["nis"]).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User tidak ditemukan")
+
+    return {
+        "id": user.id,
+        "nis": user.nis,
+        "name": user.name,
+        "role": user.role,
+        "total_score": user.total_score or 0
+    }
+

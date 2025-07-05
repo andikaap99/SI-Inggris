@@ -48,7 +48,7 @@ async def login(request: Request, nis: str = Form(...), password: str = Form(...
         key="access_token",
         value=f"Bearer {token}",
         httponly=True,
-        max_age=1800  
+        max_age=7200  
     )
     return response
 

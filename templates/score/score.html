@@ -176,7 +176,7 @@
           <div id="score-value"></div>
         </div>
       </div>
-      <button class="btn-home" onclick="window.location.href='/home.html'">
+      <button class="btn-home" onclick="window.location.href='/home'">
         Back to Home
       </button>
     </main>
@@ -184,24 +184,38 @@
     <!-- Perubahan hanya di bagian JS -->
     <script>
       window.onload = async function () {
+        // Ambil parameter `type` dari URL
+        const type = new URLSearchParams(window.location.search).get("type") || "complete-sentence";
+    
+        // Tentukan endpoint dan validasi localStorage key
+        let endpoint = "/complete-sentence/save-attempt/";
+        if (type === "listening-word") {
+          endpoint = "/listening-word/save-attempt/";
+        } else if (type === "image-word") {
+          endpoint = "/image-word/save-attempt/";
+        } else if (type === "listening-sentence") {
+          endpoint = "/listening-sentence/save-attempt/";
+        }
+    
+        // Ambil data attempt dari localStorage
         const attempt = JSON.parse(localStorage.getItem("complete_attempt"));
         if (!attempt) return;
-
+    
         const totalQuestions = attempt.questions.length;
         const correctAnswers = attempt.questions.filter(q => q.is_correct).length;
         const scorePercent = Math.round((correctAnswers / totalQuestions) * 100);
-
-        // Update tampilan skor
+    
+        // Tampilkan skor di HTML
         document.getElementById("score-many").innerText = totalQuestions;
         document.getElementById("score-value").innerText = scorePercent + "%";
-
+    
         try {
-          const res = await fetch("/complete-sentence/save-attempt/", {
+          const res = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(attempt),
           });
-
+    
           const result = await res.json();
           console.log("Attempt disimpan:", result.message);
           localStorage.removeItem("complete_attempt");
@@ -210,5 +224,6 @@
         }
       };
     </script>
+    
   </body>
 </html>

@@ -99,7 +99,7 @@
           >
         </li>
         <li>
-          <a href="#" class="block text-gray-700 hover:text-blue-600"
+          <a href="/templates/complete-sentence/complete-sentence.html" class="block text-gray-700 hover:text-blue-600"
             >Complete Sentence</a
           >
         </li>
@@ -161,14 +161,38 @@
 
         alert(result.correct ? "Jawaban Benar!" : "Jawaban Salah!");
 
+        // Simpan jawaban
+        window.attemptAnswers = window.attemptAnswers || [];
+        window.attemptAnswers.push({
+          id_iw: currentId,
+          answer: answer,
+          is_correct: result.correct
+        });
+
         if (result.next_id) {
           loadQuestion(result.next_id);
           document.getElementById("answer").value = "";
         } else {
-          alert("Selesai! Tidak ada soal selanjutnya.");
+          // Ambil user dari localStorage
+          const user = JSON.parse(localStorage.getItem("user"));
+          const nis = user?.nis;
+
+          // Ambil kategori dari URL
+          const category = new URLSearchParams(window.location.search).get("category");
+
+          const completeAttempt = {
+            student_id: nis,
+            category_id: category,
+            questions: window.attemptAnswers
+          };
+
+          localStorage.setItem("complete_attempt", JSON.stringify(completeAttempt));
+
+          // Arahkan ke halaman hasil
+          window.location.href = "/result?type=image-word";
         }
       }
-
+      
       document.getElementById("evaluateBtn").onclick = evaluateAnswer;
 
       // START
