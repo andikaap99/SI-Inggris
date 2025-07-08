@@ -172,8 +172,7 @@ async def save_attempt(request: Request, db: Session = Depends(get_db)):
 
     score = round((correct_count / len(questions)) * 100, 2)
 
-    # Ambil user dari NIS
-    user = db.query(User).filter(User.nis == student_id).first()
+    user = db.query(User).filter(User.username == student_id).first()
     if not user:
         return JSONResponse({"error": "User tidak ditemukan"}, status_code=404)
 
@@ -220,7 +219,8 @@ async def save_attempt(request: Request, db: Session = Depends(get_db)):
         Global_Attempt.user_id == user.id
     ).scalar() or 0
 
-    user.total_score = total_score
+    if user.role == "student" and user.student:
+        user.student.total_score = total_score
     db.commit()
 
     return {"message": "Attempt berhasil disimpan", "score": score}
@@ -317,8 +317,7 @@ async def save_attempt(request: Request, db: Session =Depends(get_db)):
 
     score = round((correct_count / len(questions)) * 100, 2)
 
-    # Ambil user dari NIS
-    user = db.query(User).filter(User.nis == student_id).first()
+    user = db.query(User).filter(User.username == student_id).first()
     if not user:
         return JSONResponse({"error": "User tidak ditemukan"}, status_code=404)
 
@@ -365,7 +364,8 @@ async def save_attempt(request: Request, db: Session =Depends(get_db)):
         Global_Attempt.user_id == user.id
     ).scalar() or 0
 
-    user.total_score = total_score
+    if user.role == "student" and user.student:
+        user.student.total_score = total_score
     db.commit()
 
     return {"message": "Attempt berhasil disimpan", "score": score}  
@@ -464,8 +464,7 @@ async def save_attempt(request: Request, db: Session = Depends(get_db)):
 
     score = round((correct_count / len(questions)) * 100, 2)
 
-    # Ambil user dari NIS
-    user = db.query(User).filter(User.nis == student_id).first()
+    user = db.query(User).filter(User.username == student_id).first()
     if not user:
         return JSONResponse({"error": "User tidak ditemukan"}, status_code=404)
     
@@ -512,7 +511,8 @@ async def save_attempt(request: Request, db: Session = Depends(get_db)):
         Global_Attempt.user_id == user.id
     ).scalar() or 0
 
-    user.total_score = total_score
+    if user.role == "student" and user.student:
+        user.student.total_score = total_score
     db.commit()
 
     return {"message": "Attempt berhasil disimpan", "score": score}

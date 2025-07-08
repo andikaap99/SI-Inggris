@@ -9,10 +9,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from auth import decode_access_token
 from db import SessionLocal, engine, Base
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from jose import JWTError, jwt
 from db import get_db
-from models import User, Image_Word, Listening_Word, Complete_Sentence, Listening_Sentence, Category_Listening_Word, Category_Listening_Sentence, Category_Image_Word, Category_Complete_Sentence, Attempt_Complete_Sentences, Attempt_Listening_Word, Attempt_Listening_Sentence, Attempt_Image_Word, Global_Attempt
+from models import User, Student, Image_Word, Listening_Word, Complete_Sentence, Listening_Sentence, Category_Listening_Word, Category_Listening_Sentence, Category_Image_Word, Category_Complete_Sentence, Attempt_Complete_Sentences, Attempt_Listening_Word, Attempt_Listening_Sentence, Attempt_Image_Word, Global_Attempt
 from auth import get_current_user, admin_required
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
@@ -28,16 +28,23 @@ async def read_root(request: Request, current_user: User = Depends(get_current_u
 
 @router.get("/home-leaderboard", response_class=JSONResponse)
 def leaderboard_home(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    users = db.query(User).filter(User.role == "admin")\
-                .order_by(User.total_score.desc())\
-                .limit(3).all()
+    students = (
+        db.query(Student)
+        .join(User)
+        .filter(User.role == "student")
+        .order_by(Student.total_score.desc())
+        .limit(3)
+        .all()
+    )
 
     result = []
-    for user in users:
+    for student in students:
         result.append({
-            "name": user.name,  
-            "score": user.total_score or 0
+            "name": student.name,
+            "class_name": student.class_name,
+            "score": student.total_score or 0
         })
+
     return result
 
 @router.get("/profile", response_class=HTMLResponse)
@@ -50,8 +57,7 @@ def get_user_global_attempts(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)  # pakai dict, bukan User
 ):
-    # Ambil user berdasarkan nis dari token
-    user = db.query(User).filter(User.nis == current_user["nis"]).first()
+    user = db.query(User).filter(User.username == current_user["username"]).first()
     if not user:
         raise HTTPException(status_code=404, detail="User tidak ditemukan")
 
@@ -85,49 +91,49 @@ def get_user_global_attempts(
     return results
 
 @router.get("/listening-word", response_class=None)
-def listening_word(request: Request, current_user: dict = Depends(admin_required)):
+def listening_word(request: Request, current_user: User = Depends(get_current_user)):
  
     return templates.TemplateResponse("listening-word/Menu.html", {"request": request})
 
 @router.get("/listening-word-word", response_class=None)
-def listening_word(request: Request, current_user: dict = Depends(admin_required)):
+def listening_word(request: Request, current_user: User = Depends(get_current_user)):
 
     return templates.TemplateResponse("listening-word/listening-word.html", {"request": request})
 
 @router.get("/listening-sentence",response_class=None)
-def listening_sentence(request: Request, current_user: dict = Depends(admin_required)):
+def listening_sentence(request: Request, current_user: User = Depends(get_current_user)):
 
     return templates.TemplateResponse("listening-sentence/Menu.html", {"request": request})
 
 
 @router.get("/listening-sentence-sentence",response_class=None)
-def listening_sentence(request: Request, current_user: dict = Depends(admin_required)):
+def listening_sentence(request: Request, current_user: User = Depends(get_current_user)):
 
     return templates.TemplateResponse("listening-sentence/listening-sentence.html", {"request": request})
 
 
 @router.get("/complete-sentence",response_class=None)
-def complete_sentence(request: Request, current_user: dict = Depends(admin_required)):
+def complete_sentence(request: Request, current_user: User = Depends(get_current_user)):
 
     return templates.TemplateResponse("complete-sentence/Menu.html", {"request": request})
 
 
 @router.get("/complete-sentence-sentence",response_class=None)
-def complete_sentence_sentence(request: Request, current_user: dict = Depends(admin_required)):
+def complete_sentence_sentence(request: Request, current_user: User = Depends(get_current_user)):
 
     return templates.TemplateResponse("complete-sentence/complete-sentence.html", {"request": request})
 
 @router.get("/image-word",response_class=None)
-def image_word(request: Request, current_user: dict = Depends(admin_required)):
+def image_word(request: Request, current_user: User = Depends(get_current_user)):
 
     return templates.TemplateResponse("image-word/Menu.html", {"request": request})
 
 @router.get("/image-word-word",response_class=None)
-def image_word(request: Request, current_user: dict = Depends(admin_required)):
+def image_word(request: Request, current_user: User = Depends(get_current_user)):
 
     return templates.TemplateResponse("image-word/image-word.html", {"request": request})
 
 @router.get("/result",response_class=None)
-def request(request: Request, current_user: dict = Depends(admin_required)):
+def request(request: Request, current_user: User = Depends(get_current_user)):
 
     return templates.TemplateResponse("score/score.html", {"request": request})

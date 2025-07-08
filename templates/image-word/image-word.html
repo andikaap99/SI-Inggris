@@ -51,6 +51,12 @@
       </div>
     </nav>
 
+    <!-- Overlay -->
+    <div
+      id="overlay"
+      class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"
+    ></div>
+    
     <!-- Sidebar -->
     <!-- Sidebar -->
     <div
@@ -79,27 +85,29 @@
       <ul class="p-4 space-y-3">
         <li>
           <a
-            href="/templates/listening-sentence/listening-sentence.html"
+            href="/listening-sentence"
             class="block text-gray-700 hover:text-blue-600"
-            >Sentence Listening</a
+            >Listening Sentence</a
           >
         </li>
         <li>
           <a
-            href="/templates/listening-word/listening-word.html"
+            href="/listening-word/"
             class="block text-gray-700 hover:text-blue-600"
-            >Word Listening</a
+            >Listening Word</a
           >
         </li>
         <li>
           <a
-            href="/templates/image-word/image-word.html"
+            href="/image-word"
             class="block text-gray-700 hover:text-blue-600"
-            >Word Image</a
+            >Image Word</a
           >
         </li>
         <li>
-          <a href="/templates/complete-sentence/complete-sentence.html" class="block text-gray-700 hover:text-blue-600"
+          <a
+            href="/complete-sentence"
+            class="block text-gray-700 hover:text-blue-600"
             >Complete Sentence</a
           >
         </li>
@@ -175,13 +183,13 @@
         } else {
           // Ambil user dari localStorage
           const user = JSON.parse(localStorage.getItem("user"));
-          const nis = user?.nis;
+          const username = user?.username;
 
           // Ambil kategori dari URL
           const category = new URLSearchParams(window.location.search).get("category");
 
           const completeAttempt = {
-            student_id: nis,
+            student_id: username,
             category_id: category,
             questions: window.attemptAnswers
           };

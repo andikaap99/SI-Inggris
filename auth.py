@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from db import SessionLocal, get_db
-from models import User
+from models import User, Student, Teacher
 from sqlalchemy.orm import Session
 
 SECRET_KEY = "your_super_secret_key"
@@ -34,7 +34,7 @@ def decode_access_token(token: str):
         return payload.get("sub")
     except JWTError:
         return None
-    
+
 def get_current_user(request: Request):
     token = request.cookies.get("access_token")
     if not token:
@@ -50,10 +50,10 @@ def get_current_user(request: Request):
         role: str = payload.get("role")
         if username is None or role is None:
             raise HTTPException(status_code=401, detail="Invalid token payload")
-        return {"nis": username, "role": role}
+        return {"username": username, "role": role}
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
-    
+
 def admin_required(current_user: dict = Depends(get_current_user)):
     if current_user["role"] != "admin":
         raise HTTPException(status_code=403, detail="Access forbidden: Admins only")
@@ -64,15 +64,30 @@ def get_user_profile(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    user = db.query(User).filter(User.nis == current_user["nis"]).first()
+    user = db.query(User).filter(User.username == current_user["username"]).first()
     if not user:
         raise HTTPException(status_code=404, detail="User tidak ditemukan")
 
-    return {
+    role = user.role
+    profile_data = {
         "id": user.id,
-        "nis": user.nis,
-        "name": user.name,
-        "role": user.role,
-        "total_score": user.total_score or 0
+        "username": user.username,
+        "role": user.role
     }
 
+    if role == "student":
+        student = db.query(Student).filter(Student.user_id == user.id).first()
+        if student:
+            profile_data.update({
+                "name": student.name,
+                "class_name": student.class_name,
+                "total_score": student.total_score or 0
+            })
+    elif role == "teacher":
+        teacher = db.query(Teacher).filter(Teacher.user_id == user.id).first()
+        if teacher:
+            profile_data.update({
+                "name": teacher.name
+            })
+
+    return profile_data

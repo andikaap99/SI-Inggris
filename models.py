@@ -6,12 +6,13 @@ from db import Base
 # !!!USER!!!
 class User(Base):
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True, index=True)
-    nis = Column(String(20), unique=True, index=True)
-    name = Column(String(50))
-    total_score = Column(Float, default=0)
-    hashed_password = Column(String(255))
-    role = Column(String(20), default="siswa")
+    id = Column(Integer, primary_key=True)
+    username = Column(String(20), unique=True, index=True)
+    hashed_password = Column(String(255), nullable=False)
+    role = Column(String(20), nullable=False)
+
+    student = relationship("Student", uselist=False, back_populates="user")
+    teacher = relationship("Teacher", uselist=False, back_populates="user")
 
     global_attempts = relationship("Global_Attempt", back_populates="user")
     attempts_cs = relationship("Attempt_Complete_Sentences", back_populates="user")
@@ -19,6 +20,23 @@ class User(Base):
     attempts_lw = relationship("Attempt_Listening_Word", back_populates="user")
     attempts_ls = relationship("Attempt_Listening_Sentence", back_populates="user")
 
+class Student(Base):
+    __tablename__ = "students"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    name = Column(String(50))
+    class_name = Column(String(10))
+    total_score = Column(Float, default=0)
+
+    user = relationship("User", back_populates="student")
+
+class Teacher(Base):
+    __tablename__ = "teachers"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    name = Column(String(50))
+
+    user = relationship("User", back_populates="teacher")
 
 class Global_Attempt(Base):
     __tablename__ = "Global_Attempt"
