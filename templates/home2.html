@@ -14,11 +14,20 @@
       <div class="text-2xl font-bold">
           <a href="#" class="gradient-text">English Club</a>
       </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobileMenuBtn" class="md:hidden focus:outline-none">
+        <i data-lucide="menu" class="w-6 h-6 text-gray-700"></i>
+      </button>
+
+      <!-- Nav Links (Desktop) -->
       <div class="hidden md:flex items-center space-x-8">
           <a href="/home" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">Home</a>
           <a href="#latihan" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Latihan</a>
           <a href="#peringkat" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Papan Peringkat</a>
       </div>
+
+      <!-- Right Buttons -->
       <div class="items-center space-x-8">
           <a href="/profile" class="bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
               Profil
@@ -26,32 +35,43 @@
           <button id="logoutBtn" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 transform hover:scale-105">Logout</button>
       </div>
     </nav>
+
+    <!-- Mobile Menu Content -->
+    <div id="mobileMenu" class="md:hidden hidden px-6 pb-4 space-y-2">
+      <a href="/home" class="block text-gray-700 hover:text-blue-600">Home</a>
+      <a href="#latihan" class="block text-gray-700 hover:text-blue-600">Latihan</a>
+      <a href="#peringkat" class="block text-gray-700 hover:text-blue-600">Papan Peringkat</a>
+      <div class="pt-2 flex flex-col gap-2">
+        <a href="/profile" class="block bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700">Profil</a>
+        <button id="logoutBtnMobile" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700">Logout</button>
+      </div>
+    </div>
   </header>
 
   <!-- CONTENT -->
-<main class="container mx-auto px-6">
-    <section class="text-center py-20 md:py-28">
-        <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+<main class="container mx-auto px-4 sm:px-6">
+    <section class="text-center py-16 py-20 md:py-28">
+        <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-900 leading-tight">
             Belajar Bareng, Jago Bareng!
         </h1>
-        <p class="mt-6 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+        <p class="mt-4 sm:mt-6 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
             Selamat datang di portal Ekskul Bahasa Inggris! Yuk, asah skill kamu lewat latihan seru dan lihat progresmu bareng teman-teman.
         </p>
-        <div class="mt-10">
-            <a href="#latihan" class="bg-blue-600 text-white font-bold text-lg px-8 py-4 rounded-full hover:bg-blue-700 transition-transform transform hover:scale-105 shadow-lg hover:shadow-blue-300">
+        <div class="mt-6 sm:mt-10">
+            <a href="#latihan" class="bg-blue-600 text-white font-bold  text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:bg-blue-700 transition transform hover:scale-105 shadow-lg hover:shadow-blue-300">
                 Mulai Latihan
             </a>
         </div>
     </section>
 
   <!-- latihan section -->
-    <section id="latihan" class="pt-10 pb-30">
-        <div class="text-center py-20 md:py-28">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Pilih Latihan Hari Ini</h2>
-            <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Pilih tantangan yang kamu mau. Setiap latihan bantu kamu jadi lebih pede!</p>
-        </div>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <section id="latihan" class="py-10">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">Pilih Latihan Hari Ini</h2>
+        <p class="mt-4 text-gray-600 max-w-xl mx-auto">Pilih tantangan yang kamu mau. Setiap latihan bantu kamu jadi lebih pede!</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <!-- Card 1 -->
             <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center">
                 <div class="bg-blue-100 p-4 rounded-full"><i data-lucide="headphones" class="w-10 h-10 text-blue-600"></i></div>
@@ -92,14 +112,15 @@
     </section>
 
   <!-- Leaderboard -->
-    <section id="peringkat" class="py-20">
-        <div class="w-full px-6 grid grid-cols-1 lg:grid-cols-5 gap-12">
-            <div class="lg:col-span-3 bg-white p-8 rounded-xl shadow-lg">
-                <h3 class="text-2xl font-bold text-gray-900 flex items-center mb-6">
-                    <i data-lucide="trophy" class="w-7 h-7 text-yellow-500 mr-3"></i>
-                    Leaderboard Orang Ganteng
-                </h3>
-                <div id="leaderboard-container" class="space-y-4">
+    <section id="peringkat" class="py-16">
+        <div class="w-full px-0 sm:px-4 grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-12">
+          <!-- Leaderboard -->
+          <div class="lg:col-span-3 bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+            <h3 class="text-xl sm:text-2xl font-bold text-gray-900 flex items-center mb-4 sm:mb-6">
+              <i data-lucide="trophy" class="w-6 h-6 sm:w-7 sm:h-7 text-yellow-500 mr-2 sm:mr-3"></i>
+              Leaderboard Orang Ganteng
+            </h3>
+                <div id="leaderboard-container" class="space-y-3 sm:space-y-4">
                     <!-- Contoh Peringkat -->
                     <div class="flex items-center bg-gray-50 p-4 rounded-lg">
                         <span class="text-lg font-bold text-gray-700 w-8">1.</span>
@@ -121,13 +142,14 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- Announcements -->
-                <div class="lg:col-span-2 bg-white p-8 rounded-xl shadow-lg">
-                    <h3 class="text-2xl font-bold text-gray-900 flex items-center mb-6">
-                        <i data-lucide="megaphone" class="w-7 h-7 text-red-500 mr-3"></i>
-                        Info & Pengumuman
+                <div class="lg:col-span-2 bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-900 flex items-center mb-4 sm:mb-6">
+                      <i data-lucide="megaphone" class="w-6 h-6 sm:w-7 sm:h-7 text-red-500 mr-2 sm:mr-3"></i>
+                      Info & Pengumuman
                     </h3>
-                    <div class="space-y-5">
+                    <div class="space-y-4">
                         <div class="border-l-4 border-blue-500 pl-4">
                             <h4 class="font-bold">Jadwal Kumpul Rutin</h4>
                             <p class="text-sm text-gray-600">Jangan lupa, kita kumpul setiap hari Jumat jam 15.30 di Ruang Multimedia ya!</p>
@@ -144,9 +166,9 @@
 
 <!-- Footer -->
     <footer class="bg-gray-900 text-white mt-20">
-        <div class="container mx-auto px-6 py-8 text-center">
+        <div class="container mx-auto px-4 sm:px-6 py-8 text-center text-sm sm:text-base">
             <p>&copy; 2025 English Club. All Rights Reserved.</p>
-            <p class="text-sm text-gray-400 mt-2">Portal belajar untuk anggota English Club Imnida.</p>
+            <p class="text-xs sm:text-sm text-gray-400 mt-2">Portal belajar untuk anggota English Club Imnida.</p>
         </div>
     </footer>
 
@@ -216,6 +238,14 @@
       fetchUserProfile();
       loadLeaderboard();
     };
+
+    <!-- Mobile Menu Toggle Script -->
+    const menuBtn = document.getElementById("mobileMenuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
   </script>
   <!-- <script src="/static/script.js"></script> -->
 </body>

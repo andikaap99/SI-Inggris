@@ -1,66 +1,64 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" content="width=device-width, initial-scale=1">
   <title>Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
-<body class="text-gray-800">
-
-    <div class="relative min-h-screen">
-        <!-- Background Image & Overlay -->
-        <div class="absolute inset-0">
-            <img src="/static/image/bg-login.jpg" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-black/50"></div> 
-        </div>
-
-        <!-- Login Content -->
-        <div class="relative min-h-screen flex flex-col items-center justify-center px-4">   
-            <div class="w-full max-w-md">
-                <!-- Login Box -->
-                <div class="bg-white/80 backdrop-blur-sm p-8 md:p-10 rounded-2xl shadow-xl border border-white/20">
-                    <div class="text-center mb-8">
-                        <h1 class="text-3xl font-bold text-gray-800">English Club</h1>
-                        <p class="text-gray-600">Selamat datang! Silakan masuk.</p>
-                    </div>
-
-                    <!-- Login Form -->
-                    <form id="loginForm" class="space-y-6">
-                        <div>
-                            <label for="nis" class="block text-sm font-medium text-gray-700 mb-1">
-                                NIS
-                            </label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <i data-lucide="user" class="w-5 h-5 text-gray-400"></i>
-                                </span>
-                                <input type="text" id="username" name="username" placeholder="Masukkan username kamu" class="w-full pl-10 pr-4 py-3 bg-white/70 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
-                                Password
-                            </label>
-                             <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <i data-lucide="lock" class="w-5 h-5 text-gray-400"></i>
-                                </span>
-                                <input type="password" id="password" name="password" placeholder="••••••••" class="w-full pl-10 pr-4 py-3 bg-white/70 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition">
-                            </div>
-                        </div>
-
-                        <div>
-                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105">
-                                Masuk
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+<body class="text-gray-900">
+  <div class="relative min-h-screen">
+    <!-- Background Image & Overlay -->
+    <div class="absolute inset-0">
+      <img src="/static/image/bg-login.jpg" alt="Background" class="w-full h-full object-cover object-center">
+      <div class="absolute inset-0 bg-black/50"></div>
     </div>
+
+    <!-- Login Content -->
+    <div class="relative min-h-screen flex items-center justify-center px-4">
+      <div class="w-full max-w-xs sm:max-w-sm">
+        <!-- Login Box -->
+        <div class="bg-white/80 backdrop-blur-sm p-5 sm:p-6 rounded-xl shadow-xl border border-white/20">
+          <div class="text-center mb-5">
+            <h1 class="text-xl font-bold text-gray-800">English Club</h1>
+            <p class="text-sm text-gray-600">Selamat datang! Silakan masuk.</p>
+          </div>
+
+          <!-- Login Form -->
+          <form id="loginForm" class="space-y-4">
+            <div>
+              <label for="username" class="block text-sm font-medium text-gray-700 mb-1">NIS</label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <i data-lucide="user" class="w-4 h-4 text-gray-400"></i>
+                </span>
+                <input type="text" id="username" name="username" placeholder="Username"
+                  class="w-full pl-9 pr-3 py-2 bg-white/70 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm transition">
+              </div>
+            </div>
+
+            <div>
+              <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <i data-lucide="lock" class="w-4 h-4 text-gray-400"></i>
+                </span>
+                <input type="password" id="password" name="password" placeholder="••••••••"
+                  class="w-full pl-9 pr-3 py-2 bg-white/70 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm transition">
+              </div>
+            </div>
+
+            <div>
+              <button type="submit"
+                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition hover:scale-105">
+                Masuk
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Initialize Lucide Icons -->
   <script>
