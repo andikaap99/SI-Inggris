@@ -11,40 +11,40 @@
   <!-- Header -->
   <header class="bg-white shadow-sm border-b sticky top-0 z-50">
     <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <div class="text-2xl font-bold">
-          <a href="#" class="gradient-text">English Club</a>
-      </div>
 
       <!-- Mobile Menu Button -->
       <button id="mobileMenuBtn" class="md:hidden focus:outline-none">
         <i data-lucide="menu" class="w-6 h-6 text-gray-700"></i>
       </button>
 
+      <div class="text-2xl font-bold">
+          <a href="#" class="gradient-text">English Club</a>
+      </div>
+
+
       <!-- Nav Links (Desktop) -->
       <div class="hidden md:flex items-center space-x-8">
           <a href="/home" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">Home</a>
-          <a href="#latihan" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Latihan</a>
-          <a href="#peringkat" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Papan Peringkat</a>
+          <a href="#latihan" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Practice</a>
+          <a href="#peringkat" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Leaderboard</a>
       </div>
 
       <!-- Right Buttons -->
-      <div class="items-center space-x-8">
+      <div class=" items-center space-x-4">
           <a href="/profile" class="bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
-              Profil
+              Profile
           </a>
-          <button id="logoutBtn" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 transform hover:scale-105">Logout</button>
+          <button id="logoutBtn" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 transform hover:scale-105">
+            <i data-lucide="log-out" class="w-5 h-5"></i>
+          </button>
       </div>
     </nav>
 
     <!-- Mobile Menu Content -->
     <div id="mobileMenu" class="md:hidden hidden px-6 pb-4 space-y-2">
       <a href="/home" class="block text-gray-700 hover:text-blue-600">Home</a>
-      <a href="#latihan" class="block text-gray-700 hover:text-blue-600">Latihan</a>
-      <a href="#peringkat" class="block text-gray-700 hover:text-blue-600">Papan Peringkat</a>
-      <div class="pt-2 flex flex-col gap-2">
-        <a href="/profile" class="block bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700">Profil</a>
-        <button id="logoutBtnMobile" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700">Logout</button>
-      </div>
+      <a href="#latihan" class="block text-gray-700 hover:text-blue-600">Practice</a>
+      <a href="#peringkat" class="block text-gray-700 hover:text-blue-600">Leaderboard</a>
     </div>
   </header>
 
@@ -52,14 +52,15 @@
 <main class="container mx-auto px-4 sm:px-6">
     <section class="text-center py-16 py-20 md:py-28">
         <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-900 leading-tight">
-            Belajar Bareng, Jago Bareng!
+            Learn Together, <br> be Better Together!
         </h1>
         <p class="mt-4 sm:mt-6 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-            Selamat datang di portal Ekskul Bahasa Inggris! Yuk, asah skill kamu lewat latihan seru dan lihat progresmu bareng teman-teman.
+            Welcome to the English Club! Sharpen your skills, take on fun challenges, and see your progress alongside your friends.
+            </p>
         </p>
         <div class="mt-6 sm:mt-10">
             <a href="#latihan" class="bg-blue-600 text-white font-bold  text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:bg-blue-700 transition transform hover:scale-105 shadow-lg hover:shadow-blue-300">
-                Mulai Latihan
+               Start Practice
             </a>
         </div>
     </section>
@@ -67,45 +68,45 @@
   <!-- latihan section -->
     <section id="latihan" class="py-10">
       <div class="text-center mb-10">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">Pilih Latihan Hari Ini</h2>
-        <p class="mt-4 text-gray-600 max-w-xl mx-auto">Pilih tantangan yang kamu mau. Setiap latihan bantu kamu jadi lebih pede!</p>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">Choose Your Practice Today</h2>
+        <p class="mt-4 text-gray-600 max-w-xl mx-auto">Pick the challenge you want. Every practice helps you become more confident!</p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <!-- Card 1 -->
             <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center">
                 <div class="bg-blue-100 p-4 rounded-full"><i data-lucide="headphones" class="w-10 h-10 text-blue-600"></i></div>
-                <h3 class="mt-6 text-xl font-bold text-gray-900">Mendengarkan Kalimat</h3>
-                <p class="mt-2 text-gray-500 text-sm">Dengerin cerita pendek, terus jawab pertanyaannya. Seru, lho!</p>
+                <h3 class="mt-6 text-xl font-bold text-gray-900">Listen to Sentences</h3>
+                <p class="mt-2 text-gray-500 text-sm">Listen to short stories and answer the questions. It's fun!</p>
                 <a href="#" class="mt-6 bg-blue-50 text-blue-700 font-semibold py-2 px-5 rounded-full hover:bg-blue-200 transition-colors">
-                  Mulai
+                  Start
                 </a>
             </div>
             <!-- Card 2: Mendengarkan Kata -->
             <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center">
                 <div class="bg-green-100 p-4 rounded-full"><i data-lucide="ear" class="w-10 h-10 text-green-600"></i></div>
-                <h3 class="mt-6 text-xl font-bold text-gray-900">Mendengarkan Kata</h3>
-                <p class="mt-2 text-gray-500 text-sm">Tebak kata yang diucapin. Latihan ini bagus buat spelling.</p>
+                <h3 class="mt-6 text-xl font-bold text-gray-900">Listen to Words</h3>
+                <p class="mt-2 text-gray-500 text-sm">Guess the spoken word. This practice is great for your spelling.</p>
                 <a href="/listening-word" class="mt-6 bg-green-50 text-green-700 font-semibold py-2 px-5 rounded-full hover:bg-green-200 transition-colors">
-                  Mulai
+                  Start
                 </a>
             </div>
             <!-- Card 3: Tebak Gambar -->
             <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center">
                 <div class="bg-yellow-100 p-4 rounded-full"><i data-lucide="image" class="w-10 h-10 text-yellow-600"></i></div>
-                <h3 class="mt-6 text-xl font-bold text-gray-900">Tebak Gambar</h3>
-                <p class="mt-2 text-gray-500 text-sm">Lihat gambarnya, tebak namanya dalam bahasa Inggris. Gampang!</p>
+                <h3 class="mt-6 text-xl font-bold text-gray-900">Guess the Picture</h3>
+                <p class="mt-2 text-gray-500 text-sm">Look at the picture and guess its name in English. It's easy!</p>
                 <a href="/image-word" class="mt-6 bg-yellow-50 text-yellow-700 font-semibold py-2 px-5 rounded-full hover:bg-yellow-200 transition-colors">
-                  Mulai
+                  Start
                 </a>
             </div>
             <!-- Card 4: Melengkapi Kalimat -->
             <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center">
                 <div class="bg-purple-100 p-4 rounded-full"><i data-lucide="file-pen-line" class="w-10 h-10 text-purple-600"></i></div>
-                <h3 class="mt-6 text-xl font-bold text-gray-900">Melengkapi Kalimat</h3>
-                <p class="mt-2 text-gray-500 text-sm">Isi bagian yang kosong. Tes grammar-mu di sini!</p>
+                <h3 class="mt-6 text-xl font-bold text-gray-900">Complete the Sentence</h3>
+                <p class="mt-2 text-gray-500 text-sm">Fill in the blank. Test your grammar here!</p>
                 <a href="/complete-sentence" class="mt-6 inline-block bg-purple-50 text-purple-700 font-semibold py-2 px-5 rounded-full hover:bg-purple-200 transition-colors">
-                  Mulai
+                  Start
                 </a>
             </div>
         </div>
@@ -118,7 +119,7 @@
           <div class="lg:col-span-3 bg-white p-6 sm:p-8 rounded-xl shadow-lg">
             <h3 class="text-xl sm:text-2xl font-bold text-gray-900 flex items-center mb-4 sm:mb-6">
               <i data-lucide="trophy" class="w-6 h-6 sm:w-7 sm:h-7 text-yellow-500 mr-2 sm:mr-3"></i>
-              Leaderboard Orang Ganteng
+              Our Weekly Leaderboard
             </h3>
                 <div id="leaderboard-container" class="space-y-3 sm:space-y-4">
                     <!-- Contoh Peringkat -->
@@ -147,28 +148,51 @@
                 <div class="lg:col-span-2 bg-white p-6 sm:p-8 rounded-xl shadow-lg">
                     <h3 class="text-xl sm:text-2xl font-bold text-gray-900 flex items-center mb-4 sm:mb-6">
                       <i data-lucide="megaphone" class="w-6 h-6 sm:w-7 sm:h-7 text-red-500 mr-2 sm:mr-3"></i>
-                      Info & Pengumuman
+                      Information & Announcements
                     </h3>
                     <div class="space-y-4">
                         <div class="border-l-4 border-blue-500 pl-4">
-                            <h4 class="font-bold">Jadwal Kumpul Rutin</h4>
-                            <p class="text-sm text-gray-600">Jangan lupa, kita kumpul setiap hari Jumat jam 15.30 di Ruang Multimedia ya!</p>
+                            <h4 class="font-bold">Gathering Schedule</h4>
+                            <p class="text-sm text-gray-600">Don't forget, we meet every Friday at 3:30 PM in the Multimedia Room!</p>
                         </div>
                         <div class="border-l-4 border-green-500 pl-4">
-                            <h4 class="font-bold">Lomba Cepat Tepat</h4>
-                            <p class="text-sm text-gray-600">Bulan depan akan ada lomba cerdas cermat antar kelas. Siapin dirimu!</p>
+                            <h4 class="font-bold">Speech Contest</h4>
+                            <p class="text-sm text-gray-600">There will be an inter-class English speech contest next month. Prepare yourselves!</p>
                         </div>
                     </div>
                 </div>
             </div>
     </section>
+
+    <!-- Word of the Day Section -->
+        <section id="word-of-the-day" class="pt-10 pb-20">
+            <div class="bg-white p-8 md:p-12 rounded-xl shadow-lg text-center max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-900 flex items-center justify-center mb-2">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-amber-500 mr-3"></i>
+                    Word of the Day
+                </h2>
+                <p class="text-gray-500 mb-8">A new word every day to level up your vocabulary!</p>
+                
+                <div class="text-center">
+                    <h3 class="text-5xl font-bold text-yellow-600">Serendipity</h3>
+                    <p class="text-gray-500 text-lg mt-2">[ ser-uhn-dip-i-tee ] • <span class="italic">noun</span></p>
+                    <p class="text-gray-700 text-xl mt-6 max-w-2xl mx-auto">
+                        The occurrence and development of events by chance in a happy or beneficial way.
+                    </p>
+                    <div class="mt-6 bg-gray-50 border-l-4 border-amber-400 p-4 rounded-r-lg text-left max-w-2xl mx-auto">
+                        <p class="font-semibold text-gray-800">Example sentence:</p>
+                        <p class="text-gray-600 italic">"Finding that old book in the thrift store was a wonderful moment of <span class="font-semibold">serendipity</span>."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
   </main>
 
 <!-- Footer -->
     <footer class="bg-gray-900 text-white mt-20">
         <div class="container mx-auto px-4 sm:px-6 py-8 text-center text-sm sm:text-base">
             <p>&copy; 2025 English Club. All Rights Reserved.</p>
-            <p class="text-xs sm:text-sm text-gray-400 mt-2">Portal belajar untuk anggota English Club Imnida.</p>
+            <p class="text-xs sm:text-sm text-gray-400 mt-2">Learning portal for English Club Imnida members.</p>
         </div>
     </footer>
 
@@ -246,6 +270,8 @@
     menuBtn.addEventListener("click", () => {
       mobileMenu.classList.toggle("hidden");
     });
+
+    lucide.createIcons();
   </script>
   <!-- <script src="/static/script.js"></script> -->
 </body>
