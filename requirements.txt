@@ -3,3 +3,8 @@ uvicorn
 jinja2
 sqlalchemy
 pymysql
+alembic
+python-jose
+passlib[bcrypt]==1.7.4
+[bcrypt]==3.2.0
+python-multipart

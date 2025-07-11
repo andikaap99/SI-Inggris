@@ -19,7 +19,7 @@ app = FastAPI()
 Base.metadata.create_all(bind=engine)
 templates = Jinja2Templates(directory="templates")
 
-similarity_model = SentenceTransformer('./models/model')
+# similarity_model = SentenceTransformer('./models/model')
 
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -35,7 +35,7 @@ app.include_router(auth_router)
 
 #     return templates.TemplateResponse("home.html", {"request": request, "result": None})
 
-print(hash_password("admin123"))
+# print(hash_password("admin123"))
 
 # @app.get("/listening-word", response_class=None)
 # def listening_app(request: Request):
