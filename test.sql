@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 05, 2025 at 07:05 PM
+-- Generation Time: Jul 11, 2025 at 06:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,7 +36,7 @@ CREATE TABLE `alembic_version` (
 --
 
 INSERT INTO `alembic_version` (`version_num`) VALUES
-('d44e47d7782d');
+('348d790f1229');
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,12 @@ CREATE TABLE `attempt_complete_sentences` (
 --
 
 INSERT INTO `attempt_complete_sentences` (`Id_attempt`, `score`, `attempted_at`, `user_id`, `Id_category`) VALUES
-(7, 100, '2025-07-05 15:54:01', 1, 1);
+(8, 100, '2025-07-06 13:49:16', 1, 1),
+(9, 0, '2025-07-06 20:11:47', 4, 1),
+(10, 50, '2025-07-06 20:12:59', 2, 1),
+(11, 100, '2025-07-06 20:13:53', 5, 1),
+(12, 100, '2025-07-06 20:14:56', 3, 1),
+(13, 50, '2025-07-06 13:21:07', 6, 1);
 
 -- --------------------------------------------------------
 
@@ -78,8 +83,12 @@ CREATE TABLE `attempt_image_word` (
 --
 
 INSERT INTO `attempt_image_word` (`Id_attempt`, `score`, `attempted_at`, `user_id`, `Id_category`) VALUES
-(5, 100, '2025-07-05 14:55:53', 3, 1),
-(7, 0, '2025-07-05 15:52:35', 1, 1);
+(8, 100, '2025-07-06 13:48:58', 1, 1),
+(9, 100, '2025-07-06 13:13:00', 4, 1),
+(10, 100, '2025-07-06 20:12:28', 2, 1),
+(11, 100, '2025-07-06 13:13:19', 5, 1),
+(12, 100, '2025-07-06 13:21:37', 6, 1),
+(13, 100, '2025-07-06 20:14:41', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -114,8 +123,11 @@ CREATE TABLE `attempt_listening_word` (
 --
 
 INSERT INTO `attempt_listening_word` (`Id_attempt`, `score`, `attempted_at`, `user_id`, `Id_category`) VALUES
-(5, 100, '2025-07-05 22:07:47', 6, 1),
-(8, 100, '2025-07-05 15:51:40', 1, 1);
+(9, 100, '2025-07-07 03:04:22', 1, 1),
+(10, 0, '2025-07-06 20:12:48', 4, 1),
+(11, 100, '2025-07-06 20:13:35', 5, 1),
+(12, 100, '2025-07-06 20:14:20', 3, 1),
+(13, 0, '2025-07-06 20:22:42', 6, 1);
 
 -- --------------------------------------------------------
 
@@ -230,11 +242,23 @@ CREATE TABLE `global_attempt` (
 --
 
 INSERT INTO `global_attempt` (`id`, `score`, `attempted_at`, `feature_type`, `category_id`, `user_id`) VALUES
-(8, 100, '2025-07-05 14:55:53', 'Image_Word', 1, 3),
-(9, 100, '2025-07-05 22:07:47', 'Listening_Word', 1, 6),
-(16, 100, '2025-07-05 15:51:40', 'Listening_Word', 1, 1),
-(17, 0, '2025-07-05 15:52:35', 'Image_Word', 1, 1),
-(18, 100, '2025-07-05 15:54:01', 'Complete_Sentences', 1, 1);
+(19, 100, '2025-07-07 03:04:22', 'Listening_Word', 1, 1),
+(20, 100, '2025-07-06 13:48:58', 'Image_Word', 1, 1),
+(21, 100, '2025-07-06 13:49:16', 'Complete_Sentences', 1, 1),
+(22, 0, '2025-07-06 20:11:47', 'Complete_Sentences', 1, 4),
+(23, 100, '2025-07-06 13:13:00', 'Image_Word', 1, 4),
+(24, 100, '2025-07-06 20:12:28', 'Image_Word', 1, 2),
+(25, 0, '2025-07-06 20:12:48', 'Listening_Word', 1, 4),
+(26, 100, '2025-07-06 13:13:19', 'Image_Word', 1, 5),
+(27, 50, '2025-07-06 20:12:59', 'Complete_Sentences', 1, 2),
+(28, 100, '2025-07-06 20:13:35', 'Listening_Word', 1, 5),
+(29, 100, '2025-07-06 13:21:37', 'Image_Word', 1, 6),
+(30, 100, '2025-07-06 20:13:53', 'Complete_Sentences', 1, 5),
+(31, 100, '2025-07-06 20:14:20', 'Listening_Word', 1, 3),
+(32, 100, '2025-07-06 20:14:41', 'Image_Word', 1, 3),
+(33, 100, '2025-07-06 20:14:56', 'Complete_Sentences', 1, 3),
+(34, 50, '2025-07-06 13:21:07', 'Complete_Sentences', 1, 6),
+(35, 0, '2025-07-06 20:22:43', 'Listening_Word', 1, 6);
 
 -- --------------------------------------------------------
 
@@ -311,29 +335,65 @@ INSERT INTO `listening_word` (`Id_lw`, `lw_answer`, `audio_lw`, `Id_clw`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `students`
+--
+
+CREATE TABLE `students` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `class_name` varchar(10) DEFAULT NULL,
+  `total_score` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`id`, `user_id`, `name`, `class_name`, `total_score`) VALUES
+(1, 1, 'Andika Aryadi Putra', 'IF5', 300),
+(2, 2, 'Mutiara Annur', 'IF5', 150),
+(3, 3, 'Ardi Saputra', 'IF5', 300),
+(4, 4, 'Annisa Nuraeni', 'IF5', 100),
+(5, 5, 'Topik Nur Rahman', 'IF5', 300),
+(6, 6, 'Rizza Alyda Yahya', 'IF5', 150);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `teachers`
+--
+
+CREATE TABLE `teachers` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `nis` varchar(20) DEFAULT NULL,
-  `hashed_password` varchar(255) DEFAULT NULL,
-  `role` varchar(20) DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `total_score` float DEFAULT NULL
+  `hashed_password` varchar(255) NOT NULL,
+  `role` varchar(20) NOT NULL,
+  `username` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `nis`, `hashed_password`, `role`, `name`, `total_score`) VALUES
-(1, '10123196', '$2b$12$NC7IWn180HEix1ZQsXGOtuo2DzzmqTJ2rzyzU97IEWOpevces0WYW', 'admin', 'Andika Aryadi Putra', 200),
-(2, '10123177', '$2b$12$NC7IWn180HEix1ZQsXGOtuo2DzzmqTJ2rzyzU97IEWOpevces0WYW', 'admin', ' Mutiara Annur', 0),
-(3, '10123195', '$2b$12$NC7IWn180HEix1ZQsXGOtuo2DzzmqTJ2rzyzU97IEWOpevces0WYW', 'admin', 'Ardi Saputra', 100),
-(4, '10123193', '$2b$12$NC7IWn180HEix1ZQsXGOtuo2DzzmqTJ2rzyzU97IEWOpevces0WYW', 'admin', 'Annisa Nuraeni', 0),
-(5, '10123197', '$2b$12$NC7IWn180HEix1ZQsXGOtuo2DzzmqTJ2rzyzU97IEWOpevces0WYW', 'admin', 'Topik Nur Rahman', 0),
-(6, '10123212', '$2b$12$NC7IWn180HEix1ZQsXGOtuo2DzzmqTJ2rzyzU97IEWOpevces0WYW', 'admin', 'Rizza Alyda Yahya', 100);
+INSERT INTO `users` (`id`, `hashed_password`, `role`, `username`) VALUES
+(1, '$2b$12$NC7IWn180HEix1ZQsXGOtuo2DzzmqTJ2rzyzU97IEWOpevces0WYW', 'student', '10123196'),
+(2, '$2b$12$NC7IWn180HEix1ZQsXGOtuo2DzzmqTJ2rzyzU97IEWOpevces0WYW', 'student', '10123177'),
+(3, '$2b$12$NC7IWn180HEix1ZQsXGOtuo2DzzmqTJ2rzyzU97IEWOpevces0WYW', 'student', '10123195'),
+(4, '$2b$12$NC7IWn180HEix1ZQsXGOtuo2DzzmqTJ2rzyzU97IEWOpevces0WYW', 'student', '10123193'),
+(5, '$2b$12$NC7IWn180HEix1ZQsXGOtuo2DzzmqTJ2rzyzU97IEWOpevces0WYW', 'student', '10123197'),
+(6, '$2b$12$NC7IWn180HEix1ZQsXGOtuo2DzzmqTJ2rzyzU97IEWOpevces0WYW', 'student', '10123212');
 
 --
 -- Indexes for dumped tables
@@ -444,12 +504,25 @@ ALTER TABLE `listening_word`
   ADD KEY `Id_clw` (`Id_clw`);
 
 --
+-- Indexes for table `students`
+--
+ALTER TABLE `students`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `teachers`
+--
+ALTER TABLE `teachers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `ix_users_nis` (`nis`),
-  ADD KEY `ix_users_id` (`id`);
+  ADD UNIQUE KEY `ix_users_username` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -459,13 +532,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `attempt_complete_sentences`
 --
 ALTER TABLE `attempt_complete_sentences`
-  MODIFY `Id_attempt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id_attempt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `attempt_image_word`
 --
 ALTER TABLE `attempt_image_word`
-  MODIFY `Id_attempt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id_attempt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `attempt_listening_sentence`
@@ -477,7 +550,7 @@ ALTER TABLE `attempt_listening_sentence`
 -- AUTO_INCREMENT for table `attempt_listening_word`
 --
 ALTER TABLE `attempt_listening_word`
-  MODIFY `Id_attempt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id_attempt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `category_complete_sentence`
@@ -513,7 +586,7 @@ ALTER TABLE `complete_sentence`
 -- AUTO_INCREMENT for table `global_attempt`
 --
 ALTER TABLE `global_attempt`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `image_word`
@@ -538,6 +611,18 @@ ALTER TABLE `listening_sentence`
 --
 ALTER TABLE `listening_word`
   MODIFY `Id_lw` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `students`
+--
+ALTER TABLE `students`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `teachers`
+--
+ALTER TABLE `teachers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -612,6 +697,18 @@ ALTER TABLE `listening_sentence`
 --
 ALTER TABLE `listening_word`
   ADD CONSTRAINT `listening_word_ibfk_1` FOREIGN KEY (`Id_clw`) REFERENCES `category_listening_word` (`Id_clw`);
+
+--
+-- Constraints for table `students`
+--
+ALTER TABLE `students`
+  ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `teachers`
+--
+ALTER TABLE `teachers`
+  ADD CONSTRAINT `teachers_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
