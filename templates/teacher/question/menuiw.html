@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Questions | English Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body class="bg-slate-100">
+
+    <div class="flex h-screen bg-slate-100">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-md hidden md:flex flex-col transition-transform duration-300 ease-in-out">
+            <!-- Sidebar Logo/Header -->
+            <div class="p-6 border-b">
+                <h1 class="text-2xl font-bold gradient-text text-center">Teacher Dashboard</h1>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <nav class="flex-grow p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="/templates/teacher/home.html" class="flex items-center space-x-3 text-blue-600 bg-blue-100 font-semibold p-3 rounded-lg">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <button id="questions-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                                <span>Manage Questions</span>
+                            </span>
+                            <i id="questions-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div id="questions-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="/templates/teacher/question/menuls.html" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
+                            <a href="/templates//teacher//question//menulw.html" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
+                            <a href="/templates/teacher/question/menuiw.html" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Image Word</a>
+                            <a href="/templates/teacher/question/menucs.html" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complated Sentence</a>
+                        </div>
+                    </li>
+                    <li>
+                        <button id="students-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="users" class="w-5 h-5"></i>
+                                <span>Manage Students</span>
+                            </span>
+                            <i id="students-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div id="students-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">View Students</a>
+                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Add Student</a>
+                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Edit Student</a>
+                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Delete Student</a>
+                        </div>
+                    </li>
+                    <li>
+                        <button id="reports-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                                <span>View Reports</span>
+                            </span>
+                            <i id="reports-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div id="reports-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
+                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
+                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Image Word</a>
+                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complete Sentence</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Content Header -->
+            <header class="bg-white shadow-sm p-4 flex items-center">
+                <button id="sidebar-toggle" class="text-gray-700 focus:outline-none md:hidden mr-4">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <div class="flex-1">
+                    <h2 class="text-xl font-bold text-gray-800">Manage Questions</h2>
+                    <p class="text-sm text-gray-500">Category : Image Word</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-blue-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        <i data-lucide="user-round" class="w-6 h-6"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-red-600 p-2 rounded-full hover:bg-red-100 transition-colors">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </header>
+
+            <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+                <!-- Action Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Card 1: Add New Question -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-blue-200 border-t-4 border-blue-500 transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="bg-blue-100 p-4 rounded-full mb-4">
+                                <i data-lucide="file-plus-2" class="w-10 h-10 text-blue-600"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Add New Question</h3>
+                            <p class="text-gray-500 mt-2 mb-6">Create a new image word question from scratch.</p>
+                            <a href="#" class="w-full text-center bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                                Add Question
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Edit Question -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-green-200 border-t-4 border-green-500 transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="bg-green-100 p-4 rounded-full mb-4">
+                                <i data-lucide="file-pen-line" class="w-10 h-10 text-green-600"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Edit Question</h3>
+                            <p class="text-gray-500 mt-2 mb-6">Modify or update an existing question in the database.</p>
+                            <a href="#" class="w-full text-center bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition-colors">
+                                Edit Question
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 3: Delete Question -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-red-200 border-t-4 border-red-500 transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="bg-red-100 p-4 rounded-full mb-4">
+                                <i data-lucide="trash-2" class="w-10 h-10 text-red-600"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">Delete Question</h3>
+                            <p class="text-gray-500 mt-2 mb-6">Permanently remove a question from the database.</p>
+                            <a href="#" class="w-full text-center bg-red-600 text-white font-semibold py-3 rounded-lg hover:bg-red-700 transition-colors">
+                                Delete Question
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Script to activate Lucide Icons and mobile sidebar functionality -->
+    <script>
+        lucide.createIcons();
+
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        
+        const dropdowns = [
+            {
+                toggle: document.getElementById('questions-toggle'),
+                menu: document.getElementById('questions-menu'),
+                arrow: document.getElementById('questions-arrow')
+            },
+            {
+                toggle: document.getElementById('students-toggle'),
+                menu: document.getElementById('students-menu'),
+                arrow: document.getElementById('students-arrow')
+            },
+            {
+                toggle: document.getElementById('reports-toggle'),
+                menu: document.getElementById('reports-menu'),
+                arrow: document.getElementById('reports-arrow')
+            }
+        ];
+
+        // Function to show/hide sidebar on mobile
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+        });
+
+        // Add click listener to each dropdown toggle
+        dropdowns.forEach(dropdown => {
+            if (dropdown.toggle) {
+                dropdown.toggle.addEventListener('click', () => {
+                    // Check if the clicked menu is currently open
+                    const isCurrentlyOpen = !dropdown.menu.classList.contains('hidden');
+
+                    // First, close all dropdowns
+                    dropdowns.forEach(d => {
+                        if (d.menu) d.menu.classList.add('hidden');
+                        if (d.arrow) d.arrow.classList.remove('rotate-180');
+                    });
+
+                    // If the clicked menu was not open, open it.
+                    if (!isCurrentlyOpen) {
+                        dropdown.menu.classList.remove('hidden');
+                        dropdown.arrow.classList.add('rotate-180');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
