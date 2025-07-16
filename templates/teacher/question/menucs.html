@@ -21,13 +21,13 @@
             <nav class="flex-grow p-4">
                 <ul class="space-y-2">
                     <li>
-                        <a href="/templates/teacher/home.html" class="flex items-center space-x-3 text-blue-600 bg-blue-100 font-semibold p-3 rounded-lg">
+                        <a href="/templates/teacher/home.html" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
                             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <button id="questions-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                        <button id="questions-toggle" class="flex items-center space-x-3 text-blue-600 bg-blue-100 font-semibold p-3 rounded-lg">
                             <span class="flex items-center space-x-3">
                                 <i data-lucide="clipboard-list" class="w-5 h-5"></i>
                                 <span>Manage Questions</span>
@@ -38,23 +38,14 @@
                             <a href="/templates/teacher/question/menuls.html" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
                             <a href="/templates//teacher//question//menulw.html" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
                             <a href="/templates/teacher/question/menuiw.html" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Image Word</a>
-                            <a href="/templates/teacher/question/menucs.html" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complated Sentence</a>
+                            <a href="/templates/teacher/question/menucs.html" class="block text-sm text-blue-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complete Sentence</a>
                         </div>
                     </li>
                     <li>
-                        <button id="students-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
-                            <span class="flex items-center space-x-3">
-                                <i data-lucide="users" class="w-5 h-5"></i>
-                                <span>Manage Students</span>
-                            </span>
-                            <i id="students-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
-                        </button>
-                        <div id="students-menu" class="hidden pl-8 pt-2 space-y-1">
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">View Students</a>
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Add Student</a>
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Edit Student</a>
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Delete Student</a>
-                        </div>
+                        <a href="/templates/teacher/student.html" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                            <span>Manage Student</span>
+                        </a>
                     </li>
                     <li>
                         <button id="reports-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
@@ -65,10 +56,8 @@
                             <i id="reports-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
                         </button>
                         <div id="reports-menu" class="hidden pl-8 pt-2 space-y-1">
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Image Word</a>
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complete Sentence</a>
+                            <a href="/templates/teacher/report/leaderboard.html" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Leaderboard</a>
+                            <a href="/templates/teacher/report/analysis.html" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Question Analysis</a>
                         </div>
                     </li>
                 </ul>

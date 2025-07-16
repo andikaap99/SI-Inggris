@@ -21,7 +21,7 @@
             <nav class="flex-grow p-4">
                 <ul class="space-y-2">
                     <li>
-                        <a href="#" class="flex items-center space-x-3 text-blue-600 bg-blue-100 font-semibold p-3 rounded-lg">
+                        <a href="home.html" class="flex items-center space-x-3 text-blue-600 bg-blue-100 font-semibold p-3 rounded-lg">
                             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                             <span>Dashboard</span>
                         </a>
@@ -42,19 +42,10 @@
                         </div>
                     </li>
                     <li>
-                        <button id="students-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
-                            <span class="flex items-center space-x-3">
-                                <i data-lucide="users" class="w-5 h-5"></i>
-                                <span>Manage Students</span>
-                            </span>
-                            <i id="students-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
-                        </button>
-                        <div id="students-menu" class="hidden pl-8 pt-2 space-y-1">
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">View Students</a>
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Add Student</a>
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Edit Student</a>
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Delete Student</a>
-                        </div>
+                        <a href="student.html" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                            <span>Manage Student</span>
+                        </a>
                     </li>
                     <li>
                         <button id="reports-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
@@ -65,10 +56,8 @@
                             <i id="reports-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
                         </button>
                         <div id="reports-menu" class="hidden pl-8 pt-2 space-y-1">
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Image Word</a>
-                            <a href="#" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complete Sentence</a>
+                            <a href="/templates/teacher/report/leaderboard.html" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Leaderboard</a>
+                            <a href="/templates/teacher/report/analysis.html" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Question Analysis</a>
                         </div>
                     </li>
                 </ul>
@@ -126,7 +115,7 @@
                                 <p class="text-gray-500 mt-1">View student lists, classes, and their progress.</p>
                             </div>
                         </div>
-                         <a href="#" class="mt-6 inline-block bg-green-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-green-700 transition-colors">
+                         <a href="student.html" class="mt-6 inline-block bg-green-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-green-700 transition-colors">
                             Manage Students
                         </a>
                     </div>
