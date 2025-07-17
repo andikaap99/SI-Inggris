@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="./output.css" rel="stylesheet" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        font-family: "Inter", Arial, sans-serif;
+        background: #fff;
+        /* Remove flex here */
+      }
+      nav.sticky-navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        z-index: 100;
+        background: #fff;
+        box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.02);
+      }
+      main {
+        min-height: calc(100vh - 64px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-top: 64px; /* Height of navbar */
+      }
+      .stars {
+        margin-bottom: 40px;
+        position: relative;
+        width: 320px;
+        height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .star {
+        position: absolute;
+        color: #ddd;
+        opacity: 1;
+      }
+      .star.big {
+        font-size: 120px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .star.small.left {
+        font-size: 48px;
+        left: 40px;
+        top: 80px;
+        transform: rotate(-15deg);
+      }
+      .star.small.right {
+        font-size: 48px;
+        right: 40px;
+        top: 80px;
+        transform: rotate(15deg);
+      }
+      .score-container {
+        display: flex;
+        gap: 32px;
+        margin-bottom: 32px;
+      }
+      .score-box {
+        background: #f5f5f8;
+        border-radius: 12px;
+        padding: 32px 48px;
+        min-width: 320px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .score-label {
+        font-size: 16px;
+        font-weight: 600;
+        color: #222;
+        margin-bottom: 8px;
+      }
+      .score-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #222;
+      }
+      .btn-home {
+        margin-top: 16px;
+        padding: 10px 28px;
+        background: #e3ecf4;
+        color: #222;
+        border: none;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .btn-home:hover {
+        background: #c9d8e6;
+      }
+      @media (max-width: 700px) {
+        .score-container {
+          flex-direction: column;
+          gap: 16px;
+        }
+        .score-box {
+          min-width: 0;
+          width: 90vw;
+          padding: 24px 10px;
+        }
+        .stars {
+          width: 200px;
+          height: 100px;
+        }
+        .star.big {
+          font-size: 70px;
+        }
+        .star.small.left,
+        .star.small.right {
+          font-size: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav
+      class="sticky-navbar flex justify-between items-center px-6 py-4 border-b"
+    >
+      <p></p>
+
+      <!-- Center: Title -->
+      <h1 class="text-lg font-semibold text-gray-800">Final Score</h1>
+
+      <!-- Right: Profile Picture -->
+      <div
+        class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM6 20c0-2.21 
+                  3.58-4 6-4s6 1.79 6 4"
+          />
+        </svg>
+      </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <main>
+      <div class="stars">
+        <span class="star big">&#9733;</span>
+        <span class="star small left">&#9733;</span>
+        <span class="star small right">&#9733;</span>
+      </div>
+      <div class="score-container">
+        <div class="score-box">
+          <div class="score-label">Total Questions Answered</div>
+          <div id="score-many"></div>
+        </div>
+        <div class="score-box">
+          <div class="score-label">Total Score</div>
+          <div id="score-value"></div>
+        </div>
+      </div>
+      <button class="btn-home" onclick="window.location.href='/home'">
+        Back to Home
+      </button>
+    </main>
+
+    <!-- Perubahan hanya di bagian JS -->
+    <script>
+      window.onload = async function () {
+        // Ambil parameter `type` dari URL
+        const type = new URLSearchParams(window.location.search).get("type") || "complete-sentence";
+    
+        // Tentukan endpoint dan validasi localStorage key
+        let endpoint = "/complete-sentence/save-attempt/";
+        if (type === "listening-word") {
+          endpoint = "/listening-word/save-attempt/";
+        } else if (type === "image-word") {
+          endpoint = "/image-word/save-attempt/";
+        } else if (type === "listening-sentence") {
+          endpoint = "/listening-sentence/save-attempt/";
+        }
+    
+        // Ambil data attempt dari localStorage
+        const attempt = JSON.parse(localStorage.getItem("complete_attempt"));
+        if (!attempt) return;
+    
+        const totalQuestions = attempt.questions.length;
+        const correctAnswers = attempt.questions.filter(q => q.is_correct).length;
+        const scorePercent = Math.round((correctAnswers / totalQuestions) * 100);
+    
+        // Tampilkan skor di HTML
+        document.getElementById("score-many").innerText = totalQuestions;
+        document.getElementById("score-value").innerText = scorePercent + "%";
+    
+        try {
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(attempt),
+          });
+    
+          const result = await res.json();
+          console.log("Attempt disimpan:", result.message);
+          localStorage.removeItem("complete_attempt");
+        } catch (err) {
+          console.error("Gagal menyimpan attempt:", err);
+        }
+      };
+    </script>
+    
+  </body>
+</html>

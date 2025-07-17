@@ -1,152 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Menu Listening Sentence</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="/EngCourse/style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu Listening Sentence</title>
+    <link rel="stylesheet" href="/static/style.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
-<body class="bg-white text-gray-900">
-  <!-- Navbar -->
-<nav class="flex justify-between items-center px-6 py-4 border-b">
-  <!-- Left: Hamburger -->
-  <button id="menu-toggle"  class="flex items-center justify-center w-8 h-8">
-    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  </button>
+<body class="main-bg">
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center px-6 py-4 border-b bg-white shadow-sm">
+        <!-- Left: Hamburger -->
+        <button id="menu-toggle" class="flex items-center justify-center w-8 h-8">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
 
-  <!-- Center: Title -->
-  <h1 class="text-lg font-semibold text-gray-800">Listening Sentence</h1>
+        <!-- Center: Title -->
+        <h1 class="text-lg font-semibold text-gray-800">Listening Sentence</h1>
 
-  <!-- Right: Profile Picture -->
-  <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round"
-            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM6 20c0-2.21 
-               3.58-4 6-4s6 1.79 6 4"/>
-    </svg>
-  </div>
-</nav>
+        <!-- Right: Profile Dropdown -->
+        <div class="relative">
+            <button id="profile-button" class="flex items-center space-x-2 cursor-pointer">
+                <span id="username-display" class="font-medium text-gray-700 hidden sm:block">Username</span>
+                <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
+                    <i data-lucide="user" class="w-5 h-5"></i>
+                </div>
+            </button>
+            <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                <a href="#" id="logout-button" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </nav>
 
     <!-- Overlay -->
-    <div
-    id="overlay"
-    class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"
-    ></div>
-
-      <!-- Sidebar -->
-      <div
-      id="sidebar"
-      class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50"
-      >
-      <!-- Tombol X -->
-      <div class="flex items-center justify-between p-4 border-b">
-        <span class="font-semibold text-lg">Menu</span>
-        <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div>
-      <ul class="p-4 space-y-3">
-          <li><a href="/listening-sentence" class="block text-gray-700 hover:text-blue-600">Listening Sentence</a></li>
-          <li><a href="/listening-word" class="block text-gray-700 hover:text-blue-600">Listening Word</a></li>
-          <li><a href="/image-word" class="block text-gray-700 hover:text-blue-600">Image Word</a></li>
-          <li><a href="/complete-sentence" class="block text-gray-700 hover:text-blue-600">Complete Sentence</a></li>
-      </ul>
-</div>
-
-  <!-- Category Grid -->
-  <main class="max-w-5xl mx-auto px-4 py-10">
-    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
-      <!-- Card -->
-       <div class="text-center">
-        <a href="/listening-sentence-sentence?category=Daily Object">
-            <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
-            <img src="/static/image/listening-sentence/menu/object.png" alt="Daily Object" class="aspect-square object-cover w-full transition" />
-            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-                <p class="text-white font-semibold text-lg">Daily Object</p>
-            </div>
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center justify-between p-4 border-b">
+            <span class="font-semibold text-lg">Menu</span>
+            <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
         </div>
-        </a>
-            <p class="mt-2 font-medium">Daily Object</p>
-        </div>
+        <ul class="p-4 space-y-3">
+            <li><a href="/listening-sentence" class="block text-gray-700 hover:text-blue-600">Listening Sentence</a></li>
+            <li><a href="/listening-word" class="block text-gray-700 hover:text-blue-600">Listening Word</a></li>
+            <li><a href="/image-word" class="block text-gray-700 hover:text-blue-600">Image Word</a></li>
+            <li><a href="/complete-sentence" class="block text-gray-700 hover:text-blue-600">Complete Sentence</a></li>
+        </ul>
+    </div>
 
-      <div class="text-center">
-        <a href= "/listening-sentence-sentence?category=Food and Drink">
-            <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
-            <img src="/static/image/listening-sentence/menu/food.png" alt="Food" class="aspect-square object-cover w-full transition" />
-            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-                <p class="text-white font-semibold text-lg">Food and Drink</p>
-            </div>
-        </div>
-        </a>
-            <p class="mt-2 font-medium">Food and Drink</p>
+    <!-- KONTEN UTAMA (Desain Kartu Baru) -->
+    <main class="flex-1 container mx-auto p-6 md:p-10">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900">Choose a Category</h2>
+            <p class="mt-2 text-lg text-gray-600">Select a topic to start practicing sentence listening!</p>
         </div>
         
-      <div class="text-center">
-        <a href="/listening-sentence-sentence?category=Color and Shape">
-            <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
-            <img src="/static/image/listening-sentence/menu/sc.png" alt="Color" class="aspect-square object-cover w-full transition" />
-            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-                <p class="text-white font-semibold text-lg">Color and Shape</p>
-            </div>
-        </div>
-        </a>
-            <p class="mt-2 font-medium">Color and Shape</p>
-        </div>
+        <!-- Grid Kategori Baru -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Card Kategori: Daily Object -->
+            <a href="/listening-sentence-sentence?category=Daily Object" class="block">
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 ease-in-out flex flex-col overflow-hidden h-full">
+                    <div class="p-6 bg-blue-500 flex items-center justify-center">
+                        <i data-lucide="lamp" class="w-16 h-16 text-white"></i>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-gray-800">Daily Object</h3>
+                        <p class="mt-2 text-sm text-gray-500 flex-grow">Listen to sentences about everyday items.</p>
+                        <div class="mt-6 w-full bg-blue-600 text-white font-semibold py-3 rounded-lg text-center hover:bg-blue-700 transition-colors">
+                            Start Practice
+                        </div>
+                    </div>
+                </div>
+            </a>
 
-      <div class="text-center">
-        <a href="/listening-sentence-sentence?category=Transportations">
-            <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
-            <img src="/static/image/listening-sentence/menu/trans.png" alt="Transportation" class="aspect-square object-cover w-full transition" />
-            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-                <p class="text-white font-semibold text-lg">Transportations</p>
-            </div>
-        </div>
-        </a>
-            <p class="mt-2 font-medium">Transportations</p>
-        </div>
+            <!-- Card Kategori: Food & Drinks -->
+            <a href="/listening-sentence-sentence?category=Food and Drink" class="block">
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 ease-in-out flex flex-col overflow-hidden h-full">
+                    <div class="p-6 bg-green-500 flex items-center justify-center">
+                        <i data-lucide="utensils-crossed" class="w-16 h-16 text-white"></i>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-gray-800">Food & Drinks</h3>
+                        <p class="mt-2 text-sm text-gray-500 flex-grow">Practice with sentences about food and drinks.</p>
+                        <div class="mt-6 w-full bg-green-600 text-white font-semibold py-3 rounded-lg text-center hover:bg-green-700 transition-colors">
+                            Start Practice
+                        </div>
+                    </div>
+                </div>
+            </a>
 
-      <div class="text-center">
-        <a href="/listening-sentence-sentence?category=Animals">
-            <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
-            <img src="/static/image/listening-sentence/menu/animal.png" alt="Animals" class="aspect-square object-cover w-full transition" />
-            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-                <p class="text-white font-semibold text-lg">Animals</p>
-            </div>
-        </div>
-        </a>
-            <p class="mt-2 font-medium">Animals</p>
-        </div>
+            <!-- Card Kategori: Colors & Shape -->
+            <a href="/listening-sentence-sentence?category=Color and Shape" class="block">
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 ease-in-out flex flex-col overflow-hidden h-full">
+                    <div class="p-6 bg-purple-500 flex items-center justify-center">
+                        <i data-lucide="palette" class="w-16 h-16 text-white"></i>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-gray-800">Colors & Shape</h3>
+                        <p class="mt-2 text-sm text-gray-500 flex-grow">Explore sentences describing colors and shapes.</p>
+                        <div class="mt-6 w-full bg-purple-600 text-white font-semibold py-3 rounded-lg text-center hover:bg-purple-700 transition-colors">
+                            Start Practice
+                        </div>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Card Kategori: Transportation -->
+            <a href="/listening-sentence-sentence?category=Transportations" class="block">
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 ease-in-out flex flex-col overflow-hidden h-full">
+                    <div class="p-6 bg-yellow-500 flex items-center justify-center">
+                        <i data-lucide="car" class="w-16 h-16 text-white"></i>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-gray-800">Transportation</h3>
+                        <p class="mt-2 text-sm text-gray-500 flex-grow">Learn about transportation through sentences.</p>
+                        <div class="mt-6 w-full bg-yellow-600 text-white font-semibold py-3 rounded-lg text-center hover:bg-yellow-700 transition-colors">
+                            Start Practice
+                        </div>
+                    </div>
+                </div>
+            </a>
 
-      <div class="text-center">
-        <a href="/listening-sentence-sentence?category=School Things">
-            <div class="group relative text-center rounded-md overflow-hidden hover:border-blue-500 hover:shadow-md transition max-w-[250px] sm:max-w-none mx-auto">
-            <img src="/static/image/listening-sentence/menu/st.png " alt="School" class="aspect-square object-cover w-full transition" />
-            <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-                <p class="text-white font-semibold text-lg">School Things</p>
-            </div>
+            <!-- Card Kategori: Animal & Insect -->
+            <a href="/listening-sentence-sentence?category=Animals" class="block">
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 ease-in-out flex flex-col overflow-hidden h-full">
+                    <div class="p-6 bg-red-500 flex items-center justify-center">
+                        <i data-lucide="dog" class="w-16 h-16 text-white"></i>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-gray-800">Animal & Insect</h3>
+                        <p class="mt-2 text-sm text-gray-500 flex-grow">Listen to sentences about various creatures.</p>
+                        <div class="mt-6 w-full bg-red-600 text-white font-semibold py-3 rounded-lg text-center hover:bg-red-700 transition-colors">
+                            Start Practice
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card Kategori: School Things -->
+            <a href="/listening-sentence-sentence?category=School Things" class="block">
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 ease-in-out flex flex-col overflow-hidden h-full">
+                    <div class="p-6 bg-indigo-500 flex items-center justify-center">
+                        <i data-lucide="book-open" class="w-16 h-16 text-white"></i>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-gray-800">School Things</h3>
+                        <p class="mt-2 text-sm text-gray-500 flex-grow">Practice with sentences about school items.</p>
+                        <div class="mt-6 w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg text-center hover:bg-indigo-700 transition-colors">
+                            Start Practice
+                        </div>
+                    </div>
+                </div>
+            </a>
         </div>
-        </a>
-            <p class="mt-2 font-medium">School Things</p>
-        </div>
-    </div>
-  </main>
-<!-- Jangan lupa tutup tag <script> dengan benar -->
-  <script src="../../static/script.js"></script>
+    </main>
+
+    <script src="/static/script1.js"></script>
 </body>
 </html>
-

@@ -1,210 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Menu Image Word</title>
+    <title>Image Word Quiz</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/EngCourse/style.css" />
-  </head>
-  <body class="bg-white text-gray-900">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+</head>
+<body class="bg-gray-100">
+
     <!-- Navbar -->
-    <nav class="flex justify-between items-center px-6 py-4 border-b">
-      <!-- Left: Hamburger -->
-      <button id="menu-toggle" class="flex items-center justify-center w-8 h-8">
-        <svg
-          class="w-6 h-6 text-gray-700"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-      </button>
+    <nav class="flex justify-between items-center px-6 py-4 border-b bg-white shadow-sm">
+        <!-- Left: Hamburger -->
+        <button id="menu-toggle" class="flex items-center justify-center w-8 h-8">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
 
-      <!-- Center: Title -->
-      <h1 class="text-lg font-semibold text-gray-800">Image Word</h1>
+        <!-- Center: Title -->
+        <h1 class="text-lg font-semibold text-gray-800">Image Word</h1>
 
-      <!-- Right: Profile Picture -->
-      <div
-        class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white"
-      >
-        <svg
-          class="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM6 20c0-2.21 
-               3.58-4 6-4s6 1.79 6 4"
-          />
-        </svg>
-      </div>
+        <!-- Right: Profile Dropdown -->
+        <div class="relative">
+            <button id="profile-button" class="flex items-center space-x-2 cursor-pointer">
+                <span id="username-display" class="font-medium text-gray-700 hidden sm:block">Username</span>
+                <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
+                    <i data-lucide="user" class="w-5 h-5"></i>
+                </div>
+            </button>
+            <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                <a href="#" id="logout-button" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
     </nav>
 
     <!-- Overlay -->
-    <div
-      id="overlay"
-      class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"
-    ></div>
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"></div>
     
     <!-- Sidebar -->
-    <!-- Sidebar -->
-    <div
-      id="sidebar"
-      class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50"
-    >
-      <!-- Tombol X -->
-      <div class="flex items-center justify-between p-4 border-b">
-        <span class="font-semibold text-lg">Menu</span>
-        <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div>
-      <ul class="p-4 space-y-3">
-        <li>
-          <a
-            href="/listening-sentence"
-            class="block text-gray-700 hover:text-blue-600"
-            >Listening Sentence</a
-          >
-        </li>
-        <li>
-          <a
-            href="/listening-word/"
-            class="block text-gray-700 hover:text-blue-600"
-            >Listening Word</a
-          >
-        </li>
-        <li>
-          <a
-            href="/image-word"
-            class="block text-gray-700 hover:text-blue-600"
-            >Image Word</a
-          >
-        </li>
-        <li>
-          <a
-            href="/complete-sentence"
-            class="block text-gray-700 hover:text-blue-600"
-            >Complete Sentence</a
-          >
-        </li>
-      </ul>
+    <div id="sidebar" class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center justify-between p-4 border-b">
+            <span class="font-semibold text-lg">Menu</span>
+            <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <ul class="p-4 space-y-3">
+            <li><a href="/listening-sentence" class="block text-gray-700 hover:text-blue-600">Listening Sentence</a></li>
+            <li><a href="/listening-word/" class="block text-gray-700 hover:text-blue-600">Listening Word</a></li>
+            <li><a href="/image-word" class="block text-gray-700 hover:text-blue-600">Image Word</a></li>
+            <li><a href="/complete-sentence" class="block text-gray-700 hover:text-blue-600">Complete Sentence</a></li>
+        </ul>
     </div>
 
-    <main class="max-w-5xl mx-auto px-4 py-10 text-center">
-      <h2 class="text-lg font-semibold mb-6">Guess The Object</h2>
-      <img
-        id="imaji"
-        src=""
-        alt="Guess"
-        class="w-60 h-60 object-cover bg-gray-300 mx-auto rounded mb-6"
-      />
-      <input
-        id="answer"
-        type="text"
-        placeholder="Type your answer..."
-        class="w-full rounded-full bg-gray-200 px-6 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
-      />
-      <div class="flex justify-center gap-4">
-        <button
-          id="evaluateBtn"
-          class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
-        >
-          Submit
-        </button>
-      </div>
+    <!-- KONTEN UTAMA KUIS -->
+    <main class="flex-1 flex items-center justify-center p-4" style="min-height: calc(100vh - 72px);">
+        <div class="w-full max-w-lg mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center">
+                
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
+                    What <span class="text-blue-600">object</span> is this?
+                </h2>
+                <p class="text-gray-500 mt-2">Look at the image and type your answer below.</p>
+
+                <!-- Gambar Soal -->
+                <div class="mt-8 w-full h-64 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border">
+                    <img id="imaji" src="https://placehold.co/400x300/e2e8f0/94a3b8?text=Loading..." alt="Guess the object" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Input Jawaban -->
+                <div class="mt-8">
+                    <input id="answer" type="text" placeholder="Type your answer here..." class="w-full text-center text-xl md:text-2xl font-semibold border-2 border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                </div>
+
+                <!-- Tombol Submit -->
+                <button id="evaluateBtn" class="w-full mt-6 bg-blue-600 text-white rounded-lg py-4 text-xl font-bold hover:bg-blue-700 transition-transform active:scale-95 shadow-md">
+                  Submit
+                </button>
+
+                <!-- Area Feedback -->
+                <div id="feedback-container" class="mt-6 h-8">
+                     <div id="feedback-message" class="feedback-message opacity-0 transform -translate-y-2">
+                        <!-- Pesan akan muncul di sini -->
+                     </div>
+                </div>
+            </div>
+        </div>
     </main>
-    <script src="/static/script.js"></script>
-    <script>
-      let currentId;
-      let currentCategory =
-        new URLSearchParams(window.location.search).get("category") ||
-        "Default";
-
-      async function loadQuestion(id) {
-        const url = id
-          ? `/image-word/${id}/`
-          : `/image-word/start/${encodeURIComponent(currentCategory)}`; // Kirim kategori!
-        const res = await fetch(url);
-        const data = await res.json();
-        if (data.error) {
-          alert(data.error);
-          return;
-        }
-        currentId = data.id_iw;
-        document.getElementById("imaji").src = data.image_url;
-      }
-
-      async function evaluateAnswer() {
-        const answer = document.getElementById("answer").value;
-        const res = await fetch("/image-word/answer/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id_iw: currentId, student_answer: answer }),
-        });
-        const result = await res.json();
-
-        alert(result.correct ? "Jawaban Benar!" : "Jawaban Salah!");
-
-        // Simpan jawaban
-        window.attemptAnswers = window.attemptAnswers || [];
-        window.attemptAnswers.push({
-          id_iw: currentId,
-          answer: answer,
-          is_correct: result.correct
-        });
-
-        if (result.next_id) {
-          loadQuestion(result.next_id);
-          document.getElementById("answer").value = "";
-        } else {
-          // Ambil user dari localStorage
-          const user = JSON.parse(localStorage.getItem("user"));
-          const username = user?.username;
-
-          // Ambil kategori dari URL
-          const category = new URLSearchParams(window.location.search).get("category");
-
-          const completeAttempt = {
-            student_id: username,
-            category_id: category,
-            questions: window.attemptAnswers
-          };
-
-          localStorage.setItem("complete_attempt", JSON.stringify(completeAttempt));
-
-          // Arahkan ke halaman hasil
-          window.location.href = "/result?type=image-word";
-        }
-      }
-      
-      document.getElementById("evaluateBtn").onclick = evaluateAnswer;
-
-      // START
-      loadQuestion();
-    </script>
-  </body>
+    
+    <script src="/static/script1.js"></script>
+    <script src="/static/img-word.js"></script>
+</body>
 </html>

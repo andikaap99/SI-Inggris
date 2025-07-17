@@ -1,22 +1,36 @@
-@keyframes bounce-once {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.bounce-hover:hover {
-  animation: bounce-once 0.4s ease;
-}
-
-/* Menggunakan font Inter sebagai default */
 body {
     font-family: 'Inter', sans-serif;
+    background-color: #f0f4f8;
 }
-.gradient-text {
-    background: -webkit-linear-gradient(45deg, #3b82f6, #8b5cf6);
-    -background-clip: text;
-    -webkit-text-fill-color: transparent;
+.main-bg {
+    background-color: #f0f4f8;
+    background-image: 
+        linear-gradient(45deg, #e2e8f0 25%, transparent 25%), 
+        linear-gradient(-45deg, #e2e8f0 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e2e8f0 75%),
+        linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
+    background-size: 20px 20px;
+}
+
+/* Style untuk animasi speaker */
+.speaker-btn.playing i {
+    animation: pulse 1s infinite;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+/* Style untuk feedback message */
+.feedback-message {
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Style untuk placeholder jawaban yang kosong */
+#question .blank {
+    display: inline-block;
+    border-bottom: 2px solid #3b82f6;
+    min-width: 100px;
+    text-align: center;
+    font-weight: 600;
+    color: #3b82f6;
 }
