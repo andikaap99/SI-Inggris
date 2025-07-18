@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body class="bg-white text-gray-900 min-h-screen font-sans flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm border-b sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold">
+                <a href="#" class="gradient-text">English Club</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/home" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">Home</a>
+                <a href="/home#latihan" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Latihan</a>
+                <a href="/home#peringkat" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Papan Peringkat</a>
+            </div>
+            <div class="items-center space-x-8">
+                <a href="/profile" class="bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">
+                    Profil
+                </a>
+                <button id="logoutBtn" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 transform hover:scale-105">Logout</button>
+            </div>
+        </nav>
+  </header>
+
+  <!-- CONTENT -->
+<main class="container mx-auto px-6 flex-grow">
+    <section class="text-center py-10 md:py-18">
+        <h1 id="user-name" class="text-xl md:text-3xl font-extrabold text-gray-900 leading-tight">
+            Nama Pengguna
+        </h1>
+        <p id="user-class" class="mt-2 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+            Nama Kelas
+        </p>
+        <p id="user-score" class="mt-2 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+            Total Skor
+        </p>
+        <div class="flex justify-center items-center mt-10">
+            <table id="attempt-table" class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b text-gray-600">
+                    <th class="py-2">Fitur</th>
+                    <th class="py-2">Kategori</th>
+                    <th class="py-2">Skor</th>
+                    </tr>
+                </thead>
+                <tbody id="attempt-body">
+                    <tr>
+                    <td colspan="3" class="py-4 text-center text-gray-400">Memuat data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+  </main>
+
+<!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 2025 English Club. All Rights Reserved.</p>
+            <p class="text-sm text-gray-400 mt-2">Portal belajar untuk anggota English Club Imnida.</p>
+        </div>
+    </footer>
+
+  <script>
+    document.getElementById("logoutBtn").addEventListener("click", async function () {
+    try {
+      const res = await fetch("/logout", {
+        method: "POST"
+      });
+      if (res.redirected) {
+        window.location.href = res.url;
+      } else {
+        alert("Gagal logout");
+      }
+    } catch (e) {
+      alert("Terjadi kesalahan saat logout");
+    }
+    });
+
+    // Ambil token dari cookie (opsional), lalu ambil user info dari token atau endpoint
+    async function fetchUserProfile() {
+        try {
+            const res = await fetch("/api/me"); // Tidak perlu header Authorization manual
+            if (!res.ok) throw new Error("Unauthorized");
+
+            const user = await res.json();
+            console.log("✅ User:", user);
+            localStorage.setItem("user", JSON.stringify(user));
+
+            // Update elemen nama dan skor
+            document.getElementById("user-name").innerText = user.name || "Nama tidak ditemukan";
+            document.getElementById("user-class").innerText = user.class_name || "Kelas tidak ditemukan";
+            document.getElementById("user-score").innerText = `${user.total_score || 0} Poin`;
+        } catch (err) {
+            console.error("❌ Gagal mengambil user profile:", err);
+            window.location.href = "/login";
+        }
+    }
+
+    async function fetchAttemptHistory() {
+        try {
+            const res = await fetch("/profile-global-attempts");
+            const data = await res.json();
+
+            const tbody = document.getElementById("attempt-body");
+            tbody.innerHTML = ""; // Kosongkan konten awal
+
+            if (data.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                <td colspan="3" class="py-4 text-center text-gray-400">Belum ada latihan yang dikerjakan.</td>
+                </tr>
+            `;
+            return;
+            }
+
+            data.forEach(item => {
+            const tr = document.createElement("tr");
+            tr.className = "border-b hover:bg-gray-50 transition";
+
+            tr.innerHTML = `
+                <td class="py-2">${item.feature}</td>
+                <td class="py-2">${item.category}</td>
+                <td class="py-2 font-semibold text-blue-600">${item.score}</td>
+            `;
+
+            tbody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error("❌ Gagal memuat riwayat latihan:", err);
+            const tbody = document.getElementById("attempt-body");
+            tbody.innerHTML = `
+            <tr>
+                <td colspan="3" class="py-4 text-center text-red-500">Gagal memuat data.</td>
+            </tr>
+            `;
+        }
+    }
+    
+    window.onload = function () {
+      fetchUserProfile();
+      fetchAttemptHistory();
+    };
+  </script>
+  <!-- <script src="/static/script.js"></script> -->
+</body>
+</html>

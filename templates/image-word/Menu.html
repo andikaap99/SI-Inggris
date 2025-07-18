@@ -28,8 +28,6 @@
 
         <!-- Center: Title -->
         <h1 class="text-lg font-semibold text-gray-800">Image Word</h1>
-
-        <!-- Right: Profile Dropdown -->
         <div class="relative">
             <button id="profile-button" class="flex items-center space-x-2 cursor-pointer">
                 <span id="username-display" class="font-medium text-gray-700 hidden sm:block">Username</span>
@@ -38,6 +36,10 @@
                 </div>
             </button>
             <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                <a href="/profile" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <i data-lucide="user-circle" class="w-4 h-4 mr-2"></i>
+                    Profile
+                </a>
                 <a href="#" id="logout-button" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
                     Logout
@@ -174,6 +176,28 @@
             </a>
         </div>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- FUNGSI PROFIL DROPDOWN & USERNAME ---
+            const profileButton = document.getElementById('profile-button');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const usernameDisplay = document.getElementById('username-display');
+
+            try {
+                const user = JSON.parse(localStorage.getItem("user"));
+                usernameDisplay.textContent = (user && user.username) ? user.username : "Guest";
+            } catch (e) {
+                usernameDisplay.textContent = "Guest";
+            }
+
+            if (profileButton && profileDropdown) {
+                profileButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                });
+            }
+            });
+    </script>
     <script src="/static/script1.js"></script>
 </body>
 </html>

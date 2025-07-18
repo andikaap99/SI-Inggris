@@ -21,38 +21,49 @@
 <body class="bg-gray-100">
 
     <div class="flex flex-col min-h-screen">
-        <!-- Header -->
+        <!-- HEADER YANG DIPERBAIKI -->
         <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-30">
             <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-                <a href="" class="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
-                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
-                    <span>Back to Categories</span>
-                </a>
-                <h1 class="text-xl font-bold text-gray-800">Listening Word</h1>
-                <div class="w-24"></div>
+                
+                <!-- Sisi Kiri: Tombol Kembali -->
+                <div class="flex-1">
+                    <a href="/listening-word" class="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors w-fit">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                        <span>Back to Categories</span>
+                    </a>
+                </div>
 
-                <!-- Profil dengan Dropdown -->
-                <div class="relative">
-                    <button id="profile-button" class="flex items-center space-x-2 cursor-pointer">
-                        <span id="username-display" class="font-medium text-gray-700 hidden sm:block">Username</span>
-                        <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM6 20c0-2.21 3.58-4 6-4s6 1.79 6 4" />
-                            </svg>
+                <!-- Tengah: Judul -->
+                <div class="flex-1 text-center">
+                    <h1 class="text-xl font-bold text-gray-800">Listening Word</h1>
+                </div>
+
+                <!-- Sisi Kanan: Profil -->
+                <div class="flex-1 flex justify-end">
+                    <div class="relative">
+                        <button id="profile-button" class="flex items-center space-x-2 cursor-pointer">
+                            <span id="username-display" class="font-medium text-gray-700 hidden sm:block">Username</span>
+                            <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
+                                <i data-lucide="user" class="w-5 h-5"></i>
+                            </div>
+                        </button>
+                        <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                            <a href="/profile" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i data-lucide="user-circle" class="w-4 h-4 mr-2"></i>
+                                Profile
+                            </a>
+                            <a href="#" id="logout-button" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
+                                Logout
+                            </a>
                         </div>
-                    </button>
-                    <!-- Menu Dropdown -->
-                    <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
-                        <a href="#" id="logout-button" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                            <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
-                            Logout
-                        </a>
                     </div>
                 </div>
+
             </nav>
         </header>
 
-        <!-- Main Content -->
+        <!-- Main Content (Konten Anda tidak diubah) -->
         <main class="flex-1 flex items-center justify-center p-4">
             <div class="w-full max-w-2xl mx-auto">
                 <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center">
@@ -89,16 +100,160 @@
 
                     <!-- Area untuk Feedback (Pengganti Alert) -->
                     <div id="feedback-container" class="mt-6 h-8">
-                         <div id="feedback-message" class="feedback-message opacity-0 transform -translate-y-2">
-                            <!-- Pesan akan muncul di sini -->
-                         </div>
+                          <div id="feedback-message" class="feedback-message opacity-0 transform -translate-y-2">
+                              <!-- Pesan akan muncul di sini -->
+                          </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <script src="/static/script1.js"></script>
-    <script src="/static/listeningword.js"></script>
+    <!-- JAVASCRIPT YANG DIPERBAIKI DAN DIGABUNG -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- FUNGSI PROFIL DROPDOWN & USERNAME ---
+            const profileButton = document.getElementById('profile-button');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const usernameDisplay = document.getElementById('username-display');
+
+            try {
+                const user = JSON.parse(localStorage.getItem("user"));
+                usernameDisplay.textContent = (user && user.username) ? user.username : "Guest";
+            } catch (e) {
+                usernameDisplay.textContent = "Guest";
+            }
+
+            if (profileButton && profileDropdown) {
+                profileButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                });
+            }
+
+            window.addEventListener('click', () => {
+                if (profileDropdown && !profileDropdown.classList.contains('hidden')) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+            
+            const logoutButton = document.getElementById('logout-button');
+            if(logoutButton) {
+                logoutButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    localStorage.removeItem('user');
+                    window.location.href = '/login';
+                });
+            }
+
+            // --- LOGIKA KUIS LISTENING WORD ---
+            let currentId;
+            let currentCategory = new URLSearchParams(window.location.search).get("category") || "Default";
+
+            function showFeedbackMessage(message, isCorrect) {
+                const feedbackEl = document.getElementById('feedback-message');
+                feedbackEl.textContent = message;
+                feedbackEl.classList.remove('text-green-600', 'text-red-600', 'font-semibold');
+                if (isCorrect) {
+                    feedbackEl.classList.add('text-green-600', 'font-semibold');
+                } else {
+                    feedbackEl.classList.add('text-red-600', 'font-semibold');
+                }
+                feedbackEl.classList.remove('opacity-0', '-translate-y-2');
+                feedbackEl.classList.add('opacity-100', 'translate-y-0');
+                setTimeout(() => {
+                    feedbackEl.classList.remove('opacity-100', 'translate-y-0');
+                    feedbackEl.classList.add('opacity-0', '-translate-y-2');
+                }, 2000);
+            }
+
+            async function loadQuestion(id) {
+                const url = id ? `/listening-word/${id}/` : `/listening-word/start/${encodeURIComponent(currentCategory)}`;
+                try {
+                    const res = await fetch(url);
+                    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                    const data = await res.json();
+                    if (data.error) {
+                        showFeedbackMessage(data.error, false);
+                        return;
+                    }
+                    currentId = data.id_lw;
+                    document.getElementById("audio").src = data.audio_url;
+                } catch (error) {
+                    console.error("Failed to load question:", error);
+                    showFeedbackMessage("Failed to load the next question. Please check your connection.", false);
+                }
+            }
+
+            async function evaluateAnswer() {
+                const answerInput = document.getElementById("answer");
+                const answer = answerInput.value;
+                if (!answer.trim()) {
+                    showFeedbackMessage("Please type your answer first!", false);
+                    return;
+                }
+                try {
+                    const res = await fetch("/listening-word/answer/", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ id_lw: currentId, student_answer: answer }),
+                    });
+                    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                    const result = await res.json();
+                    showFeedbackMessage(result.correct ? "Correct! Great job!" : "Incorrect, try the next one!", result.correct);
+                    window.attemptAnswers = window.attemptAnswers || [];
+                    window.attemptAnswers.push({
+                        id_lw: currentId,
+                        answer: answer,
+                        is_correct: result.correct
+                    });
+                    if (result.next_id) {
+                        setTimeout(() => {
+                            loadQuestion(result.next_id);
+                            answerInput.value = "";
+                        }, 1500);
+                    } else {
+                        setTimeout(() => {
+                            const user = JSON.parse(localStorage.getItem("user"));
+                            const username = user?.username;
+                            const category = new URLSearchParams(window.location.search).get("category");
+                            const completeAttempt = {
+                                student_id: username,
+                                category_id: category,
+                                questions: window.attemptAnswers
+                            };
+                            localStorage.setItem("complete_attempt", JSON.stringify(completeAttempt));
+                            window.location.href = "/result?type=listening-word"; 
+                        }, 1500);
+                    }
+                } catch(error) {
+                    console.error("Failed to evaluate answer:", error);
+                    showFeedbackMessage("Could not submit your answer. Please try again.", false);
+                }
+            }
+
+            function playAudio() {
+                const audio = document.getElementById("audio");
+                const speakerBtn = document.getElementById('speaker-btn');
+                audio.volume = 0.5;
+                audio.play();
+                speakerBtn.classList.add('playing');
+                audio.onended = () => {
+                    speakerBtn.classList.remove('playing');
+                };
+            }
+
+            document.getElementById("evaluateBtn").onclick = evaluateAnswer;
+            document.getElementById("speaker-btn").onclick = playAudio;
+            document.getElementById("answer").addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    evaluateAnswer();
+                }
+            });
+
+            loadQuestion();
+            lucide.createIcons();
+        });
+    </script>
 </body>
 </html>

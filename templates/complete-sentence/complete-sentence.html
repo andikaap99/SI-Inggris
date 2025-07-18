@@ -6,7 +6,7 @@
     <title>Complete The Sentence</title>
     <link rel="stylesheet" href="/static/style.css">
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts: Inter -->
@@ -21,54 +21,42 @@
 <body class="bg-gray-100">
 
     <!-- Navbar -->
-    <nav class="flex justify-between items-center px-6 py-4 border-b bg-white shadow-sm">
-        <!-- Left: Hamburger -->
-        <button id="menu-toggle" class="flex items-center justify-center w-8 h-8">
-            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
+    <nav class="flex justify-between items-center px-6 py-4 border-b bg-white shadow-sm sticky top-0 z-30">
+        <!-- Sisi Kiri: Tombol Kembali ke Kategori -->
+        <div class="flex-1">
+             <a href="/complete-sentence" class="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors w-fit">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                <span>Back to Categories</span>
+            </a>
+        </div>
 
-        <!-- Center: Title -->
-        <h1 class="text-lg font-semibold text-gray-800">Complete Sentence</h1>
+        <!-- Tengah: Judul -->
+        <div class="flex-1 text-center">
+            <h1 class="text-lg font-semibold text-gray-800">Complete Sentence</h1>
+        </div>
 
-        <!-- Right: Profile Dropdown -->
-        <div class="relative">
-            <button id="profile-button" class="flex items-center space-x-2 cursor-pointer">
-                <span id="username-display" class="font-medium text-gray-700 hidden sm:block">Username</span>
-                <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
-                    <i data-lucide="user" class="w-5 h-5"></i>
+        <!-- Sisi Kanan: Profil Dropdown -->
+        <div class="flex-1 flex justify-end">
+            <div class="relative">
+                <button id="profile-button" class="flex items-center space-x-2 cursor-pointer">
+                    <span id="username-display" class="font-medium text-gray-700 hidden sm:block">Username</span>
+                    <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                </button>
+                <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                    <a href="/profile" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i data-lucide="user-circle" class="w-4 h-4 mr-2"></i>
+                        Profile
+                    </a>
+                    <a href="#" id="logout-button" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
+                        Logout
+                    </a>
                 </div>
-            </button>
-            <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
-                <a href="#" id="logout-button" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
-                    Logout
-                </a>
             </div>
         </div>
     </nav>
-
-    <!-- Overlay -->
-    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"></div>
-    
-    <!-- Sidebar -->
-    <div id="sidebar" class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
-        <div class="flex items-center justify-between p-4 border-b">
-            <span class="font-semibold text-lg">Menu</span>
-            <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-        <ul class="p-4 space-y-3">
-            <li><a href="/listening-sentence" class="block text-gray-700 hover:text-blue-600">Listening Sentence</a></li>
-            <li><a href="/listening-word/" class="block text-gray-700 hover:text-blue-600">Listening Word</a></li>
-            <li><a href="/image-word" class="block text-gray-700 hover:text-blue-600">Image Word</a></li>
-            <li><a href="/complete-sentence" class="block text-gray-700 hover:text-blue-600">Complete Sentence</a></li>
-        </ul>
-    </div>
 
     <!-- KONTEN UTAMA KUIS -->
     <main class="flex-1 flex items-center justify-center p-4" style="min-height: calc(100vh - 72px);">
@@ -107,7 +95,142 @@
         </div>
     </main>
 
-    <script src="/static/script1.js"></script>
-    <script src="/static/complete.js"></script>
+    <!-- SEMUA JAVASCRIPT DIGABUNG DI SINI -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- FUNGSI PROFIL DROPDOWN & USERNAME ---
+            const profileButton = document.getElementById('profile-button');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const usernameDisplay = document.getElementById('username-display');
+
+            try {
+                const user = JSON.parse(localStorage.getItem("user"));
+                usernameDisplay.textContent = (user && user.username) ? user.username : "Guest";
+            } catch (e) {
+                usernameDisplay.textContent = "Guest";
+            }
+
+            if (profileButton && profileDropdown) {
+                profileButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                });
+            }
+
+            window.addEventListener('click', () => {
+                if (profileDropdown && !profileDropdown.classList.contains('hidden')) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+            
+            const logoutButton = document.getElementById('logout-button');
+            if(logoutButton) {
+                logoutButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    localStorage.removeItem('user');
+                    window.location.href = '/login';
+                });
+            }
+
+            // --- LOGIKA KUIS COMPLETE SENTENCE ---
+            let currentId;
+            let currentCategory = new URLSearchParams(window.location.search).get("category") || "Default";
+
+            function showFeedbackMessage(message, isCorrect) {
+                const feedbackEl = document.getElementById('feedback-message');
+                feedbackEl.textContent = message;
+                feedbackEl.classList.remove('text-green-600', 'text-red-600', 'font-semibold');
+                feedbackEl.classList.add(isCorrect ? 'text-green-600' : 'text-red-600', 'font-semibold');
+                feedbackEl.classList.remove('opacity-0', '-translate-y-2');
+                feedbackEl.classList.add('opacity-100', 'translate-y-0');
+
+                setTimeout(() => {
+                    feedbackEl.classList.remove('opacity-100', 'translate-y-0');
+                    feedbackEl.classList.add('opacity-0', '-translate-y-2');
+                }, 2000);
+            }
+
+            async function loadQuestion(id) {
+                const url = id ? `/complete-sentence/${id}/` : `/complete-sentence/start/${encodeURIComponent(currentCategory)}`;
+                try {
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    if (data.error) {
+                        showFeedbackMessage(data.error, false);
+                        return;
+                    }
+                    currentId = data.id_cs;
+                    // PERBAIKAN: Menggunakan regular expression global (/.../g) untuk mengganti semua '___'
+                    const formattedQuestion = data.question.replace(/___/g, '<span class="blank"></span>');
+                    document.getElementById("question").innerHTML = formattedQuestion;
+                } catch (error) {
+                    console.error("Failed to load question:", error);
+                    showFeedbackMessage("Failed to load question.", false);
+                }
+            }
+
+            async function evaluateAnswer() {
+                const answerInput = document.getElementById("answer");
+                const answer = answerInput.value;
+                if (!answer.trim()) {
+                    showFeedbackMessage("Please type your answer first!", false);
+                    return;
+                }
+
+                try {
+                    const res = await fetch("/complete-sentence/answer/", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ id_cs: currentId, student_answer: answer }),
+                    });
+                    const result = await res.json();
+
+                    showFeedbackMessage(result.correct ? "Correct! Great job!" : "Incorrect. Let's try the next one.", result.correct);
+
+                    window.attemptAnswers = window.attemptAnswers || [];
+                    window.attemptAnswers.push({
+                        id_cs: currentId,
+                        answer: answer,
+                        is_correct: result.correct
+                    });
+
+                    if (result.next_id) {
+                        setTimeout(() => {
+                            loadQuestion(result.next_id);
+                            answerInput.value = "";
+                        }, 1500);
+                    } else {
+                        setTimeout(() => {
+                            const user = JSON.parse(localStorage.getItem("user"));
+                            const username = user?.username;
+                            const category = new URLSearchParams(window.location.search).get("category");
+
+                            const completeAttempt = {
+                                student_id: username,
+                                category_id: category,
+                                questions: window.attemptAnswers
+                            };
+
+                            localStorage.setItem("complete_attempt", JSON.stringify(completeAttempt));
+                            window.location.href = "/result?type=complete-sentence";
+                        }, 1500);
+                    }
+                } catch (error) {
+                    console.error("Failed to evaluate answer:", error);
+                    showFeedbackMessage("Could not submit answer.", false);
+                }
+            }
+            
+            document.getElementById("evaluateBtn").onclick = evaluateAnswer;
+            document.getElementById("answer").addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    evaluateAnswer();
+                }
+            });
+
+            loadQuestion();
+            lucide.createIcons();
+        });
+    </script>
 </body>
 </html>

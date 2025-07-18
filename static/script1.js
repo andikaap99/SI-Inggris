@@ -69,7 +69,7 @@ lucide.createIcons();
 
 //*SCORE*//
 window.onload = async function () {
-    // --- FUNGSI PROFIL DROPDOWN & USERNAME (BARU) ---
+    // --- FUNGSI PROFIL DROPDOWN & USERNAME ---
     const profileButton = document.getElementById('profile-button');
     const profileDropdown = document.getElementById('profile-dropdown');
     const usernameDisplay = document.getElementById('username-display');
