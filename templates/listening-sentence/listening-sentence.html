@@ -22,18 +22,17 @@
 
     <!-- Navbar -->
     <nav class="flex justify-between items-center px-6 py-4 border-b bg-white shadow-sm sticky top-0 z-30">
-        <!-- Sisi Kiri: Hamburger -->
-        <div class="flex-1">
-            <button id="menu-toggle" class="flex items-center justify-center w-8 h-8">
-                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
-        </div>
+        <!-- Sisi Kiri: Tombol Kembali -->
+            <div class="flex-1">
+                <a href="/listening-sentence" class="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors w-fit">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    <span>Back to Categories</span>
+                </a>
+            </div>
 
         <!-- Tengah: Judul -->
         <div class="flex-1 text-center">
-             <h1 class="text-lg font-semibold text-gray-800">Listening Sentence</h1>
+            <h1 class="text-xl font-bold text-gray-800">Listening Word</h1>
         </div>
 
         <!-- Sisi Kanan: Profil Dropdown -->
@@ -118,54 +117,102 @@
         </div>
     </main>
 
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <i data-lucide="alert-triangle" class="h-6 w-6 text-red-600"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mt-4">Confirm Logout</h3>
+            <p class="mt-2 text-sm text-gray-500">Are you sure you want to log out?</p>
+            <div class="mt-6 flex justify-center gap-4">
+                <button id="cancel-logout-button" type="button" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 font-semibold">
+                    Cancel
+                </button>
+                <button id="confirm-logout-button" type="button" class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 font-semibold">
+                    Yes, Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- SEMUA JAVASCRIPT DIGABUNG DI SINI -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- FUNGSI SIDEBAR & PROFIL ---
-            const menuToggle = document.getElementById('menu-toggle');
-            const sidebar = document.getElementById('sidebar');
-            const closeSidebar = document.getElementById('close-sidebar');
-            const overlay = document.getElementById('overlay');
-
-            if (menuToggle && sidebar && closeSidebar && overlay) {
-                const showSidebar = () => { sidebar.classList.remove('-translate-x-full'); overlay.classList.remove('hidden'); };
-                const hideSidebar = () => { sidebar.classList.add('-translate-x-full'); overlay.classList.add('hidden'); };
-                menuToggle.addEventListener('click', showSidebar);
-                closeSidebar.addEventListener('click', hideSidebar);
-                overlay.addEventListener('click', hideSidebar);
-            }
-
-            // --- FUNGSI PROFIL DROPDOWN & USERNAME ---
+            // --- FUNGSI PROFIL & LOGOUT TERINTEGRASI ---
             const profileButton = document.getElementById('profile-button');
             const profileDropdown = document.getElementById('profile-dropdown');
             const usernameDisplay = document.getElementById('username-display');
+            const logoutButton = document.getElementById('logout-button');
+            const logoutModal = document.getElementById('logout-modal');
+            const confirmLogoutButton = document.getElementById('confirm-logout-button');
+            const cancelLogoutButton = document.getElementById('cancel-logout-button');
 
+            // 1. Tampilkan nama pengguna
             try {
                 const user = JSON.parse(localStorage.getItem("user"));
-                usernameDisplay.textContent = (user && user.username) ? user.username : "Guest";
+                usernameDisplay.textContent = (user && user.name) ? user.name : "Guest";
             } catch (e) {
+                console.error("Could not parse user from localStorage", e);
                 usernameDisplay.textContent = "Guest";
             }
 
+            // 2. Logika buka/tutup dropdown
             if (profileButton && profileDropdown) {
                 profileButton.addEventListener('click', (event) => {
                     event.stopPropagation();
                     profileDropdown.classList.toggle('hidden');
                 });
             }
-
             window.addEventListener('click', () => {
                 if (profileDropdown && !profileDropdown.classList.contains('hidden')) {
                     profileDropdown.classList.add('hidden');
                 }
             });
-            
-            const logoutButton = document.getElementById('logout-button');
-            if(logoutButton) {
+
+            // 3. Logika untuk tombol logout di dropdown (membuka modal)
+            if (logoutButton && logoutModal) {
                 logoutButton.addEventListener('click', (event) => {
                     event.preventDefault();
-                    localStorage.removeItem('user');
-                    window.location.href = '/login';
+                    profileDropdown.classList.add('hidden'); // Tutup dropdown
+                    logoutModal.classList.remove('hidden'); // Buka modal
+                });
+            }
+
+            // 4. Logika untuk tombol konfirmasi di modal
+            if (confirmLogoutButton) {
+                confirmLogoutButton.addEventListener('click', async () => {
+                    try {
+                        const res = await fetch("/logout", { method: "POST" });
+                        if (res.redirected) {
+                            window.location.href = res.url;
+                        } else {
+                            // Fallback for safety
+                            localStorage.removeItem('user');
+                            window.location.href = '/login';
+                        }
+                    } catch (e) {
+                        console.error("Logout failed:", e);
+                        // Fallback for safety
+                        localStorage.removeItem('user');
+                        window.location.href = '/login';
+                    }
+                });
+            }
+
+            // 5. Logika untuk tombol batal di modal
+            if (cancelLogoutButton) {
+                cancelLogoutButton.addEventListener('click', () => {
+                    logoutModal.classList.add('hidden');
+                });
+            }
+
+            // 6. Logika untuk menutup modal dengan klik di luar
+            if (logoutModal) {
+                logoutModal.addEventListener('click', (event) => {
+                    if (event.target === logoutModal) {
+                        logoutModal.classList.add('hidden');
+                    }
                 });
             }
 

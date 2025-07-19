@@ -34,3 +34,14 @@ body {
     font-weight: 600;
     color: #3b82f6;
 }
+
+/* Style for smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+.progress-ring__circle {
+    transition: stroke-dashoffset 0.8s ease-out;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
