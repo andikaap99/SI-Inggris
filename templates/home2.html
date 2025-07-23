@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - English Club</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800">
+                <a href="/home">English Club</a>
+            </div>
+            
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/home" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Home</a>
+                <a href="#practice" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Practice</a>
+                <a href="#leaderboard" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Leaderboard</a>
+            </div>
+
+            <!-- Profile Dropdown (Desktop) -->
+            <div class="hidden md:flex relative">
+                <button id="profile-button" class="flex items-center space-x-2 cursor-pointer">
+                    <span id="username-display" class="font-medium text-gray-700">Username</span>
+                    <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                </button>
+                <div id="profile-dropdown" class="absolute right-0 mt-12 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                    <a href="/profile" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i data-lucide="user-circle" class="w-4 h-4 mr-2"></i>
+                        Profile
+                    </a>
+                    <a href="#" id="logout-button" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none">
+                <i data-lucide="menu" class="w-6 h-6 text-gray-700"></i>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu Content -->
+        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4 space-y-2">
+            <a href="/home" class="block py-2 text-gray-700 hover:text-blue-600">Home</a>
+            <a href="#practice" class="block py-2 text-gray-700 hover:text-blue-600">Practice</a>
+            <a href="#leaderboard" class="block py-2 text-gray-700 hover:text-blue-600">Leaderboard</a>
+            <hr class="my-2">
+            <a href="/profile" class="block py-2 font-semibold text-blue-600">Profile</a>
+            <a href="#" id="mobile-logout-button" class="block py-2 font-semibold text-red-600">Logout</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12 flex-grow">
+        <!-- Hero Section -->
+        <section class="text-center py-16 md:py-24">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight">
+                Learn Together, <br> be Better Together!
+            </h1>
+            <p class="mt-6 text-lg text-gray-600 max-w-2xl mx-auto">
+                Welcome to the English Club! Sharpen your skills, take on fun challenges, and see your progress alongside your friends.
+            </p>
+            <div class="mt-10">
+                <a href="#practice" class="bg-blue-600 text-white font-bold text-lg px-8 py-4 rounded-full hover:bg-blue-700 transition transform hover:scale-105 shadow-lg hover:shadow-blue-300">
+                    Start Practice
+                </a>
+            </div>
+        </section>
+
+        <!--  Section -->
+        <section id="practice" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Choose Your Practice Today</h2>
+                <p class="mt-4 text-gray-600 max-w-xl mx-auto">Pick the challenge you want. Every practice helps you become more confident!</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1: Listening Sentence -->
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center">
+                    <div class="bg-blue-100 p-4 rounded-full"><i data-lucide="headphones" class="w-10 h-10 text-blue-600"></i></div>
+                    <h3 class="mt-6 text-xl font-bold text-gray-900">Listen to Sentences</h3>
+                    <p class="mt-2 text-gray-500 text-sm flex-grow">Listen to short stories and answer the questions. It's fun!</p>
+                    <a href="/listening-sentence/" class="mt-6 bg-blue-50 text-blue-700 font-semibold py-2 px-5 rounded-full hover:bg-blue-200 transition-colors">Start</a>
+                </div>
+                <!-- Card 2: Listening Word -->
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center">
+                    <div class="bg-green-100 p-4 rounded-full"><i data-lucide="ear" class="w-10 h-10 text-green-600"></i></div>
+                    <h3 class="mt-6 text-xl font-bold text-gray-900">Listen to Words</h3>
+                    <p class="mt-2 text-gray-500 text-sm flex-grow">Guess the spoken word. This practice is great for your spelling.</p>
+                    <a href="/listening-word" class="mt-6 bg-green-50 text-green-700 font-semibold py-2 px-5 rounded-full hover:bg-green-200 transition-colors">Start</a>
+                </div>
+                <!-- Card 3: Image Word -->
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center">
+                    <div class="bg-yellow-100 p-4 rounded-full"><i data-lucide="image" class="w-10 h-10 text-yellow-600"></i></div>
+                    <h3 class="mt-6 text-xl font-bold text-gray-900">Guess the Picture</h3>
+                    <p class="mt-2 text-gray-500 text-sm flex-grow">Look at the picture and guess its name in English. It's easy!</p>
+                    <a href="/image-word" class="mt-6 bg-yellow-50 text-yellow-700 font-semibold py-2 px-5 rounded-full hover:bg-yellow-200 transition-colors">Start</a>
+                </div>
+                <!-- Card 4: Complete Sentence -->
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex flex-col items-center text-center">
+                    <div class="bg-purple-100 p-4 rounded-full"><i data-lucide="file-pen-line" class="w-10 h-10 text-purple-600"></i></div>
+                    <h3 class="mt-6 text-xl font-bold text-gray-900">Complete the Sentence</h3>
+                    <p class="mt-2 text-gray-500 text-sm flex-grow">Fill in the blank. Test your grammar here!</p>
+                    <a href="/complete-sentence" class="mt-6 inline-block bg-purple-50 text-purple-700 font-semibold py-2 px-5 rounded-full hover:bg-purple-200 transition-colors">Start</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard & Announcements -->
+        <section id="leaderboard" class="py-16">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+                <!-- Leaderboard -->
+                <div class="lg:col-span-3 bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-900 flex items-center mb-6">
+                        <i data-lucide="trophy" class="w-7 h-7 text-yellow-500 mr-3"></i>Our Weekly Leaderboard
+                    </h3>
+                    <div id="leaderboard-container" class="space-y-4">
+                        <p class="text-center text-gray-500 py-4">Loading leaderboard...</p>
+                    </div>
+                </div>
+                <!-- Announcements -->
+                <div class="lg:col-span-2 bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-900 flex items-center mb-6">
+                        <i data-lucide="megaphone" class="w-7 h-7 text-red-500 mr-3"></i>Information
+                    </h3>
+                    <div class="space-y-5">
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <h4 class="font-bold">Gathering Schedule</h4>
+                            <p class="text-sm text-gray-600">Don't forget, we meet every Friday at 3:30 PM in the Multimedia Room!</p>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h4 class="font-bold">Speech Contest</h4>
+                            <p class="text-sm text-gray-600">An inter-class English speech contest is coming next month. Prepare yourselves!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <i data-lucide="alert-triangle" class="h-6 w-6 text-red-600"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mt-4">Confirm Logout</h3>
+            <p class="mt-2 text-sm text-gray-500">Are you sure you want to log out?</p>
+            <div class="mt-6 flex justify-center gap-4">
+                <button id="cancel-logout-button" type="button" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 font-semibold">
+                    Cancel
+                </button>
+                <button id="confirm-logout-button" type="button" class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 font-semibold">
+                    Yes, Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 2025 English Club. All Rights Reserved.</p>
+            <p class="text-sm text-gray-400 mt-2">A learning portal for members of the Imnida English Club.</p>
+        </div>
+    </footer>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', () => {
+            // --- FUNGSI PROFIL & LOGOUT TERINTEGRASI ---
+            const profileButton = document.getElementById('profile-button');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const usernameDisplay = document.getElementById('username-display');
+            const logoutButton = document.getElementById('logout-button');
+            const logoutModal = document.getElementById('logout-modal');
+            const confirmLogoutButton = document.getElementById('confirm-logout-button');
+            const cancelLogoutButton = document.getElementById('cancel-logout-button');
+
+            // 1. Tampilkan nama pengguna
+            try {
+                const user = JSON.parse(localStorage.getItem("user"));
+                usernameDisplay.textContent = (user && user.name) ? user.name : "Guest";
+            } catch (e) {
+                console.error("Could not parse user from localStorage", e);
+                usernameDisplay.textContent = "Guest";
+            }
+
+            // 2. Logika buka/tutup dropdown
+            if (profileButton && profileDropdown) {
+                profileButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                });
+            }
+            window.addEventListener('click', () => {
+                if (profileDropdown && !profileDropdown.classList.contains('hidden')) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+
+            // 3. Logika untuk tombol logout di dropdown (membuka modal)
+            if (logoutButton && logoutModal) {
+                logoutButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    profileDropdown.classList.add('hidden'); // Tutup dropdown
+                    logoutModal.classList.remove('hidden'); // Buka modal
+                });
+            }
+
+            // 4. Logika untuk tombol konfirmasi di modal
+            if (confirmLogoutButton) {
+                confirmLogoutButton.addEventListener('click', async () => {
+                    try {
+                        const res = await fetch("/logout", { method: "POST" });
+                        if (res.redirected) {
+                            window.location.href = res.url;
+                        } else {
+                            // Fallback for safety
+                            localStorage.removeItem('user');
+                            window.location.href = '/login';
+                        }
+                    } catch (e) {
+                        console.error("Logout failed:", e);
+                        // Fallback for safety
+                        localStorage.removeItem('user');
+                        window.location.href = '/login';
+                    }
+                });
+            }
+
+            // 5. Logika untuk tombol batal di modal
+            if (cancelLogoutButton) {
+                cancelLogoutButton.addEventListener('click', () => {
+                    logoutModal.classList.add('hidden');
+                });
+            }
+
+            // 6. Logika untuk menutup modal dengan klik di luar
+            if (logoutModal) {
+                logoutModal.addEventListener('click', (event) => {
+                    if (event.target === logoutModal) {
+                        logoutModal.classList.add('hidden');
+                    }
+                });
+            }
+
+            // --- LOGIKA UNTUK MENGAMBIL DATA PROFIL & LEADERBOARD ---
+            async function fetchUserProfile() {
+                try {
+                    const res = await fetch("/api/me");
+                    if (!res.ok) throw new Error("Unauthorized");
+                    const user = await res.json();
+                    localStorage.setItem("user", JSON.stringify(user));
+                    if (usernameDisplay) {
+                        usernameDisplay.innerText = user.name || "User";
+                    }
+                } catch (err) {
+                    console.error("Failed to fetch user profile:", err);
+                    window.location.href = "/login";
+                }
+            }
+
+            async function loadLeaderboard() {
+                try {
+                    const res = await fetch("/home-leaderboard");
+                    const data = await res.json();
+                    const container = document.getElementById("leaderboard-container");
+                    container.innerHTML = "";
+
+                    if (!data || data.length === 0) {
+                        container.innerHTML = `<p class="text-center text-gray-500 py-4">Leaderboard is empty.</p>`;
+                        return;
+                    }
+
+                    data.forEach((user, index) => {
+                        const rank = index + 1;
+                        const avatarColor = ["60a5fa", "f472b6", "34d399", "facc15", "fb923c"][index % 5];
+                        const initial = user.name?.charAt(0).toUpperCase() || "U";
+                        const el = document.createElement("div");
+                        el.className = "flex items-center bg-gray-50 p-4 rounded-lg";
+                        el.innerHTML = `
+                            <span class="text-lg font-bold text-gray-700 w-8">${rank}.</span>
+                            <img src="https://placehold.co/40x40/${avatarColor}/FFFFFF?text=${initial}" alt="Avatar" class="w-10 h-10 rounded-full mr-4">
+                            <span class="font-semibold text-gray-800 flex-grow">${user.name}</span>
+                            <span class="font-bold text-blue-600">${user.score} Points</span>
+                        `;
+                        container.appendChild(el);
+                    });
+                } catch (err) {
+                    console.error("Failed to load leaderboard:", err);
+                    const container = document.getElementById("leaderboard-container");
+                    container.innerHTML = `<p class="text-center text-red-500 py-4">Failed to load leaderboard.</p>`;
+                }
+            }
+            
+            fetchUserProfile();
+            loadLeaderboard();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

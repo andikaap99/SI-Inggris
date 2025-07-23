@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile - English Club</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800">
+                <a href="/home">English Club</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/home" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Home</a>
+                <a href="/home#practice" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Practice</a>
+                <a href="/home#peringkat" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Leaderboard</a>
+            </div>
+            <!-- Profile Dropdown -->
+            <div class="relative">
+                <button id="profile-button" class="flex items-center space-x-2 cursor-pointer">
+                    <span id="username-display" class="font-medium text-gray-700 hidden sm:block">Username</span>
+                    <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                </button>
+                <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                    <a href="/profile" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i data-lucide="user-circle" class="w-4 h-4 mr-2"></i>
+                        Profile
+                    </a>
+                    <a href="#" id="logout-button" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12 flex-grow">
+        <div class="max-w-4xl mx-auto">
+            <!-- Profile Header -->
+            <div class="bg-white rounded-xl shadow-md p-8 flex flex-col md:flex-row items-center gap-8">
+                <div class="w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white shadow-lg">
+                    <i data-lucide="user-check" class="w-12 h-12"></i>
+                </div>
+                <div class="text-center md:text-left">
+                    <h1 id="profile-name" class="text-3xl md:text-4xl font-extrabold text-gray-900">Loading...</h1>
+                    <p id="profile-class" class="mt-1 text-lg text-gray-600">Loading class...</p>
+                </div>
+                <div class="mt-4 md:mt-0 md:ml-auto text-center">
+                    <p class="text-sm font-medium text-gray-500">Total Score</p>
+                    <p id="profile-score" class="text-4xl font-bold text-blue-600">0</p>
+                </div>
+            </div>
+
+            <!-- Attempt History -->
+            <div class="mt-12">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Attempt History</h2>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="py-4 px-6 text-sm font-semibold text-gray-600 uppercase tracking-wider">Feature</th>
+                                    <th class="py-4 px-6 text-sm font-semibold text-gray-600 uppercase tracking-wider">Category</th>
+                                    <th class="py-4 px-6 text-sm font-semibold text-gray-600 uppercase tracking-wider text-right">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-body" class="divide-y divide-gray-200">
+                                <tr>
+                                    <td colspan="3" class="py-8 px-6 text-center text-gray-500">Loading history...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <i data-lucide="alert-triangle" class="h-6 w-6 text-red-600"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mt-4">Confirm Logout</h3>
+            <p class="mt-2 text-sm text-gray-500">Are you sure you want to log out?</p>
+            <div class="mt-6 flex justify-center gap-4">
+                <button id="cancel-logout-button" type="button" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 font-semibold">
+                    Cancel
+                </button>
+                <button id="confirm-logout-button" type="button" class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 font-semibold">
+                    Yes, Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 2025 English Club. All Rights Reserved.</p>
+            <p class="text-sm text-gray-400 mt-2">A learning portal for members of the Imnida English Club.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- FUNGSI PROFIL DROPDOWN & USERNAME ---
+            const profileButton = document.getElementById('profile-button');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const usernameDisplay = document.getElementById('username-display');
+
+            if (profileButton && profileDropdown) {
+                profileButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                });
+
+                const logoutButton = document.getElementById('logout-button');
+                if(logoutButton) {
+                    logoutButton.addEventListener('click', async (event) => {
+                        event.preventDefault();
+                        try {
+                            const res = await fetch("/logout", { method: "POST" });
+                            if (res.redirected) {
+                                window.location.href = res.url;
+                            } else {
+                                // Fallback for safety
+                                localStorage.removeItem('user');
+                                window.location.href = '/login';
+                            }
+                        } catch (e) {
+                            console.error("Logout failed:", e);
+                            // Fallback for safety
+                            localStorage.removeItem('user');
+                            window.location.href = '/login';
+                        }
+                    });
+                }
+            }
+            
+            window.addEventListener('click', () => {
+                if (profileDropdown && !profileDropdown.classList.contains('hidden')) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+
+            // --- LOGIKA UNTUK MENGAMBIL DATA PROFIL & RIWAYAT ---
+            async function fetchUserProfile() {
+                try {
+                    const res = await fetch("/api/me");
+                    if (!res.ok) throw new Error("Unauthorized");
+
+                    const user = await res.json();
+                    
+                    // Simpan ke localStorage & update tampilan
+                    localStorage.setItem("user", JSON.stringify(user));
+                    document.getElementById("username-display").innerText = user.name || "User";
+                    document.getElementById("profile-name").innerText = user.name || "Username not found";
+                    document.getElementById("profile-class").innerText = user.class_name || "Class not found";
+                    document.getElementById("profile-score").innerText = user.total_score || 0;
+                } catch (err) {
+                    console.error("Failed to fetch user profile:", err);
+                    window.location.href = "/login";
+                }
+            }
+
+            async function fetchAttemptHistory() {
+                try {
+                    const res = await fetch("/profile-global-attempts");
+                    const data = await res.json();
+                    const tbody = document.getElementById("history-body");
+                    tbody.innerHTML = "";
+
+                    if (data.length === 0) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="3" class="py-8 px-6 text-center text-gray-500">No practice history found.</td>
+                            </tr>
+                        `;
+                        return;
+                    }
+
+                    data.forEach(item => {
+                        const tr = document.createElement("tr");
+                        tr.className = "hover:bg-gray-50 transition";
+                        tr.innerHTML = `
+                            <td class="py-4 px-6 font-medium">${item.feature}</td>
+                            <td class="py-4 px-6 text-gray-600">${item.category}</td>
+                            <td class="py-4 px-6 font-bold text-blue-600 text-right">${item.score}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } catch (err) {
+                    console.error("Failed to load attempt history:", err);
+                    const tbody = document.getElementById("history-body");
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="3" class="py-8 px-6 text-center text-red-500">Failed to load data.</td>
+                        </tr>
+                    `;
+                }
+            }
+            
+            // Panggil semua fungsi saat halaman dimuat
+            fetchUserProfile();
+            fetchAttemptHistory();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

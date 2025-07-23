@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu Listening Word</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+</head>
+<body class="main-bg">
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center px-6 py-4 border-b bg-white shadow-sm sticky top-0 z-30">
+        <!-- Left: Tombol Home -->
+        <div class="flex-1">
+            <a href="/home#latihan" class="flex items-center justify-center w-10 h-10 text-gray-600 hover:text-blue-600 rounded-full hover:bg-gray-100 transition-colors">
+                <i data-lucide="home" class="w-6 h-6"></i>
+            </a>
+        </div>
+
+        <!-- Tengah: Judul -->
+        <div class="flex-1 text-center">
+            <h1 class="text-lg font-semibold text-gray-800">Listening Word</h1>
+        </div>
+
+        <!-- Sisi Kanan: Profil Dropdown -->
+        <div class="flex-1 flex justify-end">
+            <div class="relative">
+                <button id="profile-button" class="flex items-center space-x-2 cursor-pointer">
+                    <span id="username-display" class="font-medium text-gray-700 hidden sm:block">Username</span>
+                    <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                </button>
+                <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                    <a href="/profile" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i data-lucide="user-circle" class="w-4 h-4 mr-2"></i>
+                        Profile
+                    </a>
+                    <a href="#" id="logout-button" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Overlay-->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"></div>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
+        <!-- Tombol X -->
+        <div class="flex items-center justify-between p-4 border-b">
+            <span class="font-semibold text-lg">Menu</span>
+            <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <ul class="p-4 space-y-3">
+            <li><a href="/listening-sentence" class="block text-gray-700 hover:text-blue-600">Listening Sentence</a></li>
+            <li><a href="/listening-word" class="block text-gray-700 hover:text-blue-600">Listening Word</a></li>
+            <li><a href="/image-word" class="block text-gray-700 hover:text-blue-600">Image Word</a></li>
+            <li><a href="/complete-sentence" class="block text-gray-700 hover:text-blue-600">Complete Sentence</a></li>
+        </ul>
+    </div>
+
+    <!-- KONTEN UTAMA -->
+    <main class="flex-1 container mx-auto p-6 md:p-10">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900">Choose a Category</h2>
+            <p class="mt-2 text-lg text-gray-600">Select a topic to start practicing your listening skills!</p>
+        </div>
+        
+        <!-- Grid Kategori Baru -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="category-container">
+        <!-- Cards will be inserted here dynamically -->
+        </div>
+    </main>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <i data-lucide="alert-triangle" class="h-6 w-6 text-red-600"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mt-4">Confirm Logout</h3>
+            <p class="mt-2 text-sm text-gray-500">Are you sure you want to log out?</p>
+            <div class="mt-6 flex justify-center gap-4">
+                <button id="cancel-logout-button" type="button" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 font-semibold">
+                    Cancel
+                </button>
+                <button id="confirm-logout-button" type="button" class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 font-semibold">
+                    Yes, Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const categoryContainer = document.getElementById("category-container");
+
+        const categoryColorMap = [
+            { color: "blue", icon: "lamp" },
+            { color: "green", icon: "utensils-crossed" },
+            { color: "purple", icon: "palette" },
+            { color: "yellow", icon: "car" },
+            { color: "red", icon: "dog" },
+            { color: "indigo", icon: "book-open" },
+        ];
+
+        function createCategoryCard(category, index) {
+            const { name, desc } = category;
+            const { color, icon } = categoryColorMap[index % categoryColorMap.length];
+
+            return `
+            <a href="/listening-word-word?category=${encodeURIComponent(name)}" class="block">
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 ease-in-out flex flex-col overflow-hidden h-full">
+                <div class="p-6 bg-${color}-500 flex items-center justify-center">
+                    <i data-lucide="${icon}" class="w-16 h-16 text-white"></i>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-bold text-gray-800">${name}</h3>
+                    <p class="mt-2 text-sm text-gray-500 flex-grow">${desc}</p>
+                    <div class="mt-6 w-full bg-${color}-600 text-white font-semibold py-3 rounded-lg text-center hover:bg-${color}-700 transition-colors">
+                    Start Practice
+                    </div>
+                </div>
+                </div>
+            </a>
+            `;
+        }
+
+        fetch("/listening-word-categories")
+            .then(res => res.json())
+            .then(data => {
+            categoryContainer.innerHTML = data.map((cat, index) => createCategoryCard(cat, index)).join("");
+            if (window.lucide) lucide.createIcons(); // refresh icons if using lucide
+            })
+            .catch(err => {
+            categoryContainer.innerHTML = `<p class="text-red-500">Gagal memuat kategori.</p>`;
+            console.error(err);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- FUNGSI PROFIL & LOGOUT TERINTEGRASI ---
+            const profileButton = document.getElementById('profile-button');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const usernameDisplay = document.getElementById('username-display');
+            const logoutButton = document.getElementById('logout-button');
+            const logoutModal = document.getElementById('logout-modal');
+            const confirmLogoutButton = document.getElementById('confirm-logout-button');
+            const cancelLogoutButton = document.getElementById('cancel-logout-button');
+
+            // 1. Tampilkan nama pengguna
+            try {
+                const user = JSON.parse(localStorage.getItem("user"));
+                usernameDisplay.textContent = (user && user.name) ? user.name : "Guest";
+            } catch (e) {
+                console.error("Could not parse user from localStorage", e);
+                usernameDisplay.textContent = "Guest";
+            }
+
+            // 2. Logika buka/tutup dropdown
+            if (profileButton && profileDropdown) {
+                profileButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                });
+            }
+            window.addEventListener('click', () => {
+                if (profileDropdown && !profileDropdown.classList.contains('hidden')) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+
+            // 3. Logika untuk tombol logout di dropdown (membuka modal)
+            if (logoutButton && logoutModal) {
+                logoutButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    profileDropdown.classList.add('hidden'); // Tutup dropdown
+                    logoutModal.classList.remove('hidden'); // Buka modal
+                });
+            }
+
+            // 4. Logika untuk tombol konfirmasi di modal
+            if (confirmLogoutButton) {
+                confirmLogoutButton.addEventListener('click', async () => {
+                    try {
+                        const res = await fetch("/logout", { method: "POST" });
+                        if (res.redirected) {
+                            window.location.href = res.url;
+                        } else {
+                            // Fallback for safety
+                            localStorage.removeItem('user');
+                            window.location.href = '/login';
+                        }
+                    } catch (e) {
+                        console.error("Logout failed:", e);
+                        // Fallback for safety
+                        localStorage.removeItem('user');
+                        window.location.href = '/login';
+                    }
+                });
+            }
+
+            // 5. Logika untuk tombol batal di modal
+            if (cancelLogoutButton) {
+                cancelLogoutButton.addEventListener('click', () => {
+                    logoutModal.classList.add('hidden');
+                });
+            }
+
+            // 6. Logika untuk menutup modal dengan klik di luar
+            if (logoutModal) {
+                logoutModal.addEventListener('click', (event) => {
+                    if (event.target === logoutModal) {
+                        logoutModal.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Inisialisasi ikon
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

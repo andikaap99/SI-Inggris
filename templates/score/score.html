@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Final Score</title>
+    <link rel="stylesheet" href="/static/style.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+    <!-- Library untuk animasi confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.8s ease-out;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex-1">
+                 <a href="/home" class="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors w-fit">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    <span>Back to Home</span>
+                </a>
+            </div>
+            <div class="flex-1 text-center">
+                <h1 class="text-xl font-bold text-gray-800">Final Score</h1>
+            </div>
+            <div class="flex-1 flex justify-end">
+                <div class="relative">
+                    <button id="profile-button" class="flex items-center space-x-2 cursor-pointer">
+                        <span id="username-display" class="font-medium text-gray-700 hidden sm:block">Username</span>
+                        <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
+                            <i data-lucide="user" class="w-5 h-5"></i>
+                        </div>
+                    </button>
+                    <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                        <a href="/profile" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i data-lucide="user-circle" class="w-4 h-4 mr-2"></i>
+                            Profile
+                        </a>
+                        <a href="#" id="logout-button" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <main class="container mx-auto p-4 md:p-8 flex items-center justify-center" style="min-height: calc(100vh - 72px);">
+        <div class="w-full max-w-md mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl p-8 text-center">
+                
+                <h2 class="text-2xl font-bold text-gray-500">Great Job!</h2>
+                <h1 class="text-4xl font-extrabold text-gray-800 mt-1">Here's Your Score</h1>
+
+                <!-- Visualisasi Skor dengan Progress Ring -->
+                <div class="relative my-8">
+                    <svg class="w-48 h-48 mx-auto" viewBox="0 0 120 120">
+                        <circle class="text-gray-200" stroke-width="10" stroke="currentColor" fill="transparent" r="50" cx="60" cy="60" />
+                        <circle id="progress-circle" class="progress-ring__circle text-blue-500" stroke-width="10" stroke-linecap="round" stroke="currentColor" fill="transparent" r="50" cx="60" cy="60" />
+                    </svg>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <span id="score-value" class="text-4xl font-bold text-blue-600">0%</span>
+                    </div>
+                </div>
+
+                <!-- Detail Skor -->
+                <div class="bg-gray-50 rounded-lg p-4 flex justify-around">
+                    <div class="text-center">
+                        <p class="text-sm font-medium text-gray-500">Correct</p>
+                        <p id="correct-answers" class="text-2xl font-bold text-green-500">0</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm font-medium text-gray-500">Incorrect</p>
+                        <p id="incorrect-answers" class="text-2xl font-bold text-red-500">0</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm font-medium text-gray-500">Total</p>
+                        <p id="score-many" class="text-2xl font-bold text-gray-700">0</p>
+                    </div>
+                </div>
+
+                <!-- Tombol Aksi -->
+                <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                    <button id="retry-button" class="w-full bg-blue-100 text-blue-700 font-semibold py-3 rounded-lg hover:bg-blue-200 transition-colors flex items-center justify-center">
+                        <i data-lucide="rotate-cw" class="w-4 h-4 mr-2"></i>
+                        Try Again
+                    </button>
+                    <a href="/home#latihan" class="w-full inline-block bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center">
+                        <i data-lucide="layout-grid" class="w-4 h-4 mr-2"></i>
+                        Back to Menu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <i data-lucide="alert-triangle" class="h-6 w-6 text-red-600"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mt-4">Confirm Logout</h3>
+            <p class="mt-2 text-sm text-gray-500">Are you sure you want to log out?</p>
+            <div class="mt-6 flex justify-center gap-4">
+                <button id="cancel-logout-button" type="button" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 font-semibold">
+                    Cancel
+                </button>
+                <button id="confirm-logout-button" type="button" class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 font-semibold">
+                    Yes, Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT YANG SUDAH DIPERBAIKI -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // --- FUNGSI PROFIL & LOGOUT TERINTEGRASI ---
+            const profileButton = document.getElementById('profile-button');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const usernameDisplay = document.getElementById('username-display');
+            const logoutButton = document.getElementById('logout-button');
+            const logoutModal = document.getElementById('logout-modal');
+            const confirmLogoutButton = document.getElementById('confirm-logout-button');
+            const cancelLogoutButton = document.getElementById('cancel-logout-button');
+
+            // 1. Tampilkan nama pengguna
+            try {
+                const user = JSON.parse(localStorage.getItem("user"));
+                usernameDisplay.textContent = (user && user.name) ? user.name : "Guest";
+            } catch (e) {
+                console.error("Could not parse user from localStorage", e);
+                usernameDisplay.textContent = "Guest";
+            }
+
+            // 2. Logika buka/tutup dropdown
+            if (profileButton && profileDropdown) {
+                profileButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                });
+            }
+            window.addEventListener('click', () => {
+                if (profileDropdown && !profileDropdown.classList.contains('hidden')) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+
+            // 3. Logika untuk tombol logout di dropdown (membuka modal)
+            if (logoutButton && logoutModal) {
+                logoutButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    profileDropdown.classList.add('hidden');
+                    logoutModal.classList.remove('hidden');
+                });
+            }
+
+            // 4. Logika untuk tombol konfirmasi di modal
+            if (confirmLogoutButton) {
+                confirmLogoutButton.addEventListener('click', async () => {
+                    try {
+                        const res = await fetch("/logout", { method: "POST" });
+                        if (res.redirected) {
+                            window.location.href = res.url;
+                        } else {
+                            localStorage.removeItem('user');
+                            window.location.href = '/login';
+                        }
+                    } catch (e) {
+                        console.error("Logout failed:", e);
+                        localStorage.removeItem('user');
+                        window.location.href = '/login';
+                    }
+                });
+            }
+
+            // 5. Logika untuk tombol batal di modal
+            if (cancelLogoutButton) {
+                cancelLogoutButton.addEventListener('click', () => {
+                    logoutModal.classList.add('hidden');
+                });
+            }
+
+            // 6. Logika untuk menutup modal dengan klik di luar
+            if (logoutModal) {
+                logoutModal.addEventListener('click', (event) => {
+                    if (event.target === logoutModal) {
+                        logoutModal.classList.add('hidden');
+                    }
+                });
+            }
+
+            // --- LOGIKA SKOR ---
+            const type = new URLSearchParams(window.location.search).get("type") || "complete-sentence";
+            let endpoint = "/complete-sentence/save-attempt/";
+            if (type === "listening-word") {
+                endpoint = "/listening-word/save-attempt/";
+            } else if (type === "image-word") {
+                endpoint = "/image-word/save-attempt/";
+            } else if (type === "listening-sentence") {
+                endpoint = "/listening-sentence/save-attempt/";
+            }
+
+            const attempt = JSON.parse(localStorage.getItem("complete_attempt"));
+            if (!attempt) {
+                document.getElementById("score-many").innerText = '0';
+                document.getElementById("correct-answers").innerText = '0';
+                document.getElementById("incorrect-answers").innerText = '0';
+                document.getElementById("score-value").innerText = "0%";
+                lucide.createIcons(); // Inisialisasi ikon meskipun tidak ada skor
+                return;
+            };
+
+            const totalQuestions = attempt.questions.length;
+            const correctAnswers = attempt.questions.filter(q => q.is_correct).length;
+            const incorrectAnswers = totalQuestions - correctAnswers;
+            const scorePercent = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+
+            document.getElementById("score-many").innerText = totalQuestions;
+            document.getElementById("correct-answers").innerText = correctAnswers;
+            document.getElementById("incorrect-answers").innerText = incorrectAnswers;
+            document.getElementById("score-value").innerText = scorePercent + "%";
+
+            const circle = document.getElementById('progress-circle');
+            const radius = circle.r.baseVal.value;
+            const circumference = radius * 2 * Math.PI;
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            const offset = circumference - scorePercent / 100 * circumference;
+            circle.style.strokeDashoffset = offset;
+
+            if (scorePercent > 70) {
+                confetti({
+                    particleCount: 150,
+                    spread: 90,
+                    origin: { y: 0.6 }
+                });
+            }
+
+            const retryButton = document.getElementById('retry-button');
+            if (retryButton) {
+                retryButton.onclick = () => {
+                    let practicePage = '/';
+                    if (type === 'listening-word') practicePage = '/listening-word-word';
+                    else if (type === 'image-word') practicePage = '/image-word-word';
+                    else if (type === 'listening-sentence') practicePage = '/listening-sentence-sentence';
+                    else if (type === 'complete-sentence') practicePage = '/complete-sentence-sentence';
+                    window.location.href = `${practicePage}?category=${attempt.category_id || ''}`;
+                }
+            }
+
+            let feature, username, category, questions;
+            const attemptData = JSON.parse(localStorage.getItem("complete_attempt"));
+                if (attemptData) {
+                    feature = attemptData.feature;
+                    username = attemptData.student_id;
+                    category = attemptData.category_id;
+
+                    console.log("Data dari localStorage:", { username, category, questions });
+                } else {
+                    console.error("Data tidak ditemukan di localStorage");
+                }
+
+            try {
+                const completeAttempt = {
+                    feature: feature,
+                    student_id: username,
+                    category_id: category,
+                    score: scorePercent
+                };
+
+                // Kirim ke backend dengan benar
+                const res = await fetch("/save-attempt", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(completeAttempt)
+                });
+
+                const result = await res.json();
+                console.log("Attempt saved:", result.message);
+                localStorage.removeItem("complete_attempt");
+            } catch (err) {
+                console.error("Failed to save attempt:", err);
+            }
+            
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

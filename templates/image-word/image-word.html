@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Word Quiz</title>
+    <link rel="stylesheet" href="/static/style.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+</head>
+<body class="bg-gray-100">
+
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-30">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            
+             <!-- Sisi Kiri: Tombol Kembali ke Kategori -->
+            <div class="flex-1">
+                <a href="/image-word" class="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors w-fit">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    <span>Back to Categories</span>
+                </a>
+            </div>
+
+            <!-- Tengah: Judul -->
+            <div class="flex-1 text-center">
+                <h1 class="text-xl font-bold text-gray-800">Image Word</h1>
+            </div>
+
+            <!-- Sisi Kanan: Profil -->
+            <div class="flex-1 flex justify-end">
+                <div class="relative">
+                    <button id="profile-button" class="flex items-center space-x-2 cursor-pointer">
+                        <span id="username-display" class="font-medium text-gray-700 hidden sm:block">Username</span>
+                        <div class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white">
+                            <i data-lucide="user" class="w-5 h-5"></i>
+                        </div>
+                    </button>
+                    <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                    <a href="/profile" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i data-lucide="user-circle" class="w-4 h-4 mr-2"></i>
+                        Profile
+                    </a>
+                    <a href="#" id="logout-button" class="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
+                        Logout
+                    </a>
+                </div>
+                </div>
+            </div>
+
+        </nav>
+    </header>
+
+    <!-- Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center justify-between p-4 border-b">
+            <span class="font-semibold text-lg">Menu</span>
+            <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <ul class="p-4 space-y-3">
+            <li><a href="/listening-sentence" class="block text-gray-700 hover:text-blue-600">Listening Sentence</a></li>
+            <li><a href="/listening-word/" class="block text-gray-700 hover:text-blue-600">Listening Word</a></li>
+            <li><a href="/image-word" class="block text-gray-700 hover:text-blue-600">Image Word</a></li>
+            <li><a href="/complete-sentence" class="block text-gray-700 hover:text-blue-600">Complete Sentence</a></li>
+        </ul>
+    </div>
+
+    <!-- KONTEN UTAMA KUIS -->
+    <main class="flex-1 flex items-center justify-center p-4" style="min-height: calc(100vh - 72px);">
+        <div class="w-full max-w-lg mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center">
+                
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
+                    What <span class="text-blue-600">object</span> is this?
+                </h2>
+                <p class="text-gray-500 mt-2">Look at the image and type your answer below.</p>
+
+                <!-- Gambar Soal -->
+                <div class="mt-8 w-full h-64 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border">
+                    <img id="imaji" src="https://placehold.co/400x300/e2e8f0/94a3b8?text=Loading..." alt="Guess the object" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Input Jawaban -->
+                <div class="mt-8">
+                    <input id="answer" type="text" placeholder="Type your answer here..." class="w-full text-center text-xl md:text-2xl font-semibold border-2 border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                </div>
+
+                <!-- Tombol Submit -->
+                <button id="evaluateBtn" class="w-full mt-6 bg-blue-600 text-white rounded-lg py-4 text-xl font-bold hover:bg-blue-700 transition-transform active:scale-95 shadow-md">
+                  Submit
+                </button>
+
+                <!-- Area Feedback -->
+                <div id="feedback-container" class="mt-6 h-8">
+                     <div id="feedback-message" class="feedback-message opacity-0 transform -translate-y-2">
+                        <!-- Pesan akan muncul di sini -->
+                     </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <i data-lucide="alert-triangle" class="h-6 w-6 text-red-600"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mt-4">Confirm Logout</h3>
+            <p class="mt-2 text-sm text-gray-500">Are you sure you want to log out?</p>
+            <div class="mt-6 flex justify-center gap-4">
+                <button id="cancel-logout-button" type="button" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 font-semibold">
+                    Cancel
+                </button>
+                <button id="confirm-logout-button" type="button" class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 font-semibold">
+                    Yes, Logout
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SEMUA JAVASCRIPT DIGABUNG DI SINI -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- FUNGSI PROFIL & LOGOUT TERINTEGRASI ---
+            const profileButton = document.getElementById('profile-button');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const usernameDisplay = document.getElementById('username-display');
+            const logoutButton = document.getElementById('logout-button');
+            const logoutModal = document.getElementById('logout-modal');
+            const confirmLogoutButton = document.getElementById('confirm-logout-button');
+            const cancelLogoutButton = document.getElementById('cancel-logout-button');
+
+            // 1. Tampilkan nama pengguna
+            try {
+                const user = JSON.parse(localStorage.getItem("user"));
+                usernameDisplay.textContent = (user && user.name) ? user.name : "Guest";
+            } catch (e) {
+                console.error("Could not parse user from localStorage", e);
+                usernameDisplay.textContent = "Guest";
+            }
+
+            // 2. Logika buka/tutup dropdown
+            if (profileButton && profileDropdown) {
+                profileButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                });
+            }
+            window.addEventListener('click', () => {
+                if (profileDropdown && !profileDropdown.classList.contains('hidden')) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+
+            // 3. Logika untuk tombol logout di dropdown (membuka modal)
+            if (logoutButton && logoutModal) {
+                logoutButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    profileDropdown.classList.add('hidden'); // Tutup dropdown
+                    logoutModal.classList.remove('hidden'); // Buka modal
+                });
+            }
+
+            // 4. Logika untuk tombol konfirmasi di modal
+            if (confirmLogoutButton) {
+                confirmLogoutButton.addEventListener('click', async () => {
+                    try {
+                        const res = await fetch("/logout", { method: "POST" });
+                        if (res.redirected) {
+                            window.location.href = res.url;
+                        } else {
+                            // Fallback for safety
+                            localStorage.removeItem('user');
+                            window.location.href = '/login';
+                        }
+                    } catch (e) {
+                        console.error("Logout failed:", e);
+                        // Fallback for safety
+                        localStorage.removeItem('user');
+                        window.location.href = '/login';
+                    }
+                });
+            }
+
+            // 5. Logika untuk tombol batal di modal
+            if (cancelLogoutButton) {
+                cancelLogoutButton.addEventListener('click', () => {
+                    logoutModal.classList.add('hidden');
+                });
+            }
+
+            // 6. Logika untuk menutup modal dengan klik di luar
+            if (logoutModal) {
+                logoutModal.addEventListener('click', (event) => {
+                    if (event.target === logoutModal) {
+                        logoutModal.classList.add('hidden');
+                    }
+                });
+            }
+
+            // --- LOGIKA KUIS IMAGE WORD ---
+            let currentId;
+            let currentCategory = new URLSearchParams(window.location.search).get("category") || "Default";
+
+            function showFeedbackMessage(message, isCorrect) {
+                const feedbackEl = document.getElementById('feedback-message');
+                feedbackEl.textContent = message;
+                feedbackEl.classList.remove('text-green-600', 'text-red-600', 'font-semibold');
+                feedbackEl.classList.add(isCorrect ? 'text-green-600' : 'text-red-600', 'font-semibold');
+                feedbackEl.classList.remove('opacity-0', '-translate-y-2');
+                feedbackEl.classList.add('opacity-100', 'translate-y-0');
+
+                setTimeout(() => {
+                    feedbackEl.classList.remove('opacity-100', 'translate-y-0');
+                    feedbackEl.classList.add('opacity-0', '-translate-y-2');
+                }, 2000);
+            }
+
+            async function loadQuestion(id) {
+                const url = id ? `/image-word/${id}/` : `/image-word/start/${encodeURIComponent(currentCategory)}`;
+                try {
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    if (data.error) {
+                        showFeedbackMessage(data.error, false);
+                        return;
+                    }
+                    console.log(data)
+                    currentId = data.id_iw;
+                    document.getElementById("imaji").src = data.image_url;
+                } catch (error) {
+                    console.error("Failed to load question:", error);
+                    showFeedbackMessage("Failed to load question.", false);
+                }
+            }
+
+            async function evaluateAnswer() {
+                const answerInput = document.getElementById("answer");
+                const answer = answerInput.value.trim().toLowerCase();
+                if (!answer.trim()) {
+                    showFeedbackMessage("Please type your answer first!", false);
+                    return;
+                }
+
+                try {
+                    const res = await fetch("/image-word/answer/", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ id_iw: currentId, student_answer: answer }),
+                    });
+                    const result = await res.json();
+
+                    showFeedbackMessage(result.correct ? "Correct! Great job!" : "Incorrect. Let's try the next one.", result.correct);
+
+                    window.attemptAnswers = window.attemptAnswers || [];
+                    window.attemptAnswers.push({
+                        Id_cat: currentId,
+                        answer: answer,
+                        is_correct: result.correct
+                    });
+
+                    if (result.next_id) {
+                        setTimeout(() => {
+                            loadQuestion(result.next_id);
+                            answerInput.value = "";
+                        }, 1500);
+                    } else {
+                        setTimeout(() => {
+                            const user = JSON.parse(localStorage.getItem("user"));
+                            const username = user?.username;
+                            const category = new URLSearchParams(window.location.search).get("category");
+
+                            const completeAttempt = {
+                                feature: "Image_Word",
+                                student_id: username,
+                                category_id: category,
+                                questions: window.attemptAnswers
+                            };
+
+                            localStorage.setItem("complete_attempt", JSON.stringify(completeAttempt));
+                            window.location.href = "/result?type=image-word";
+                        }, 1500);
+                    }
+                    console.log("KIRIM:", {
+                        currentId,
+                        student_answer: answer
+                        });
+                } catch (error) {
+                    console.error("Failed to evaluate answer:", error);
+                    showFeedbackMessage("Could not submit answer.", false);
+                }
+            }
+            
+            document.getElementById("evaluateBtn").onclick = evaluateAnswer;
+            document.getElementById("answer").addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    evaluateAnswer();
+                }
+            });
+
+            loadQuestion();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

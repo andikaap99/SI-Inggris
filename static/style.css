@@ -1,0 +1,22 @@
+@keyframes bounce-once {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.bounce-hover:hover {
+  animation: bounce-once 0.4s ease;
+}
+
+/* Menggunakan font Inter sebagai default */
+body {
+    font-family: 'Inter', sans-serif;
+}
+.gradient-text {
+    background: -webkit-linear-gradient(45deg, #3b82f6, #8b5cf6);
+    -background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

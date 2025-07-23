@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Question Form</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+    <h2 class="text-2xl font-semibold mb-6 text-center">Question Form</h2>
+
+    <!-- Feature Dropdown -->
+    <div class="mb-4">
+      <label for="dropdown1" class="block text-sm font-medium text-gray-700 mb-1">Feature</label>
+      <select id="dropdown1" class="w-full p-2 border border-gray-300 rounded">
+        <option value="">-- Select Features --</option>
+        <option value="listening-sentence">Listening Sentence</option>
+        <option value="listening-word">Listening Word</option>
+        <option value="image-word">Image Word</option>
+        <option value="complete-sentence">Complete Sentence</option>
+      </select>
+    </div>
+
+    <!-- Category Dropdown -->
+    <div class="mb-4">
+      <label for="dropdown2" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+      <select id="dropdown2" class="w-full p-2 border border-gray-300 rounded">
+        <option value="">-- Select Category --</option>
+        <option value="Daily Object">Daily Object</option>
+        <option value="Food and Drink">Food and Drink</option>
+      </select>
+    </div>
+
+    <!-- Banner warning -->
+    <div id="choosePrompt" class="bg-yellow-100 text-yellow-800 text-sm p-3 rounded mb-4 hidden">
+      Silakan pilih fitur terlebih dahulu.
+    </div>
+
+    <!-- Universal Input Fields -->
+    <div class="space-y-3 mb-4">
+
+      <div id="field-question" class="hidden">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Question</label>
+        <input type="text" id="question" placeholder="Enter question" class="w-full p-2 border border-gray-300 rounded" />
+      </div>
+
+      <div id="field-answer" class="hidden">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Answer</label>
+        <input type="text" id="answer" placeholder="Enter answer" class="w-full p-2 border border-gray-300 rounded" />
+      </div>
+
+      <div id="field-image-url" class="hidden">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+        <input type="text" id="image_url" placeholder="Enter image URL" class="w-full p-2 border border-gray-300 rounded" />
+      </div>
+
+      <div id="field-audio-url" class="hidden">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Audio URL</label>
+        <input type="text" id="audio_url" placeholder="Enter audio URL" class="w-full p-2 border border-gray-300 rounded" />
+      </div>
+
+      <div id="field-keyword" class="hidden">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Keyword</label>
+        <input type="text" id="keyword" placeholder="Enter keyword(s)" class="w-full p-2 border border-gray-300 rounded" />
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button onclick="submitQuestion()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2 rounded">
+        Submit
+      </button>
+    </div>
+
+    <!-- Output Preview -->
+    <div id="output" class="mt-6 text-sm text-gray-700 hidden whitespace-pre-wrap bg-gray-100 p-3 rounded"></div>
+  </div>
+
+  <script>
+    const fieldMap = {
+      "listening-sentence": ["field-audio-url", "field-answer", "field-keyword"],
+      "listening-word": ["field-audio-url", "field-answer"],
+      "image-word": ["field-image-url", "field-answer"],
+      "complete-sentence": ["field-question", "field-answer"]
+    };
+
+    const allFields = [
+      "field-question",
+      "field-answer",
+      "field-image-url",
+      "field-audio-url",
+      "field-keyword"
+    ];
+
+    document.getElementById("dropdown1").addEventListener("change", function () {
+      const selectedFeature = this.value;
+
+      // Hide all fields
+      allFields.forEach(id => document.getElementById(id).classList.add("hidden"));
+
+      // Show only related fields
+      if (fieldMap[selectedFeature]) {
+        fieldMap[selectedFeature].forEach(id => {
+          document.getElementById(id).classList.remove("hidden");
+        });
+        document.getElementById("choosePrompt").classList.add("hidden");
+      } else {
+        document.getElementById("choosePrompt").classList.remove("hidden");
+      }
+    });
+
+    async function submitQuestion() {
+      const payload = {
+        feature: document.getElementById("dropdown1").value,
+        category: document.getElementById("dropdown2").value,
+        question: document.getElementById("question").value || "",
+        answer: document.getElementById("answer").value || "",
+        image_url: document.getElementById("image_url").value || "",
+        audio_url: document.getElementById("audio_url").value || "",
+        keyword: document.getElementById("keyword").value || ""
+      };
+
+      try {
+        const response = await fetch("/questions/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        alert(data.message || "Data berhasil dikirim!");
+
+        const output = document.getElementById("output");
+        output.classList.remove("hidden");
+        output.textContent = JSON.stringify(payload, null, 2);
+
+      } catch (error) {
+        alert("Gagal mengirim data ke server.");
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+# Ignore virtual environments
+.venv/
+
+# Ignore Python cache
+__pycache__/
+*.py[cod]
+
+# Ignore environment config
+.env
+*.env
+
+# VSCode files
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# SQLite / DB files (jika tidak ingin disimpan)
+*.sqlite3
+
+# models
+models/model/model.safetensors
+
+# Ignore compiled files
+*.pyc
+
+# Jangan upload test result / temp
+*.log
+*.tmp
+models/model/model.safetensors 

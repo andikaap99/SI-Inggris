@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Student | Teacher Dashboard</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+</head>
+<body class="bg-slate-100">
+
+    <div class="flex h-screen bg-slate-100">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-md hidden md:flex flex-col transition-transform duration-300 ease-in-out fixed md:relative h-full z-20">
+            <!-- Sidebar Logo/Header -->
+            <div class="p-6 border-b">
+                <h1 class="text-2xl font-bold gradient-text text-center">Teacher Dashboard</h1>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <nav class="flex-grow p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="/homet" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <!-- Manage Questions Dropdown -->
+                    <li>
+                        <a href="/question" button id="questions-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                                <span>Manage Questions</span>
+                            </span>
+                            <i id="questions-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div id="questions-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="/insertls" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
+                            <a href="/insertlw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
+                            <a href="/insertiw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Image Word</a>
+                            <a href="/insertcs" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complete Sentence</a>
+                        </div>
+                    </li>
+                    <!-- Manage Students (Active) -->
+                    <li>
+                        <a href="/student" class="flex items-center space-x-3 text-blue-600 bg-blue-100 font-semibold p-3 rounded-lg">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                            <span>Manage Student</span>
+                        </a>
+                    </li>
+                    <!-- View Reports Dropdown -->
+                    <li>
+                        <button id="reports-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                                <span>View Reports</span>
+                            </span>
+                            <i id="reports-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div id="reports-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="/leaderboard" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Leaderboard</a>
+                            <a href="/analysis" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Question Analysis</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Content Header -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-10">
+                <div class="flex items-center">
+                    <button id="sidebar-toggle" class="text-gray-700 focus:outline-none md:hidden mr-4">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 truncate">Manage Student</h2>
+                </div>
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-blue-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        <i data-lucide="user-round" class="w-6 h-6"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-red-600 p-2 rounded-full hover:bg-red-100 transition-colors">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="flex-1 p-6 md:p-6 overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Data of Students</h3>
+                    <button id="add-student-button" class="bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+                        <i data-lucide="plus" class="w-5 h-5"></i>
+                        <span>Add Student</span>
+                    </button>
+                </div>
+
+                <!-- Student List Table -->
+                <div class="bg-white rounded-lg shadow-lg">
+                    <!-- Search Bar -->
+                    <div class="p-4 border-b">
+                        <div class="relative">
+                            <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                            <input type="text" placeholder="Search students..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500">
+                        </div>
+                    </div>
+                    
+                    <!-- Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="text-center">
+                                <tr class="border-b text-gray-600">
+                                <th class="py-2">Nama</th>
+                                <th class="py-2">Username</th>
+                                <th class="py-2">Kelas</th>
+                                <th class="py-2">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="student-table-body">
+                                <tr>
+                                <td colspan="4" class="py-4 text-center text-gray-400">Memuat data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- See More Button -->
+                    <div class="p-4 text-center border-t">
+                        <button class="text-blue-600 font-semibold hover:underline">See More</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div id="add-student-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg p-8 rounded-xl shadow-2xl transform transition-all">
+            <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">Add New Student</h3>
+            <form id="add-student-form" class="space-y-6">
+                <div>
+                    <label for="full_name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" id="full_name" name="full_name" placeholder="Enter student's full name" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="username" id="username" name="username" placeholder="Enter student's username" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div>
+                    <label for="class" class="block text-sm font-medium text-gray-700">Class</label>
+                    <input type="text" id="class" name="class" placeholder="Enter the Class" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div>
+                    <label for="pw" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="text" id="pw" name="pw" placeholder="Enter the Password" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div class="pt-4 flex justify-end space-x-4">
+                    <button type="button" class="cancel-btn px-6 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">Cancel</button>
+                    <button type="submit" onclick="submitStudent()" class="px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Edit Student Modal -->
+    <div id="edit-student-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg p-8 rounded-xl shadow-2xl transform transition-all">
+            <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">Edit Student</h3>
+            <form id="edit-student-form" class="space-y-6">
+                <div>
+                    <label for="edit_full_name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" id="edit_full_name" name="edit_full_name" value="" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div>
+                    <label for="edit_username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="username" id="edit_username" name="edit_username" value="" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div>
+                    <label for="edit_class" class="block text-sm font-medium text-gray-700">Class</label>
+                    <input type="text" id="edit_class" name="edit_class" value="" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div>
+                    <label for="edit_pw" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="text" id="edit_pw" name="edit_pw" value="" placeholder="Keep it empty if not going to edit password" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <input type="hidden" id="edit_user_id">
+                <div class="pt-4 flex justify-end space-x-4">
+                    <button type="button" class="cancel-btn px-6 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">Cancel</button>
+                    <button type="submit" onclick="editStudent()" class="px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Student Modal -->
+    <div id="delete-student-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md p-8 rounded-xl shadow-2xl text-center">
+             <i data-lucide="alert-triangle" class="w-16 h-16 text-red-500 mx-auto mb-4"></i>
+             <input type="hidden" id="delete_user_id">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Delete Student</h3>
+            <p class="text-gray-500 mb-6">Please confirm: deleting this student will permanently erase all their records.</p>
+            <div class="flex justify-center space-x-4">
+                <button type="button" class="cancel-btn px-8 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 font-semibold">Cancel</button>
+                <button id="confirm-delete-btn"onclick="submitDeleteStudent()" type="submit" class="px-8 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 font-semibold">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm p-8 rounded-xl shadow-2xl text-center">
+            <div class="w-20 h-20 bg-green-100 rounded-full mx-auto flex items-center justify-center mb-6">
+                <i data-lucide="check" class="w-12 h-12 text-green-600"></i>
+            </div>
+            <h3 id="success-title" class="text-2xl font-bold text-gray-800">Success!</h3>
+            <p id="success-message" class="text-gray-500 mt-2 mb-6">The action was completed successfully.</p>
+            <button id="close-success-modal" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700">
+                OK
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Script untuk fungsionalitas sidebar, dropdown, dan modal -->
+    <script>
+        lucide.createIcons();
+
+        // --- Sidebar & Dropdown Logic ---
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const backdrop = document.createElement('div');
+        backdrop.id = 'sidebar-backdrop';
+        backdrop.className = 'fixed inset-0 bg-black/50 z-10 hidden md:hidden';
+        document.body.appendChild(backdrop);
+
+        const dropdowns = [
+            {
+                toggle: document.getElementById('questions-toggle'),
+                menu: document.getElementById('questions-menu'),
+                arrow: document.getElementById('questions-arrow')
+            },
+            {
+                toggle: document.getElementById('reports-toggle'),
+                menu: document.getElementById('reports-menu'),
+                arrow: document.getElementById('reports-arrow')
+            }
+        ];
+
+        const toggleSidebar = () => {
+            sidebar.classList.toggle('hidden');
+            backdrop.classList.toggle('hidden');
+        };
+
+        sidebarToggle.addEventListener('click', toggleSidebar);
+        backdrop.addEventListener('click', toggleSidebar);
+
+        dropdowns.forEach(dropdown => {
+            if (dropdown.toggle) {
+                dropdown.toggle.addEventListener('click', () => {
+                    const isCurrentlyOpen = !dropdown.menu.classList.contains('hidden');
+                    dropdowns.forEach(d => {
+                        if (d.menu) d.menu.classList.add('hidden');
+                        if (d.arrow) d.arrow.classList.remove('rotate-180');
+                    });
+                    if (!isCurrentlyOpen) {
+                        dropdown.menu.classList.remove('hidden');
+                        dropdown.arrow.classList.add('rotate-180');
+                    }
+                });
+            }
+        });
+
+        // --- Modal Logic ---
+        const addStudentButton = document.getElementById('add-student-button');
+        const addStudentModal = document.getElementById('add-student-modal');
+        const addStudentForm = document.getElementById('add-student-form');
+        
+        const editStudentButtons = document.querySelectorAll('.edit-student-btn');
+        const editStudentModal = document.getElementById('edit-student-modal');
+        const editStudentForm = document.getElementById('edit-student-form');
+
+        const deleteStudentButtons = document.querySelectorAll('.delete-student-btn');
+        const deleteStudentModal = document.getElementById('delete-student-modal');
+        const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+        
+        const successModal = document.getElementById('success-modal');
+        const successTitle = document.getElementById('success-title');
+        const successMessage = document.getElementById('success-message');
+        const closeSuccessModalBtn = document.getElementById('close-success-modal');
+        
+        const cancelButtons = document.querySelectorAll('.cancel-btn');
+
+        const openModal = (modal) => modal.classList.remove('hidden');
+        const closeModal = (modal) => modal.classList.add('hidden');
+        
+        const showSuccessModal = (title, message) => {
+            successTitle.textContent = title;
+            successMessage.textContent = message;
+            openModal(successModal);
+        };
+
+        // Event Listeners for Modals
+        addStudentButton.addEventListener('click', () => openModal(addStudentModal));
+        
+        editStudentButtons.forEach(btn => {
+            btn.addEventListener('click', () => openModal(editStudentModal));
+        });
+
+        deleteStudentButtons.forEach(btn => {
+            btn.addEventListener('click', () => openModal(deleteStudentModal));
+        });
+
+        cancelButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                closeModal(addStudentModal);
+                closeModal(editStudentModal);
+                closeModal(deleteStudentModal);
+            });
+        });
+
+        // Form Submissions
+        addStudentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            closeModal(addStudentModal);
+            showSuccessModal('Student Added!', 'The new student has been successfully added to the system.');
+        });
+
+        editStudentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            closeModal(editStudentModal);
+            showSuccessModal('Changes Saved!', 'The student information has been updated successfully.');
+        });
+
+        confirmDeleteBtn.addEventListener('click', () => {
+            closeModal(deleteStudentModal);
+            showSuccessModal('Student Deleted!', 'The student has been permanently removed from the system.');
+        });
+
+        // Close Modals
+        closeSuccessModalBtn.addEventListener('click', () => closeModal(successModal));
+
+        [addStudentModal, editStudentModal, deleteStudentModal, successModal].forEach(modal => {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal(modal);
+                }
+            });
+        });
+
+        async function fetchStudents() {
+            try {
+                const res = await fetch("/api/students");
+                if (!res.ok) throw new Error("Gagal memuat siswa");
+
+                const data = await res.json();
+                const tbody = document.getElementById("student-table-body");
+                tbody.innerHTML = "";
+
+                if (data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-gray-400">Belum ada siswa.</td></tr>`;
+                    return;
+                }
+
+                data.forEach(student => {
+                    const tr = document.createElement("tr");
+                    tr.className = "border-b hover:bg-gray-50 transition";
+                    tr.innerHTML = `
+                        <td class="p-4 font-medium text-gray-800 text-center">${student.name}</td>
+                        <td class="p-4 text-gray-600 text-center">${student.username}</td>
+                        <td class="p-4 text-gray-600 text-center">${student.class_name}</td>
+                        <td class="p-4 flex space-x-2 justify-center items-center">
+                        <button 
+                            class="edit-student-btn bg-gray-200 text-gray-700 font-semibold px-4 py-1.5 rounded-lg hover:bg-gray-300 text-sm"
+                            data-user-id="${student.user_id}"
+                        >Edit</button>
+                        <button 
+                            class="delete-student-btn bg-red-500 text-white font-semibold px-4 py-1.5 rounded-lg hover:bg-red-600 text-sm"
+                            delete-user-id="${student.user_id}"
+                            >Delete</button>
+                    </td>
+
+                    `;
+                    tbody.appendChild(tr);
+                    document.querySelectorAll('.edit-student-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const userId = btn.getAttribute("data-user-id");
+                            openEditModal(userId);
+                        });
+                    });
+                    document.querySelectorAll('.delete-student-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const userId = btn.getAttribute("delete-user-id");
+                            openDeleteModal(userId); // ini jalan saat tombol diklik, bukan saat halaman dimuat
+                        });
+                    });
+
+                });
+            } catch (err) {
+                console.error("❌ Gagal memuat data siswa:", err);
+                document.getElementById("student-table-body").innerHTML = `
+                    <tr>
+                        <td colspan="4" class="py-4 text-center text-red-500">Gagal memuat data siswa.</td>
+                    </tr>
+                `;
+            }
+        }
+
+        async function submitStudent() {
+            const payload = {
+                name: document.getElementById("full_name").value,
+                username: document.getElementById("username").value,
+                class_name: document.getElementById("class").value,
+                hashed_password: document.getElementById("pw").value
+            };
+
+            try {
+                const response = await fetch("/student/add", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                alert(data.message || "Data berhasil dikirim!");
+
+            } catch (error) {
+                alert("Gagal mengirim data ke server.");
+                console.error(error);
+            }
+        }
+
+        window.onload = function () {
+            fetchStudents(); // Tambahkan ini!
+        };
+        
+        async function openEditModal(userId) {
+            try {
+                const res = await fetch(`/students/detail/${userId}`);
+                const student = await res.json();
+
+
+                document.getElementById("edit_full_name").value = student.name;
+                document.getElementById("edit_username").value = student.username;
+                document.getElementById("edit_class").value = student.class_name;
+                document.getElementById("edit_pw").value = "";
+
+                
+
+                // bisa disimpan juga ke hidden input kalau perlu kirim user_id saat submit
+                document.getElementById("edit_user_id").value = student.user_id;
+
+                openModal(editStudentModal);
+            } catch (error) {
+                alert("Gagal memuat data siswa.");
+                console.error(error);
+            }
+        }
+
+        async function editStudent() {
+            const payload = {
+                user_id: document.getElementById("edit_user_id").value,
+                name: document.getElementById("edit_full_name").value,
+                username: document.getElementById("edit_username").value,
+                class_name: document.getElementById("edit_class").value,
+                hashed_password: document.getElementById("edit_pw").value
+            };
+
+            try {
+                const response = await fetch("/student/edit", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                alert(data.message || "Data berhasil dikirim!");
+
+            } catch (error) {
+                alert("Gagal mengirim data ke server.");
+                console.error(error);
+            }
+        }
+            
+        function openDeleteModal(userId) {
+            document.getElementById("delete_user_id").value = userId;
+            openModal(deleteStudentModal); // fungsi yang menampilkan modal
+            }
+
+        async function submitDeleteStudent() {
+            const userId = document.getElementById("delete_user_id").value;
+
+            if (!userId) {
+                alert("User ID tidak ditemukan.");
+                return;
+            }
+
+            if (!confirm("Apakah kamu yakin ingin menghapus siswa ini?")) return;
+
+            try {
+                const res = await fetch("/student/delete", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ user_id: userId })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                alert(data.message || "Siswa berhasil dihapus.");
+                fetchStudents(); // refresh daftar siswa
+                closeModal(editStudentModal); // tutup modal
+                } else {
+                alert(data.detail || "Gagal menghapus siswa.");
+                }
+            } catch (err) {
+                alert("Terjadi kesalahan saat menghapus siswa.");
+                console.error(err);
+            }
+            }
+
+        window.onload = function () {
+            fetchStudents(); // Tambahkan ini!
+        };
+
+    </script>
+
+</body>
+</html>

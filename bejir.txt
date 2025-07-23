@@ -1,0 +1,10 @@
+torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+sentence-transformers
+
+img:
+https://github.com/andikaap99/asset/blob/main/kucing.jpeg?raw=true
+
+audio:
+https://raw.githubusercontent.com/andikaap99/asset/main/Hello! Sound Effect.mp3
+
+

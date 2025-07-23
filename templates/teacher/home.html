@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | English Club</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body class="bg-slate-100">
+
+    <div class="flex h-screen bg-slate-100">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-md hidden md:flex flex-col transition-transform duration-300 ease-in-out">
+            <!-- Sidebar Logo/Header -->
+            <div class="p-6 border-b">
+                <h1 class="text-2xl font-bold gradient-text text-center">Teacher Dashboard</h1>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <nav class="flex-grow p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="/homet" class="flex items-center space-x-3 text-blue-600 bg-blue-100 font-semibold p-3 rounded-lg">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/question" button id="questions-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                                <span>Manage Category</span>
+                            </span>
+                            <i id="questions-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div id="category-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="/insert-cat" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Add Category</a>
+                            <a href="/delete-cat" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Delete Category</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/question" button id="questions-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                                <span>Manage Questions</span>
+                            </span>
+                            <i id="questions-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div id="questions-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="/insertls" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
+                            <a href="/insertlw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
+                            <a href="/insertiw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Image Word</a>
+                            <a href="/insertcs" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complete Sentence</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/student" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                            <span>Manage Student</span>
+                        </a>
+                    </li>
+                    <li>
+                        <button id="reports-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                                <span>View Reports</span>
+                            </span>
+                            <i id="reports-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div id="reports-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="/leaderboard" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Leaderboard</a>
+                            <a href="/analysis" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Question Analysis</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Content Header -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-10">
+                <!-- Left: Hamburger & Title -->
+                <div class="flex items-center">
+                    <button id="sidebar-toggle" class="text-gray-700 focus:outline-none md:hidden mr-4">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                    <h2 class="text-2xl font-bold text-gray-800">Welcome!</h2>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-blue-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        <i data-lucide="user-round" class="w-6 h-6"></i>
+                    </a>
+                    <a id="logout-button" href="/logout" class="text-gray-500 hover:text-red-600 p-2 rounded-full hover:bg-red-100 transition-colors">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </header>
+
+            <!-- Dashboard Area -->
+            <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                    <!-- Card 1: Manage Question Bank -->
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-blue-100 p-3 rounded-full">
+                                <i data-lucide="file-plus-2" class="w-8 h-8 text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Manage Question Bank</h3>
+                                <p class="text-gray-500 mt-1">Add, edit, or delete practice questions.</p>
+                            </div>
+                        </div>
+                        <a href="/question" class="mt-6 inline-block bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition-colors">
+                            Manage Questions
+                        </a>
+                    </div>
+
+                    <!-- Card 2: Manage Students -->
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-green-100 p-3 rounded-full">
+                                <i data-lucide="contact-2" class="w-8 h-8 text-green-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Manage Students</h3>
+                                <p class="text-gray-500 mt-1">View student lists, classes, and their progress.</p>
+                            </div>
+                        </div>
+                         <a href="/student" class="mt-6 inline-block bg-green-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-green-700 transition-colors">
+                            Manage Students
+                        </a>
+                    </div>
+
+                    <!-- Card 3: Manage Category -->
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-red-100 p-3 rounded-full">
+                                <i data-lucide="file-plus-2" class="w-8 h-8 text-red-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Manage Category</h3>
+                                <p class="text-gray-500 mt-1">Add or delete cagories that exist on database</p>
+                            </div>
+                        </div>
+                        <a href="/category" class="mt-6 inline-block bg-red-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-red-700 transition-colors">
+                            Manage Category
+                        </a>
+                    </div>
+
+                    <!-- Card 4: Manage Materi -->
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-pink-100 p-3 rounded-full">
+                                <i data-lucide="file-plus-2" class="w-8 h-8 text-pink-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Manage Materi</h3>
+                                <p class="text-gray-500 mt-1">Add or delete materi that exist on database</p>
+                            </div>
+                        </div>
+                        <a href="/materi" class="mt-6 inline-block bg-pink-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-pink-700 transition-colors">
+                            Manage Category
+                        </a>
+                    </div>
+
+                    <!-- Card 5: View Reports -->
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-purple-100 p-3 rounded-full">
+                                <i data-lucide="pie-chart" class="w-8 h-8 text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Manage Category</h3>
+                                <p class="text-gray-500 mt-1">Analyze question results and the leaderboard.</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex flex-col sm:flex-row gap-4">
+                             <a href="/analysis" class="flex-1 text-center bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-purple-700 transition-colors">
+                                Analysis
+                            </a>
+                            <a href="/leaderboard" class="flex-1 text-center bg-slate-200 text-slate-800 font-semibold py-2 px-4 rounded-lg hover:bg-slate-300 transition-colors">
+                                Leaderboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Script to activate Lucide Icons and mobile sidebar functionality -->
+    <script>
+        lucide.createIcons();
+
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        
+        const dropdowns = [
+            {
+                toggle: document.getElementById('questions-toggle'),
+                menu: document.getElementById('questions-menu'),
+                arrow: document.getElementById('questions-arrow')
+            },
+            {
+                toggle: document.getElementById('students-toggle'),
+                menu: document.getElementById('students-menu'),
+                arrow: document.getElementById('students-arrow')
+            },
+            {
+                toggle: document.getElementById('reports-toggle'),
+                menu: document.getElementById('reports-menu'),
+                arrow: document.getElementById('reports-arrow')
+            }
+        ];
+
+        // Function to show/hide sidebar on mobile
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+        });
+
+        // Add click listener to each dropdown toggle
+        dropdowns.forEach(dropdown => {
+            if (dropdown.toggle) {
+                dropdown.toggle.addEventListener('click', () => {
+                    // Check if the clicked menu is currently open
+                    const isCurrentlyOpen = !dropdown.menu.classList.contains('hidden');
+
+                    // First, close all dropdowns
+                    dropdowns.forEach(d => {
+                        if (d.menu) d.menu.classList.add('hidden');
+                        if (d.arrow) d.arrow.classList.remove('rotate-180');
+                    });
+
+                    // If the clicked menu was not open, open it.
+                    if (!isCurrentlyOpen) {
+                        dropdown.menu.classList.remove('hidden');
+                        dropdown.arrow.classList.add('rotate-180');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

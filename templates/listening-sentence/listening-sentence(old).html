@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="./output.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center px-6 py-4 border-b">
+      <!-- Left: Hamburger -->
+      <button id="menu-toggle" class="flex items-center justify-center w-8 h-8">
+        <svg
+          class="w-6 h-6 text-gray-700"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+
+      <!-- Center: Title -->
+      <h1 class="text-lg font-semibold text-gray-800">Listening Sentence</h1>
+
+      <!-- Right: Profile Picture -->
+      <div
+        class="w-9 h-9 bg-orange-300 rounded-full flex items-center justify-center text-white"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM6 20c0-2.21 
+                  3.58-4 6-4s6 1.79 6 4"
+          />
+        </svg>
+      </div>
+    </nav>
+
+    <!-- Overlay -->
+    <div
+      id="overlay"
+      class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"
+    ></div>
+
+    <!-- Sidebar -->
+    <div
+      id="sidebar"
+      class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50"
+    >
+      <!-- Tombol X -->
+      <div class="flex items-center justify-between p-4 border-b">
+        <span class="font-semibold text-lg">Menu</span>
+        <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+      <ul class="p-4 space-y-3">
+        <li>
+          <a
+            href="/listening-sentence"
+            class="block text-gray-700 hover:text-blue-600"
+            >Listening Sentence</a
+          >
+        </li>
+        <li>
+          <a
+            href="/listening-word/"
+            class="block text-gray-700 hover:text-blue-600"
+            >Listening Word</a
+          >
+        </li>
+        <li>
+          <a
+            href="/image-word"
+            class="block text-gray-700 hover:text-blue-600"
+            >Image Word</a
+          >
+        </li>
+        <li>
+          <a
+            href="/listening-word"
+            class="block text-gray-700 hover:text-blue-600"
+            >Complete Sentence</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!-- CONTENT -->
+    <main
+      class="min-h-[660px] max-w-6xl mx-auto px-4 relative flex"
+      style="
+        background-image: url('/static/image/bg-listening-sentence.png');
+        background-size: cover;
+        background-position: center;
+      "
+    >
+      <div class="flex flex-col items-center w-full z-10 text-center">
+        <!-- Gambar speaker -->
+        <button onclick="playAudio()">
+          <img
+            id="speaker-img"
+            class="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 object-contain my-20"
+            src="/static/image/speaker.png"
+            alt="speaker"
+          />
+        </button>
+        <audio id="audio" src="" hidden></audio>
+        <!-- Judul -->
+        <p class="text-1xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-10">
+          What <span class="text-purple-800">Sentence</span> do you hear?
+        </p>
+
+        <!-- Input -->
+        <input
+          id="answer"
+          type="text"
+          placeholder="Type the word here"
+          class="border bg-blue-950 rounded-full p-2 text-white text-base sm:text-lg md:text-2xl py-3 px-4 sm:py-4 sm:px-8 w-full max-w-[750px] text-center"
+        />
+
+        <!-- Tombol -->
+        <button
+          id="evaluateBtn"
+          class="bg-blue-500 text-white rounded-full py-2 px-6 mt-6 text-base sm:text-lg font-semibold hover:bg-blue-600 transition"
+        >
+          Submit
+        </button>
+      </div>
+    </main>
+
+    <style>
+      #speaker-img:hover {
+        filter: brightness(0) saturate(100%) invert(21%) sepia(98%)
+          saturate(7482%) hue-rotate(199deg) brightness(98%) contrast(101%);
+      }
+    </style>
+
+    <script>
+      let currentId;
+      let currentCategory =
+        new URLSearchParams(window.location.search).get("category") ||
+        "Default";
+
+      async function loadQuestion(id) {
+        const url = id
+          ? `/listening-sentence/${id}/`
+          : `/listening-sentence/start/${encodeURIComponent(currentCategory)}`; // Kirim kategori!
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.error) {
+          alert(data.error);
+          return;
+        }
+        currentId = data.id_ls;
+        document.getElementById("audio").src = data.audio_url;
+      }
+
+      async function evaluateAnswer() {
+        const answer = document.getElementById("answer").value;
+        const res = await fetch("/listening-sentence/answer/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id_ls: currentId, student_answer: answer }),
+        });
+        const result = await res.json();
+        alert("Your Score: " + result.final_score);
+
+        if (result.next_id) {
+          loadQuestion(result.next_id);
+          document.getElementById("answer").value = "";
+        } else {
+          alert("Selesai! Tidak ada soal selanjutnya.");
+        }
+      }
+
+      function playAudio() {
+        document.getElementById("audio").play();
+        document.getElementById("audio").volume = 0.5;
+      }
+
+      document.getElementById("evaluateBtn").onclick = evaluateAnswer;
+
+
+      // Start awal
+      loadQuestion();
+    </script>
+    <script src="../../static/script.js"></script>
+  </body>
+</html>

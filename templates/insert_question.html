@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Form</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+    <h2 class="text-2xl font-semibold mb-6 text-center">Question Form</h2>
+
+    <!-- Dropdown Menu 1 -->
+    <div class="mb-4">
+      <label for="dropdown2" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+      <select id="dropdown2" class="w-full p-2 border border-gray-300 rounded">
+        <option value="">-- Select Category --</option>
+        <option value="daily-object">Daily Object</option>
+        <option value="food-and-drink">Food and Drink</option>
+      </select>
+    </div>
+
+    <!-- Banner warning -->
+    <div id="choosePrompt" class="bg-yellow-100 text-yellow-800 text-sm p-3 rounded mb-4 hidden">
+      Silakan pilih fitur terlebih dahulu.
+    </div>
+
+    <!-- Fitur: Complete Sentence -->
+    <div id="complete-sentence" class="hidden space-y-3 mb-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Question</label>
+        <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter question" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Answer</label>
+        <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter answer" />
+      </div>
+    </div>
+
+    <!-- Fitur: Image Word -->
+    <div id="image-word" class="hidden space-y-3 mb-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+        <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter image URL" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Answer</label>
+        <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter answer" />
+      </div>
+    </div>
+
+    <!-- Fitur: Listening Word -->
+    <div id="listening-word" class="hidden space-y-3 mb-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Audio URL</label>
+        <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter audio URL" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Answer</label>
+        <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter answer" />
+      </div>
+    </div>
+
+    <!-- Fitur: Listening Sentence -->
+    <div id="listening-sentence" class="hidden space-y-3 mb-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Audio URL</label>
+        <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter audio URL" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Answer</label>
+        <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter answer" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Keyword</label>
+        <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter keyword(s)" />
+      </div>
+    </div>
+
+    <!-- Output -->
+    <div id="output" class="mt-6 text-sm text-gray-700 hidden"></div>
+  </div>
+
+  <script>
+    const featureDropdown = document.getElementById("dropdown1");
+    const allFeatureDivs = ["complete-sentence", "image-word", "listening-word", "listening-sentence"];
+    const choosePrompt = document.getElementById("choosePrompt");
+
+    featureDropdown.addEventListener("change", function () {
+      const selectedFeature = this.value;
+
+      // Sembunyikan semua fitur div
+      allFeatureDivs.forEach((id) => {
+        document.getElementById(id).classList.add("hidden");
+      });
+
+      if (selectedFeature && allFeatureDivs.includes(selectedFeature)) {
+        document.getElementById(selectedFeature).classList.remove("hidden");
+        choosePrompt.classList.add("hidden");
+      } else {
+        choosePrompt.classList.remove("hidden");
+      }
+    });
+
+    const form = document.getElementById('studentForm');
+    const output = document.getElementById('output');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const data = {
+        dropdown1: document.getElementById('dropdown1').value,
+        dropdown2: document.getElementById('dropdown2').value,
+        user_id: document.getElementById('user_id').value,
+        name: document.getElementById('name').value,
+        class_name: document.getElementById('class_name').value,
+        total_score: document.getElementById('total_score').value
+      };
+
+      output.textContent = JSON.stringify(data, null, 2);
+      output.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>

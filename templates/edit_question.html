@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Question</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+    <h2 class="text-2xl font-semibold mb-6 text-center">Edit Question</h2>
+
+    <!-- Feature Dropdown -->
+    <div class="mb-4">
+      <label for="feature" class="block text-sm font-medium text-gray-700 mb-1">Feature</label>
+      <select id="feature" class="w-full p-2 border border-gray-300 rounded">
+        <option value="">-- Select Feature --</option>
+        <option value="listening-sentence">Listening Sentence</option>
+        <option value="listening-word">Listening Word</option>
+        <option value="image-word">Image Word</option>
+        <option value="complete-sentence">Complete Sentence</option>
+      </select>
+    </div>
+
+    <!-- Category Dropdown -->
+    <div class="mb-4">
+      <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+      <select id="category" class="w-full p-2 border border-gray-300 rounded">
+        <option value="">-- Select Category --</option>
+        <option value="Daily Object">Daily Object</option>
+        <option value="Food and Drink">Food and Drink</option>
+      </select>
+    </div>
+
+    <!-- Question List Dropdown -->
+    <div class="mb-4 hidden" id="questionContainer">
+      <label for="questionList" class="block text-sm font-medium text-gray-700 mb-1">Select Question to Edit</label>
+      <select id="questionList" class="w-full p-2 border border-gray-300 rounded">
+        <option value="">-- Select Question --</option>
+      </select>
+    </div>
+
+    <!-- Dynamic Fields -->
+    <div class="space-y-3 mb-4" id="formFields" style="display: none;">
+      <div id="field-question" class="hidden">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Question</label>
+        <input type="text" id="question" class="w-full p-2 border border-gray-300 rounded" placeholder="Edit question" />
+      </div>
+
+      <div id="field-answer" class="hidden">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Answer</label>
+        <input type="text" id="answer" class="w-full p-2 border border-gray-300 rounded" placeholder="Edit answer" />
+      </div>
+
+      <div id="field-image-url" class="hidden">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+        <input type="text" id="image_url" class="w-full p-2 border border-gray-300 rounded" placeholder="Edit image URL" />
+      </div>
+
+      <div id="field-audio-url" class="hidden">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Audio URL</label>
+        <input type="text" id="audio_url" class="w-full p-2 border border-gray-300 rounded" placeholder="Edit audio URL" />
+      </div>
+
+      <div id="field-keyword" class="hidden">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Keyword</label>
+        <input type="text" id="keyword" class="w-full p-2 border border-gray-300 rounded" placeholder="Edit keywords (comma separated)" />
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div id="submitContainer" class="text-center hidden">
+      <button onclick="submitEdit()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2 rounded">
+        Submit Edit
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const featureDropdown = document.getElementById("feature");
+    const categoryDropdown = document.getElementById("category");
+    const questionListDropdown = document.getElementById("questionList");
+    const questionContainer = document.getElementById("questionContainer");
+    const formFields = document.getElementById("formFields");
+    const submitContainer = document.getElementById("submitContainer");
+
+    const allFieldIds = [
+      "field-question",
+      "field-answer",
+      "field-image-url",
+      "field-audio-url",
+      "field-keyword"
+    ];
+
+    const fieldMap = {
+      "listening-sentence": ["field-audio-url", "field-answer", "field-keyword"],
+      "listening-word": ["field-audio-url", "field-answer"],
+      "image-word": ["field-image-url", "field-answer"],
+      "complete-sentence": ["field-question", "field-answer"]
+    };
+
+    featureDropdown.addEventListener("change", function () {
+      // Reset semua
+      categoryDropdown.selectedIndex = 0;
+      questionListDropdown.innerHTML = `<option value="">-- Select Question --</option>`;
+      questionContainer.classList.add("hidden");
+      formFields.style.display = "none";
+      submitContainer.classList.add("hidden");
+
+      allFieldIds.forEach(id => document.getElementById(id).classList.add("hidden"));
+    });
+
+    featureDropdown.addEventListener("change", loadQuestions);
+    categoryDropdown.addEventListener("change", loadQuestions);
+
+    async function loadQuestions() {
+      const feature = featureDropdown.value;
+      const category = categoryDropdown.value;
+
+      // Reset tampilan
+      questionListDropdown.innerHTML = `<option value="">-- Select Question --</option>`;
+      questionContainer.classList.add("hidden");
+      formFields.style.display = "none";
+      submitContainer.classList.add("hidden");
+      allFieldIds.forEach(id => document.getElementById(id).classList.add("hidden"));
+
+      if (!feature || !category) return;
+
+      try {
+        const res = await fetch(`/questions/list?feature=${feature}&category=${category}`);
+        const questions = await res.json();
+
+        if (!questions || questions.length === 0) {
+          alert("Soal tidak ditemukan pada kategori ini.");
+          categoryDropdown.selectedIndex = 0;
+          return;
+        }
+
+        questions.forEach(q => {
+          questionListDropdown.innerHTML += `<option value="${q.id}">${q.preview}</option>`;
+        });
+
+        questionContainer.classList.remove("hidden");
+
+      } catch (err) {
+        alert("Gagal memuat soal.");
+        categoryDropdown.selectedIndex = 0;
+      }
+    }
+
+    questionListDropdown.addEventListener("change", async function () {
+      const selectedId = this.value;
+      const feature = featureDropdown.value;
+
+      if (!selectedId) return;
+
+      allFieldIds.forEach(id => document.getElementById(id).classList.add("hidden"));
+
+      if (fieldMap[feature]) {
+        fieldMap[feature].forEach(id => document.getElementById(id).classList.remove("hidden"));
+        formFields.style.display = "block";
+        submitContainer.classList.remove("hidden");
+
+        try {
+          const res = await fetch(`/questions/detail?feature=${feature}&id=${selectedId}`);
+          const soal = await res.json();
+
+          document.getElementById("question").value = soal.question || "";
+          document.getElementById("answer").value = soal.answer || "";
+          document.getElementById("image_url").value = soal.image_url || "";
+          document.getElementById("audio_url").value = soal.audio_url || "";
+          document.getElementById("keyword").value = soal.keyword || "";
+
+        } catch (err) {
+          alert("Gagal mengambil detail soal.");
+        }
+      }
+    });
+
+    async function submitEdit() {
+      const payload = {
+        id: questionListDropdown.value,
+        feature: document.getElementById("feature").value,
+        category: document.getElementById("category").value,
+        question: document.getElementById("question").value || "",
+        answer: document.getElementById("answer").value || "",
+        image_url: document.getElementById("image_url").value || "",
+        audio_url: document.getElementById("audio_url").value || "",
+        keyword: document.getElementById("keyword").value || ""
+      };
+
+      try {
+        const res = await fetch("/questions/edit", {
+          method: "POST", // GANTI dari PUT ke POST agar sesuai endpoint
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        alert(data.message || "Soal berhasil diedit.");
+      } catch (err) {
+        alert("Gagal mengirim perubahan.");
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>

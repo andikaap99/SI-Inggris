@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | Teacher Dashboard</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+      
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+</head>
+<body class="bg-slate-100">
+
+    <div class="flex h-screen bg-slate-100">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-md hidden md:flex flex-col transition-transform duration-300 ease-in-out fixed md:relative h-full z-20">
+            <!-- Sidebar Logo/Header -->
+            <div class="p-6 border-b">
+                <h1 class="text-2xl font-bold gradient-text text-center">Teacher Dashboard</h1>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <nav class="flex-grow p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="/home" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <!-- Manage Questions Dropdown -->
+                    <li>
+                        <a href="/question" button id="questions-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                                <span>Manage Questions</span>
+                            </span>
+                            <i id="questions-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div id="questions-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="/insertls" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
+                            <a href="/insertlw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
+                            <a href="/insertiw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Image Word</a>
+                            <a href="/insertcs" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complete Sentence</a>
+                        </div>
+                    </li>
+                    <!-- Manage Student -->
+                    <li>
+                        <a href="/student" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                            <span>Manage Student</span>
+                        </a>
+                    </li>
+                    <!-- View Reports Dropdown (Active) -->
+                    <li>
+                        <button id="reports-toggle" class="w-full flex items-center justify-between text-blue-600 bg-blue-100 font-semibold p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                                <span>View Report</span>
+                            </span>
+                            <i id="reports-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform rotate-180"></i>
+                        </button>
+                        <div id="reports-menu" class="pl-8 pt-2 space-y-1">
+                            <a href="/leaderboard" class="block text-sm text-blue-600 font-medium p-2 rounded-lg bg-blue-50">Leaderboard</a>
+                            <a href="/analysis" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Analysis Submissions</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Content Header -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-10">
+                <div class="flex items-center">
+                    <button id="sidebar-toggle" class="text-gray-700 focus:outline-none md:hidden mr-4">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 truncate">View Reports</h2>
+                </div>
+                <div class="relative">
+                    <button id="profile-dropdown-button" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        <i data-lucide="user-round" class="w-6 h-6 text-gray-600"></i>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-40 border">
+                        <div class="px-4 py-2">
+                            <p class="text-sm font-semibold text-gray-800">Nama Guru</p>
+                            <p class="text-xs text-gray-500 truncate">teacher.name@example.com</p>
+                        </div>
+                        <div class="border-t border-gray-100"></div>
+                        <a href="#" class="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Students Leaderboard</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="p-4 text-sm font-semibold text-gray-600">Rank</th>
+                                    <th class="p-4 text-sm font-semibold text-gray-600">Name</th>
+                                    <th class="p-4 text-sm font-semibold text-gray-600">Last Submissions</th>
+                                    <th class="p-4 text-sm font-semibold text-gray-600">Last Practice</th>
+                                    <th class="p-4 text-sm font-semibold text-gray-600 text-right">Points</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Contoh Data Peringkat -->
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 font-medium text-gray-800">1.</td>
+                                    <td class="p-4 font-medium text-gray-800">Ardi Saputra</td>
+                                    <td class="p-4 text-gray-600">14 Jul 2025, 10:30 AM</td>
+                                    <td class="p-4"><span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded-full">Listening Word</span></td>
+                                    <td class="p-4 text-right font-bold text-red-600">3000 Point</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 font-medium text-gray-800">2.</td>
+                                    <td class="p-4 font-medium text-gray-800">Mila Jamilah</td>
+                                    <td class="p-4 text-gray-600">13 Jul 2025, 11:00 AM</td>
+                                    <td class="p-4"><span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-1 rounded-full">Complete Sentence</span></td>
+                                    <td class="p-4 text-right font-bold text-green-600">2709 Point</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 font-medium text-gray-800">3.</td>
+                                    <td class="p-4 font-medium text-gray-800">Alif Baswedan</td>
+                                    <td class="p-4 text-gray-600">14 Jul 2025, 10:23 PM</td>
+                                    <td class="p-4"><span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded-full">Listening Sentence</span></td>
+                                    <td class="p-4 text-right font-bold text-blue-600">2500 Point</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 font-medium text-gray-800">4.</td>
+                                    <td class="p-4 font-medium text-gray-800">Andika Putra</td>
+                                    <td class="p-4 text-gray-600">12 Jul 2025, 07:12 AM</td>
+                                    <td class="p-4"><span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded-full">Listening Sentence</span></td>
+                                    <td class="p-4 text-right font-bold text-gray-700">2199 Point</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 font-medium text-gray-800">5.</td>
+                                    <td class="p-4 font-medium text-gray-800">Rizza Alya Yahya</td>
+                                    <td class="p-4 text-gray-600">11 Jul 2025, 10:30 AM</td>
+                                    <td class="p-4"><span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-1 rounded-full">Image Word</span></td>
+                                    <td class="p-4 text-right font-bold text-gray-700">2029 Point</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 font-medium text-gray-800">6.</td>
+                                    <td class="p-4 font-medium text-gray-800">Annisa Nuraeni</td>
+                                    <td class="p-4 text-gray-600">11 Jul 2025, 08:10 AM</td>
+                                    <td class="p-4"><span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-1 rounded-full">Complete Sentence</span></td>
+                                    <td class="p-4 text-right font-bold text-gray-700">2003 Point</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 font-medium text-gray-800">7.</td>
+                                    <td class="p-4 font-medium text-gray-800">Mutiara Annuur</td>
+                                    <td class="p-4 text-gray-600">10 Jul 2025, 10:00 PM</td>
+                                    <td class="p-4"><span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded-full">Listening Word</span></td>
+                                    <td class="p-4 text-right font-bold text-gray-700">1980 Point</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 font-medium text-gray-800">8.</td>
+                                    <td class="p-4 font-medium text-gray-800">Topik Nur Rahman</td>
+                                    <td class="p-4 text-gray-600">08 Jul 2025, 11:30 PM</td>
+                                    <td class="p-4"><span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded-full">Listening Sentence</span></td>
+                                    <td class="p-4 text-right font-bold text-gray-700">1710 Point</td>
+                                </tr>
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-4 font-medium text-gray-800">9.</td>
+                                    <td class="p-4 font-medium text-gray-800">Airin Ristiana</td>
+                                    <td class="p-4 text-gray-600">09 Jul 2025, 12:30 PM</td>
+                                    <td class="p-4"><span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-1 rounded-full">Image Word</span></td>
+                                    <td class="p-4 text-right font-bold text-gray-700">1641 Point</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium text-gray-800">10.</td>
+                                    <td class="p-4 font-medium text-gray-800">Fathya Nurulhasanah</td>
+                                    <td class="p-4 text-gray-600">08 Jul 2025, 3:30 PM</td>
+                                    <td class="p-4"><span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-1 rounded-full">Complete Sentence</span></td>
+                                    <td class="p-4 text-right font-bold text-gray-700">1540 Point</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- See More Button -->
+                    <div class="p-4 text-center border-t border-gray-200 mt-4">
+                        <button class="text-blue-600 font-semibold hover:underline">See More</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Script untuk fungsionalitas sidebar dan dropdown -->
+    <script>
+        lucide.createIcons();
+
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        
+        const backdrop = document.createElement('div');
+        backdrop.id = 'sidebar-backdrop';
+        backdrop.className = 'fixed inset-0 bg-black/50 z-10 hidden md:hidden';
+        document.body.appendChild(backdrop);
+
+        const dropdowns = [
+            {
+                toggle: document.getElementById('questions-toggle'),
+                menu: document.getElementById('questions-menu'),
+                arrow: document.getElementById('questions-arrow')
+            },
+            {
+                toggle: document.getElementById('reports-toggle'),
+                menu: document.getElementById('reports-menu'),
+                arrow: document.getElementById('reports-arrow')
+            }
+        ];
+
+        const toggleSidebar = () => {
+            sidebar.classList.toggle('hidden');
+            backdrop.classList.toggle('hidden');
+        };
+
+        sidebarToggle.addEventListener('click', toggleSidebar);
+        backdrop.addEventListener('click', toggleSidebar);
+
+        dropdowns.forEach(dropdown => {
+            if (dropdown.toggle) {
+                dropdown.toggle.addEventListener('click', () => {
+                    const isCurrentlyOpen = !dropdown.menu.classList.contains('hidden');
+                    dropdowns.forEach(d => {
+                        if (d.menu) d.menu.classList.add('hidden');
+                        if (d.arrow) d.arrow.classList.remove('rotate-180');
+                    });
+                    if (!isCurrentlyOpen) {
+                        dropdown.menu.classList.remove('hidden');
+                        dropdown.arrow.classList.add('rotate-180');
+                    }
+                });
+            }
+        });
+
+        // --- Profile Dropdown Logic ---
+        const profileDropdownButton = document.getElementById('profile-dropdown-button');
+        const profileDropdownMenu = document.getElementById('profile-dropdown-menu');
+
+        const closeAllDropdowns = () => {
+             dropdowns.forEach(d => {
+                if (d.menu) d.menu.classList.add('hidden');
+                if (d.arrow) d.arrow.classList.remove('rotate-180');
+            });
+            if (profileDropdownMenu) profileDropdownMenu.classList.add('hidden');
+        };
+        
+        if (profileDropdownButton) {
+            profileDropdownButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isCurrentlyOpen = !profileDropdownMenu.classList.contains('hidden');
+                closeAllDropdowns();
+                if (!isCurrentlyOpen) {
+                    profileDropdownMenu.classList.remove('hidden');
+                }
+            });
+        }
+
+        // Menutup dropdown jika klik di luar
+        window.addEventListener('click', (event) => {
+            closeAllDropdowns();
+        });
+    </script>
+</body>
+</html>
