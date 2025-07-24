@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 
 SECRET_KEY = "your_super_secret_key"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 180
 
 router = APIRouter()
 
@@ -53,6 +53,10 @@ def get_current_user(request: Request):
         return {"username": username, "role": role}
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
+    
+@router.get("/check-session")
+def check_session(current_user: dict = Depends(get_current_user)):
+    return {"status": "ok"}
 
 def admin_required(current_user: dict = Depends(get_current_user)):
     if current_user["role"] != "admin":

@@ -186,6 +186,13 @@
     </footer>
 
     <script>
+        fetch(window.location.pathname).then(res => {
+            if (res.status === 401) {
+                alert("Session has expired");
+                window.location.href = "/login";
+            }
+        });
+
        document.addEventListener('DOMContentLoaded', () => {
             // --- FUNGSI PROFIL & LOGOUT TERINTEGRASI ---
             const profileButton = document.getElementById('profile-button');
@@ -317,6 +324,17 @@
             loadLeaderboard();
             lucide.createIcons();
         });
+
+        async function validateSession() {
+            const res = await fetch("/home-data");
+            if (res.status === 401) {
+                alert("Session has expired");
+                window.location.href = "/login";
+                return;
+            }
+        }
+
+        validateSession();
     </script>
 </body>
 </html>

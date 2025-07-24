@@ -119,16 +119,16 @@
                     <!-- Tabs -->
                     <div class="border-b border-gray-200">
                         <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                            <button class="tab-btn tab-active py-4 px-1 border-b-2 font-medium text-sm">
+                            <button id="listening-sentence" class="tab-btn tab-active py-4 px-1 border-b-2 font-medium text-sm">
                                 Listening Sentence
                             </button>
-                            <button class="tab-btn text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+                            <button id="listening-word" class="tab-btn text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 border-b-2 border-transparent font-medium text-sm">
                                 Listening Word
                             </button>
-                            <button class="tab-btn text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+                            <button id="image-word" class="tab-btn text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 border-b-2 border-transparent font-medium text-sm">
                                 Image Word
                             </button>
-                            <button class="tab-btn text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+                            <button id="complete-sentence" class="tab-btn text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 border-b-2 border-transparent font-medium text-sm">
                                 Complete Sentence
                             </button>
                         </nav>
@@ -141,44 +141,16 @@
                             <table class="w-full text-left">
                                 <thead class="bg-slate-50">
                                     <tr>
-                                        <th class="p-4 text-sm font-semibold text-gray-600">Student Name</th>
-                                        <th class="p-4 text-sm font-semibold text-gray-600">Email</th>
-                                        <th class="p-4 text-sm font-semibold text-gray-600">Class</th>
-                                        <th class="p-4 text-sm font-semibold text-gray-600 text-right">Points</th>
+                                    <th class="p-4 text-sm text-center font-semibold text-gray-600">No</th>
+                                    <th class="p-4 text-sm text-center font-semibold text-gray-600">Name</th>
+                                    <th class="p-4 text-sm text-center font-semibold text-gray-600">Class</th>
+                                    <th class="p-4 text-sm text-center font-semibold text-gray-600 text-right">Points</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <!-- Contoh Data Siswa -->
-                                    <tr class="border-b border-gray-200">
-                                        <td class="p-4 font-medium text-gray-800">Anya Putri</td>
-                                        <td class="p-4 text-gray-600">anya.putri@email.com</td>
-                                        <td class="p-4 text-gray-600">IPA - 1</td>
-                                        <td class="p-4 text-right font-semibold text-gray-800">85</td>
-                                    </tr>
-                                    <tr class="border-b border-gray-200">
-                                        <td class="p-4 font-medium text-gray-800">Budi Santoso</td>
-                                        <td class="p-4 text-gray-600">budi.santoso@email.com</td>
-                                        <td class="p-4 text-gray-600">IPA - 1</td>
-                                        <td class="p-4 text-right font-semibold text-gray-800">78</td>
-                                    </tr>
-                                    <tr class="border-b border-gray-200">
-                                        <td class="p-4 font-medium text-gray-800">Citra Lestari</td>
-                                        <td class="p-4 text-gray-600">citra.lestari@email.com</td>
-                                        <td class="p-4 text-gray-600">IPS - 1</td>
-                                        <td class="p-4 text-right font-semibold text-gray-800">92</td>
-                                    </tr>
-                                    <tr class="border-b border-gray-200">
-                                        <td class="p-4 font-medium text-gray-800">Dian Permata</td>
-                                        <td class="p-4 text-gray-600">dian.permata@email.com</td>
-                                        <td class="p-4 text-gray-600">Bahasa</td>
-                                        <td class="p-4 text-right font-semibold text-gray-800">65</td>
-                                    </tr>
+                                <tbody id="leaderboard-table-body">
                                     <tr>
-                                        <td class="p-4 font-medium text-gray-800">Eko Wijaya</td>
-                                        <td class="p-4 text-gray-600">eko.wijaya@email.com</td>
-                                        <td class="p-4 text-gray-600">IPS - 2</td>
-                                        <td class="p-4 text-right font-semibold text-gray-800">88</td>
-                                    </tr>
+                                    <td colspan="4" class="py-4 text-center text-gray-400">Memuat data...</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -194,6 +166,17 @@
 
     <!-- Script untuk fungsionalitas sidebar, dropdown, dan tabs -->
     <script>
+        async function validateSession() {
+            const res = await fetch("/check-session");
+            if (res.status === 401) {
+                alert("Session has expired");
+                window.location.href = "/login";
+            }
+        }
+
+        // Contoh panggilan:
+        checkSessionAndRedirect("/listening-word");
+
         lucide.createIcons();
 
         // --- Sidebar & Dropdown Logic ---
@@ -284,41 +267,54 @@
                     btn.classList.remove('tab-active');
                     btn.classList.add('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'border-transparent');
                 });
+
                 // Tambahkan kelas aktif ke tombol yang diklik
                 button.classList.add('tab-active');
                 button.classList.remove('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'border-transparent');
-                
-                // Di sini Anda bisa menambahkan logika untuk memuat data tabel yang sesuai dengan tab yang aktif
+
+                // Ambil ID button sebagai feature param
+                const feature = button.id;
+
+                // Panggil fetchLeaderboard dengan feature tersebut
+                fetchLeaderboard(feature);
             });
         });
 
-        // // --- Profile Dropdown Logic ---
-        // const profileDropdownButton = document.getElementById('profile-dropdown-button');
-        // const profileDropdownMenu = document.getElementById('profile-dropdown-menu');
+        async function fetchLeaderboard(feature) {
+            const tbody = document.getElementById("leaderboard-table-body");
+            tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-gray-400">Memuat data...</td></tr>`;
 
-        // const closeAllDropdowns = () => {
-        //      dropdowns.forEach(d => {
-        //         if (d.menu) d.menu.classList.add('hidden');
-        //         if (d.arrow) d.arrow.classList.remove('rotate-180');
-        //     });
-        //     if (profileDropdownMenu) profileDropdownMenu.classList.add('hidden');
-        // };
-        
-        // if (profileDropdownButton) {
-        //     profileDropdownButton.addEventListener('click', (e) => {
-        //         e.stopPropagation();
-        //         const isCurrentlyOpen = !profileDropdownMenu.classList.contains('hidden');
-        //         closeAllDropdowns();
-        //         if (!isCurrentlyOpen) {
-        //             profileDropdownMenu.classList.remove('hidden');
-        //         }
-        //     });
-        // }
+            try {
+                const res = await fetch(`/features-leaderboard?feature=${feature}`);
+                if (!res.ok) throw new Error("Gagal memuat data");
 
-        // Menutup dropdown jika klik di luar
-        window.addEventListener('click', (event) => {
-            closeAllDropdowns();
-        });
+                const data = await res.json();
+                tbody.innerHTML = "";
+
+                if (data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-gray-400">Belum ada data.</td></tr>`;
+                    return;
+                }
+
+                data.forEach(item => {
+                    const tr = document.createElement("tr");
+                    tr.className = "border-b hover:bg-gray-50 transition";
+                    tr.innerHTML = `
+                        <td class="p-4 text-center text-gray-800">${item.no}</td>
+                        <td class="p-4 text-center text-gray-600">${item.name}</td>
+                        <td class="p-4 text-center text-gray-600">${item.class_name}</td>
+                        <td class="p-4 text-right text-gray-600">${item.score}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-red-500">Gagal memuat data.</td></tr>`;
+            }
+        }
+        window.onload = function () {
+            fetchLeaderboard("listening-sentence");
+            validateSession();
+        };
     </script>
 </body>
 </html>

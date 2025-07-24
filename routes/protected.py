@@ -14,6 +14,7 @@ from sqlalchemy.orm import Session, joinedload
 from jose import JWTError, jwt
 from auth import hash_password
 from db import get_db
+import re
 from models import User, Student, Category, Materi, Image_Word, Listening_Word, Complete_Sentence, Listening_Sentence, Category, Category, Keyword_Listening, Category, Category, Attempt_Complete_Sentence, Attempt_Listening_Word, Attempt_Listening_Sentence, Attempt_Image_Word, Global_Attempt
 from auth import get_current_user, admin_required
 
@@ -70,10 +71,27 @@ router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 
-@router.get("/home", response_class=HTMLResponse)
-async def read_root(request: Request, current_user: User = Depends(get_current_user)):
+def convert_drive_link_to_thumbnail(drive_link: str) -> str:
+    match = re.search(r'/d/([a-zA-Z0-9_-]+)', drive_link)
+    if match:
+        file_id = match.group(1)
+        return f"https://drive.google.com/thumbnail?id={file_id}"
+    return drive_link
 
-    return templates.TemplateResponse("home2.html", {"request": request, "result": None})
+def convert_drive_link_to_uc(drive_link: str) -> str:
+    match = re.search(r'/d/([a-zA-Z0-9_-]+)', drive_link)
+    if match:
+        file_id = match.group(1)
+        return f"https://docs.google.com/uc?export=download&id={file_id}"
+    return drive_link
+
+@router.get("/home")
+def home_page(request: Request):
+    return templates.TemplateResponse("home2.html", {"request": request})
+
+@router.get("/home-data")
+def home_data(current_user: dict = Depends(get_current_user)):
+    return {"message": "This is protected data", "user": current_user["username"]}
 
 @router.get("/home-leaderboard", response_class=JSONResponse)
 def leaderboard_home(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
@@ -139,10 +157,87 @@ def get_user_global_attempts(
 
     return results
 
-@router.get("/listening-word", response_class=None)
+@router.get("/teacher-leaderboard", response_class=JSONResponse)
+def leaderboard_home(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    students = (
+        db.query(Student)
+        .join(User)
+        .filter(User.role == "student")
+        .order_by(Student.total_score.desc())
+        .all()
+    )
+
+    result = []
+    for student in students:
+        result.append({
+            "name": student.name,
+            "class_name": student.class_name,
+            "score": student.total_score or 0
+        })
+
+    return result
+
+from fastapi import Query
+
+# Mapping nama fitur ke Model SQLAlchemy dan relasi Category
+FEATURE_TABLE_MAPPING = {
+    "image-word": Attempt_Image_Word,
+    "listening-word": Attempt_Listening_Word,
+    "complete-sentence": Attempt_Complete_Sentence,
+    "listening-sentence": Attempt_Listening_Sentence
+}
+
+FEATURE_TABLE_MAPPING = {
+    "image-word": Attempt_Image_Word,
+    "listening-word": Attempt_Listening_Word,
+    "complete-sentence": Attempt_Complete_Sentence,
+    "listening-sentence": Attempt_Listening_Sentence
+}
+
+@router.get("/features-leaderboard")
+def dynamic_leaderboard(feature: str = Query(...), db: Session = Depends(get_db)):
+    AttemptModel = FEATURE_TABLE_MAPPING.get(feature)
+    if not AttemptModel:
+        raise HTTPException(status_code=400, detail="Fitur tidak valid")
+
+    data = (
+        db.query(
+            Student.name.label("name"),
+            Student.class_name.label("class_name"),
+            Category.name.label("category_name"),
+            AttemptModel.score.label("score")
+        )
+        .join(User, User.id == Student.user_id)
+        .join(AttemptModel, AttemptModel.user_id == User.id)
+        .join(Category, Category.Id_cat == AttemptModel.Id_cat)
+        .filter(User.role == "student")
+        .order_by(AttemptModel.score.desc())
+        .all()
+    )
+
+    result = []
+    for idx, d in enumerate(data, start=1):
+        result.append({
+            "no": idx,
+            "name": d.name,
+            "class_name": d.class_name,
+            "category": d.category_name,
+            "score": d.score
+        })
+
+    return result
+
+
+
+
+@router.get("/listening-word")
+def home_page(request: Request):
+    return templates.TemplateResponse("listening-word/Menu.html", {"request": request})
+
+@router.get("/listening-word-data", response_class=None)
 def listening_word(request: Request, current_user: User = Depends(get_current_user)):
  
-    return templates.TemplateResponse("listening-word/Menu.html", {"request": request})
+    return {"message": "This is protected data", "user": current_user["username"]}
 
 @router.get("/listening-word-word", response_class=None)
 def listening_word(request: Request, current_user: User = Depends(get_current_user)):
@@ -945,10 +1040,11 @@ def get_listening_words_by_category(id_cat: int, db: Session = Depends(get_db)):
 
 @router.post("/lw/add", status_code=status.HTTP_200_OK)
 def add_materi(payload: LwCreate, db: Session = Depends(get_db)):
+    audio_link = convert_drive_link_to_uc(payload.audio_lw)
     try:
         soal = Listening_Word(
             lw_answer=payload.lw_answer,
-            audio_lw=payload.audio_lw,
+            audio_lw=audio_link,
             Id_cat=payload.Id_cat
         )
         db.add(soal)
@@ -1009,11 +1105,12 @@ def get_cs_detail(id_lw: int, db: Session = Depends(get_db)):
 
 @router.post("/lw/edit")
 def edit_question(payload: dict, db: Session = Depends(get_db)):
+    audio_link = convert_drive_link_to_uc(payload.audio_lw)
     question = db.query(Listening_Word).filter_by(Id_lw=payload.get("Id_lw")).first()
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
 
-    question.audio_lw = payload.get("audio_lw")
+    question.audio_lw = audio_link
     question.lw_answer = payload.get("lw_answer")
 
     db.commit()
@@ -1050,10 +1147,12 @@ def get_image_words_by_category(id_cat: int, db: Session = Depends(get_db)):
 
 @router.post("/iw/add", status_code=status.HTTP_200_OK)
 def add_materi(payload: IwCreate, db: Session = Depends(get_db)):
+    image_link = convert_drive_link_to_thumbnail(payload.image_iw)
+
     try:
         soal = Image_Word(
             iw_answer=payload.iw_answer,
-            image_iw=payload.image_iw,
+            image_iw=image_link,
             Id_cat=payload.Id_cat
         )
         db.add(soal)
@@ -1114,12 +1213,13 @@ def get_cs_detail(id_iw: int, db: Session = Depends(get_db)):
 
 @router.post("/iw/edit")
 def edit_question(payload: dict, db: Session = Depends(get_db)):
+    image_link = convert_drive_link_to_thumbnail(payload.image_iw)
     question = db.query(Image_Word).filter_by(Id_iw=payload.get("Id_iw")).first()
     if not question:
         raise HTTPException(status_code=404, detail="Data not found")
 
     question.iw_answer = payload.get("iw_answer")
-    question.image_iw = payload.get("image_iw")
+    question.image_iw = image_link
 
     db.commit()
     return {"message": "Data updated successfully"}
