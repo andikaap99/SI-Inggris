@@ -22,32 +22,46 @@
                 <h1 class="text-2xl font-bold gradient-text text-center">Teacher Dashboard</h1>
             </div>
             
-            <!-- Navigation Menu -->
+            <<!-- Navigation Menu -->
             <nav class="flex-grow p-4">
                 <ul class="space-y-2">
                     <li>
-                        <a href="/homet" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                        <a href="/homet" id="menu-dashboard" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg">
                             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/question" class="flex items-center space-x-3 text-blue-600 bg-blue-100 font-semibold p-3 rounded-lg">
-                            <span class="flex items-center space-x-3">
+                        <a href="/category" id="menu-category" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                            <span>Manage Category</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors" id="menu-question">
+                            <a href="/question"  class="flex items-center space-x-3">
                                 <i data-lucide="clipboard-list" class="w-5 h-5"></i>
                                 <span>Manage Questions</span>
-                            </span>
-                            <i id="questions-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
-                        </button>
-                        <div id="questions-menu" class=" pl-8 pt-2 space-y-1">
+                            </a>
+                            <button id="questions-toggle" class="ml-auto">
+                                <i id="questions-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                            </button>
+                        </div>
+                        <div id="questions-menu" class="hidden pl-8 pt-1 space-y-1">
                             <a href="/insertls" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
                             <a href="/insertlw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
                             <a href="/insertiw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Image Word</a>
-                            <a href="/insertcs" class="block text-sm text-blue-600 font-medium p-2 rounded-lg bg-blue-50">Complete Sentence</a>
+                            <a href="/insertcs" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complete Sentence</a>
                         </div>
                     </li>
                     <li>
-                        <a href="/student" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                        <a href="/materi" id="menu-materi" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                            <span>Manage Materi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/student" id="menu-student" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
                             <i data-lucide="users" class="w-5 h-5"></i>
                             <span>Manage Student</span>
                         </a>
@@ -62,7 +76,7 @@
                         </button>
                         <div id="reports-menu" class="hidden pl-8 pt-2 space-y-1">
                             <a href="/leaderboard" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Leaderboard</a>
-                            <a href="/analysis" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Analysis Submissions</a>
+                            <a href="/analysis" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Question Analysis</a>
                         </div>
                     </li>
                 </ul>
@@ -220,6 +234,44 @@
         backdrop.id = 'sidebar-backdrop';
         backdrop.className = 'fixed inset-0 bg-black/50 z-10 hidden md:hidden';
         document.body.appendChild(backdrop);
+        const path = window.location.pathname;
+
+        // Pemetaan menu berdasarkan path
+        const menuMap = {
+            '/homet': 'menu-dashboard',
+            '/category': 'menu-category',
+            '/student': 'menu-student',
+            '/materi': 'menu-materi',
+            '/leaderboard': 'menu-reports',
+            '/question': 'menu-question',
+            '/insertls': 'menu-question',
+            '/insertlw': 'menu-question',
+            '/insertiw': 'menu-question',
+            '/insertcs': 'menu-question'
+        };
+
+        // Tandai menu aktif berdasarkan path
+        const activeMenuId = menuMap[path];
+        if (activeMenuId) {
+            const activeLink = document.getElementById(activeMenuId);
+            if (activeLink) {
+                activeLink.classList.remove("text-gray-600");
+                activeLink.classList.add("text-blue-600", "bg-blue-100", "font-semibold");
+            }
+            if (path === '/insertls' || path === '/insertlw' || path === '/insertiw' || path === '/insertcs') {
+                    const questionToggle = document.getElementById('questions-toggle');
+                    if (questionToggle) {
+                        questionToggle.classList.remove("text-gray-600");
+                        questionToggle.classList.add("text-blue-600", "bg-blue-100", "font-semibold");
+
+                        // buka dropdown otomatis saat path cocok
+                        const questionMenu = document.getElementById('questions-menu');
+                        const questionArrow = document.getElementById('questions-arrow');
+                        if (questionMenu) questionMenu.classList.remove('hidden');
+                        if (questionArrow) questionArrow.classList.add('rotate-180');
+                    }
+                }
+        }
 
         const dropdowns = [
             {
@@ -300,28 +352,28 @@
             });
         });
 
-        // --- Profile Dropdown Logic ---
-        const profileDropdownButton = document.getElementById('profile-dropdown-button');
-        const profileDropdownMenu = document.getElementById('profile-dropdown-menu');
+        // // --- Profile Dropdown Logic ---
+        // const profileDropdownButton = document.getElementById('profile-dropdown-button');
+        // const profileDropdownMenu = document.getElementById('profile-dropdown-menu');
 
-        const closeAllDropdowns = () => {
-             dropdowns.forEach(d => {
-                if (d.menu) d.menu.classList.add('hidden');
-                if (d.arrow) d.arrow.classList.remove('rotate-180');
-            });
-            if (profileDropdownMenu) profileDropdownMenu.classList.add('hidden');
-        };
+        // // const closeAllDropdowns = () => {
+        // //      dropdowns.forEach(d => {
+        // //         if (d.menu) d.menu.classList.add('hidden');
+        // //         if (d.arrow) d.arrow.classList.remove('rotate-180');
+        // //     });
+        // //     if (profileDropdownMenu) profileDropdownMenu.classList.add('hidden');
+        // // };
         
-        if (profileDropdownButton) {
-            profileDropdownButton.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isCurrentlyOpen = !profileDropdownMenu.classList.contains('hidden');
-                closeAllDropdowns();
-                if (!isCurrentlyOpen) {
-                    profileDropdownMenu.classList.remove('hidden');
-                }
-            });
-        }
+        // if (profileDropdownButton) {
+        //     profileDropdownButton.addEventListener('click', (e) => {
+        //         e.stopPropagation();
+        //         const isCurrentlyOpen = !profileDropdownMenu.classList.contains('hidden');
+        //         closeAllDropdowns();
+        //         if (!isCurrentlyOpen) {
+        //             profileDropdownMenu.classList.remove('hidden');
+        //         }
+        //     });
+        // }
 
         document.getElementById("category-lw").addEventListener("change", function () {
             const selectedCatId = this.value;
@@ -341,7 +393,7 @@
                 const select_add = document.getElementById("question_topic");;
 
                 // Hapus semua isi select (jaga-jaga)
-                select_add.innerHTML = `<option value="">-- Pilih Kategori --</option>`;
+                select_add.innerHTML = `<option value="">-- Select Category --</option>`;
                 data.forEach(cat => {
                     const option = document.createElement("option");
                     option.value = cat.id_cat;
@@ -361,7 +413,7 @@
                 const data = await res.json();
                 const select = document.getElementById("category-lw");
 
-                select.innerHTML = `<option value="">-- Pilih Kategori --</option>`;
+                select.innerHTML = `<option value="">-- Select Category --</option>`;
                 data.forEach(cat => {
                     const option = document.createElement("option");
                     option.value = cat.id_cat;
