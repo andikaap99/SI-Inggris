@@ -183,6 +183,17 @@
                 });
             }
         });
+
+        async function validateSession() {
+            const res = await fetch("/question-data");
+            if (res.status === 401) {
+                alert("Session has expired");
+                window.location.href = "/login";
+                return;
+            }
+        }
+
+        validateSession();
     </script>
 </body>
 </html>

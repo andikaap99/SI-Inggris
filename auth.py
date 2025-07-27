@@ -53,7 +53,17 @@ def get_current_user(request: Request):
         return {"username": username, "role": role}
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
-    
+
+def role_required(required_role: str):
+    def role_checker(current_user: dict = Depends(get_current_user)):
+        if current_user["role"] != required_role:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You do not have access to this resource"
+            )
+        return current_user
+    return role_checker
+
 @router.get("/check-session")
 def check_session(current_user: dict = Depends(get_current_user)):
     return {"status": "ok"}

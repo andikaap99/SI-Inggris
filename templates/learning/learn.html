@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Menu Listening Sentence</title>
+    <title>Menu Listening Word</title>
     <link rel="stylesheet" href="/static/style.css">
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts: Inter -->
@@ -16,6 +14,7 @@
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
 </head>
 <body class="main-bg">
     <!-- Navbar -->
@@ -29,7 +28,7 @@
 
         <!-- Tengah: Judul -->
         <div class="flex-1 text-center">
-            <h1 class="text-lg font-semibold text-gray-800">Listening Sentence</h1>
+            <h1 class="text-lg font-semibold text-gray-800">Material</h1>
         </div>
 
         <!-- Sisi Kanan: Profil Dropdown -->
@@ -55,11 +54,12 @@
         </div>
     </nav>
 
-    <!-- Overlay -->
+    <!-- Overlay-->
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 hidden z-40"></div>
-    
+
     <!-- Sidebar -->
     <div id="sidebar" class="fixed top-0 left-0 h-full w-48 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50">
+        <!-- Tombol X -->
         <div class="flex items-center justify-between p-4 border-b">
             <span class="font-semibold text-lg">Menu</span>
             <button id="close-sidebar" class="text-gray-500 hover:text-gray-800">
@@ -76,18 +76,29 @@
         </ul>
     </div>
 
-    <!-- KONTEN UTAMA (Desain Kartu Baru) -->
+    <!-- KONTEN UTAMA -->
     <main class="flex-1 container mx-auto p-6 md:p-10">
         <div class="text-center mb-10">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900">Choose a Category</h2>
-            <p class="mt-2 text-lg text-gray-600">Select a topic to start practicing sentence listening!</p>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900">Choose a Material</h2>
+            <p class="mt-2 text-lg text-gray-600">Select a topic to start learn about the material</p>
         </div>
         
         <!-- Grid Kategori Baru -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="category-container">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="material-container">
         <!-- Cards will be inserted here dynamically -->
         </div>
     </main>
+
+    <!-- PDF Modal -->
+    <div id="materiModal" class="fixed inset-0 hidden bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-4 max-w-3xl w-full">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Materi Preview</h2>
+                <button id="closeModalBtn" class="text-gray-500 hover:text-gray-700">&times;</button>
+            </div>
+            <iframe id="materiFrame" src="" width="100%" height="500px" class="border rounded-lg"></iframe>
+        </div>
+    </div>
 
     <!-- Logout Confirmation Modal -->
     <div id="logout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
@@ -109,9 +120,27 @@
     </div>
 
     <script>
-        const categoryContainer = document.getElementById("category-container");
+        document.addEventListener("click", function(e) {
+            if (e.target.classList.contains("open-materi-btn")) {
+                const url = e.target.getAttribute("data-url");
+                const materiId = e.target.getAttribute("data-id");
 
-        const categoryColorMap = [
+                // Set URL ke iframe
+                document.getElementById("materiFrame").src = url;
+
+                // Tampilkan modal
+                document.getElementById("materiModal").classList.remove("hidden");
+            }
+
+            // Close Modal
+            if (e.target.id === "closeModalBtn" || e.target.id === "materiModal") {
+                document.getElementById("materiModal").classList.add("hidden");
+                document.getElementById("materiFrame").src = ""; // clear src untuk stop loading
+            }
+        });
+
+        const MaterialContainer = document.getElementById("material-container");
+        const materiColorMap = [
             { color: "blue", icon: "lamp" },
             { color: "green", icon: "utensils-crossed" },
             { color: "purple", icon: "palette" },
@@ -120,36 +149,39 @@
             { color: "indigo", icon: "book-open" },
         ];
 
-        function createCategoryCard(category, index) {
-            const { name, desc } = category;
-            const { color, icon } = categoryColorMap[index % categoryColorMap.length];
+        function createMateriCard(materi, index) {
+            const { id_mat, name, url, cat_name } = materi;
+            const { color, icon } = materiColorMap[index % materiColorMap.length];
 
             return `
-            <a href="/listening-sentence-sentence?category=${encodeURIComponent(name)}" class="block">
+            <div class="block">
                 <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 ease-in-out flex flex-col overflow-hidden h-full">
                 <div class="p-6 bg-${color}-500 flex items-center justify-center">
                     <i data-lucide="${icon}" class="w-16 h-16 text-white"></i>
                 </div>
                 <div class="p-6 flex flex-col flex-grow">
                     <h3 class="text-xl font-bold text-gray-800">${name}</h3>
-                    <p class="mt-2 text-sm text-gray-500 flex-grow">${desc}</p>
-                    <div class="mt-6 w-full bg-${color}-600 text-white font-semibold py-3 rounded-lg text-center hover:bg-${color}-700 transition-colors">
-                    Start Practice
-                    </div>
+                    <p class="mt-2 text-sm text-gray-500 flex-grow">${cat_name}</p>
+                    <button 
+                        class="open-materi-btn mt-6 w-full bg-${color}-600 text-white font-semibold py-3 rounded-lg text-center hover:bg-${color}-700 transition-colors"
+                        data-id="${id_mat}" 
+                        data-url="${url}">
+                        Learn Now
+                    </button>
                 </div>
                 </div>
-            </a>
+            </div>
             `;
         }
 
-        fetch("/listening-sentence-categories")
+        fetch("/material")
             .then(res => res.json())
             .then(data => {
-            categoryContainer.innerHTML = data.map((cat, index) => createCategoryCard(cat, index)).join("");
+            MaterialContainer.innerHTML = data.map((mat, index) => createMateriCard(mat, index)).join("");
             if (window.lucide) lucide.createIcons(); // refresh icons if using lucide
             })
             .catch(err => {
-            categoryContainer.innerHTML = `<p class="text-red-500">Gagal memuat kategori.</p>`;
+            MaterialContainer.innerHTML = `<p class="text-red-500">Gagal memuat data.</p>`;
             console.error(err);
         });
 
@@ -236,7 +268,7 @@
         });
 
         async function validateSession() {
-            const res = await fetch("/listening-sentence-data");
+            const res = await fetch("/learn-data");
             if (res.status === 401) {
                 alert("Session has expired");
                 window.location.href = "/login";

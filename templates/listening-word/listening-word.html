@@ -326,6 +326,17 @@
             loadQuestion();
             lucide.createIcons();
         });
+
+        async function validateSession() {
+            const res = await fetch("/listening-word-word-data");
+            if (res.status === 401) {
+                alert("Session has expired");
+                window.location.href = "/login";
+                return;
+            }
+        }
+
+        validateSession();
     </script>
 </body>
 </html>

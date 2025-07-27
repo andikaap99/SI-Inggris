@@ -257,6 +257,7 @@
                 }
             }
 
+            let final_score = 0;
             async function evaluateAnswer() {
                 const answerInput = document.getElementById("answer");
                 const answer = answerInput.value;
@@ -273,7 +274,15 @@
                     });
                     const result = await res.json();
 
-                    showFeedbackMessage("Your Score: " + result.final_score, null);
+                    showFeedbackMessage("Your Score: " + result.question_score, null);
+                    final_score = final_score + result.question_score;
+
+                    window.attemptAnswers = window.attemptAnswers || [];
+                    window.attemptAnswers.push({
+                        Id_cat: currentId,
+                        answer: answer,
+                        question_score: result.question_score
+                    });
 
                     if (result.next_id) {
                         setTimeout(() => {
@@ -281,11 +290,31 @@
                             answerInput.value = "";
                         }, 1500);
                     } else {
-                        showFeedbackMessage("Quiz finished! No more questions.", null);
                         setTimeout(() => {
-                            window.location.href = "/listening-sentence";
-                        }, 2500);
+                            const user = JSON.parse(localStorage.getItem("user"));
+                            const username = user?.username;
+                            const category = new URLSearchParams(window.location.search).get("category");
+
+                            const completeAttempt = {
+                                feature: "Listening_Sentence",
+                                student_id: username,
+                                category_id: category,
+                                questions: window.attemptAnswers
+                            };
+
+                            localStorage.setItem("complete_attempt", JSON.stringify(completeAttempt));
+                            window.location.href = "/result-ls";
+                        }, 1500);
+
+                        // showFeedbackMessage("Quiz finished! No more questions.", null);
+                        // setTimeout(() => {
+                        //     window.location.href = "/listening-sentence";
+                        // }, 2500);
                     }
+                    console.log("KIRIM:", {
+                        currentId,
+                        student_answer: answer
+                        });
                 } catch (error) {
                     console.error("Failed to evaluate answer:", error);
                     showFeedbackMessage("Could not submit answer.", false);
@@ -315,6 +344,17 @@
             loadQuestion();
             lucide.createIcons();
         });
+
+        async function validateSession() {
+            const res = await fetch("/listening-sentence-sentence-data");
+            if (res.status === 401) {
+                alert("Session has expired");
+                window.location.href = "/login";
+                return;
+            }
+        }
+
+        validateSession();
     </script>
 </body>
 </html>

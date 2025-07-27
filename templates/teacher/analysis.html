@@ -166,14 +166,6 @@
 
     <!-- Script untuk fungsionalitas sidebar, dropdown, dan tabs -->
     <script>
-        async function validateSession() {
-            const res = await fetch("/check-session");
-            if (res.status === 401) {
-                alert("Session has expired");
-                window.location.href = "/login";
-            }
-        }
-
         // Contoh panggilan:
         checkSessionAndRedirect("/listening-word");
 
@@ -315,6 +307,17 @@
             fetchLeaderboard("listening-sentence");
             validateSession();
         };
+
+        async function validateSession() {
+            const res = await fetch("/analysis-data");
+            if (res.status === 401) {
+                alert("Session has expired");
+                window.location.href = "/login";
+                return;
+            }
+        }
+
+        validateSession();
     </script>
 </body>
 </html>

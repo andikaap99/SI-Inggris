@@ -39,11 +39,17 @@ async def login(request: Request, username: str = Form(...), password: str = For
     # Buat JWT token
     token = create_access_token(data={
         "sub": user.username,
-        "role": user.role
+        "role": user.role.lower()
     })
 
     # Set token ke cookie
-    response = RedirectResponse(url="/home", status_code=302)
+    if user.role.lower() == "student":
+        response = RedirectResponse(url="/home", status_code=302)
+    elif user.role.lower() == "teacher":
+        response = RedirectResponse(url="/homet", status_code=302)
+    else:
+        response = "Role is not recognized"
+
     response.set_cookie(
         key="access_token",
         value=f"Bearer {token}",
@@ -54,6 +60,6 @@ async def login(request: Request, username: str = Form(...), password: str = For
 
 @router.post("/logout")
 def logout():
-    response = RedirectResponse(url="/", status_code=302)
+    response = RedirectResponse(url="/login", status_code=302)
     response.delete_cookie("access_token")
     return response

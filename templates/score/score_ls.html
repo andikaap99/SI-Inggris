@@ -90,14 +90,6 @@
                 <!-- Detail Skor -->
                 <div class="bg-gray-50 rounded-lg p-4 flex justify-around">
                     <div class="text-center">
-                        <p class="text-sm font-medium text-gray-500">Correct</p>
-                        <p id="correct-answers" class="text-2xl font-bold text-green-500">0</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-sm font-medium text-gray-500">Incorrect</p>
-                        <p id="incorrect-answers" class="text-2xl font-bold text-red-500">0</p>
-                    </div>
-                    <div class="text-center">
                         <p class="text-sm font-medium text-gray-500">Total</p>
                         <p id="score-many" class="text-2xl font-bold text-gray-700">0</p>
                     </div>
@@ -216,50 +208,39 @@
             }
 
             // --- LOGIKA SKOR ---
-            const type = new URLSearchParams(window.location.search).get("type") || "complete-sentence";
-            let endpoint = "/complete-sentence/save-attempt/";
-            if (type === "listening-word") {
-                endpoint = "/listening-word/save-attempt/";
-            } else if (type === "image-word") {
-                endpoint = "/image-word/save-attempt/";
-            } else if (type === "listening-sentence") {
-                endpoint = "/listening-sentence/save-attempt/";
-            }
+            const type = "listening-sentence";
+            const endpoint = "/listening-sentence/save-attempt/";
 
             const attempt = JSON.parse(localStorage.getItem("complete_attempt"));
             if (!attempt) {
                 document.getElementById("score-many").innerText = '0';
-                document.getElementById("correct-answers").innerText = '0';
-                document.getElementById("incorrect-answers").innerText = '0';
-                document.getElementById("score-value").innerText = "0%";
+                document.getElementById("score-value").innerText = "0";
                 lucide.createIcons(); // Inisialisasi ikon meskipun tidak ada skor
                 return;
             };
 
             const totalQuestions = attempt.questions.length;
-            const correctAnswers = attempt.questions.filter(q => q.is_correct).length;
-            const incorrectAnswers = totalQuestions - correctAnswers;
-            const scorePercent = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+            const totalScore = attempt.questions.reduce((acc, q) => acc + q.question_score, 0);
 
             document.getElementById("score-many").innerText = totalQuestions;
-            document.getElementById("correct-answers").innerText = correctAnswers;
-            document.getElementById("incorrect-answers").innerText = incorrectAnswers;
-            document.getElementById("score-value").innerText = scorePercent + "%";
+            document.getElementById("score-value").innerText = totalScore;
+            console.log(totalScore)
 
             const circle = document.getElementById('progress-circle');
             const radius = circle.r.baseVal.value;
             const circumference = radius * 2 * Math.PI;
             circle.style.strokeDasharray = `${circumference} ${circumference}`;
-            const offset = circumference - scorePercent / 100 * circumference;
+            const offset = 0 / 100 * circumference;
             circle.style.strokeDashoffset = offset;
 
-            if (scorePercent > 70) {
-                confetti({
-                    particleCount: 150,
-                    spread: 90,
-                    origin: { y: 0.6 }
-                });
-            }
+            // Confetti jika benar > 70%
+            // if (scorePercent > 70) {
+            confetti({
+                particleCount: 150,
+                spread: 90,
+                origin: { y: 0.6 }
+            });
+            // }
 
             const retryButton = document.getElementById('retry-button');
             if (retryButton) {
@@ -290,7 +271,7 @@
                     feature: feature,
                     student_id: username,
                     category_id: category,
-                    score: scorePercent
+                    score: totalScore
                 };
 
                 // Kirim ke backend dengan benar
@@ -313,7 +294,7 @@
         });
 
         async function validateSession() {
-            const res = await fetch("/result-data");
+            const res = await fetch("/result-ls-data");
             if (res.status === 401) {
                 alert("Session has expired");
                 window.location.href = "/login";

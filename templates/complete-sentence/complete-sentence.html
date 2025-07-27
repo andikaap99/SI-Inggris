@@ -297,6 +297,17 @@
             loadQuestion();
             lucide.createIcons();
         });
+
+        async function validateSession() {
+            const res = await fetch("/complete-sentence-sentence-data");
+            if (res.status === 401) {
+                alert("Session has expired");
+                window.location.href = "/login";
+                return;
+            }
+        }
+
+        validateSession();
     </script>
 </body>
 </html>

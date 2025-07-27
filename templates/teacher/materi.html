@@ -489,11 +489,21 @@
             }
         }
 
+        async function validateSession() {
+            const res = await fetch("/materi-data");
+            if (res.status === 401) {
+                alert("Session has expired");
+                window.location.href = "/login";
+                return;
+            }
+        }
+
+        validateSession();
+
         window.onload = function () {
             fetchCategory();
             fetchMateri()
         };
-
     </script>
 
 </body>
