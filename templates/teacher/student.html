@@ -31,20 +31,27 @@
             <nav class="flex-grow p-4">
                 <ul class="space-y-2">
                     <li>
-                        <a href="/homet" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                        <a href="/homet" id="menu-dashboard" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg">
                             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <!-- Manage Questions Dropdown -->
                     <li>
-                        <a href="/question" button id="questions-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
-                            <span class="flex items-center space-x-3">
+                        <a href="/category" id="menu-category" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                            <span>Manage Category</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors" id="menu-question">
+                            <a href="/question"  class="flex items-center space-x-3">
                                 <i data-lucide="clipboard-list" class="w-5 h-5"></i>
                                 <span>Manage Questions</span>
-                            </span>
-                            <i id="questions-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
-                        </button>
+                            </a>
+                            <button id="questions-toggle" class="ml-auto">
+                                <i id="questions-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                            </button>
+                        </div>
                         <div id="questions-menu" class="hidden pl-8 pt-2 space-y-1">
                             <a href="/insertls" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
                             <a href="/insertlw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
@@ -52,16 +59,20 @@
                             <a href="/insertcs" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complete Sentence</a>
                         </div>
                     </li>
-                    <!-- Manage Students (Active) -->
                     <li>
-                        <a href="/student" class="flex items-center space-x-3 text-blue-600 bg-blue-100 font-semibold p-3 rounded-lg">
+                        <a href="/materi" id="menu-materi" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                            <span>Manage Materi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/student" id="menu-student" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
                             <i data-lucide="users" class="w-5 h-5"></i>
                             <span>Manage Student</span>
                         </a>
                     </li>
-                    <!-- View Reports Dropdown -->
                     <li>
-                        <button id="reports-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                        <button id="reports-toggle" id="menu-reports" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
                             <span class="flex items-center space-x-3">
                                 <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
                                 <span>View Reports</span>
@@ -244,6 +255,26 @@
         backdrop.id = 'sidebar-backdrop';
         backdrop.className = 'fixed inset-0 bg-black/50 z-10 hidden md:hidden';
         document.body.appendChild(backdrop);
+        const path = window.location.pathname;
+
+        const menuMap = {
+            '/homet': 'menu-dashboard',
+            '/category': 'menu-category',
+            '/student': 'menu-student',
+            '/materi': 'menu-materi',
+            '/leaderboard': 'menu-reports',
+            '/question': 'menu-question' // jika perlu
+            // tambahkan jika ada lainnya
+        };
+
+        const activeMenuId = menuMap[path];
+            if (activeMenuId) {
+                const activeLink = document.getElementById(activeMenuId);
+                if (activeLink) {
+                    activeLink.classList.remove("text-gray-600");
+                    activeLink.classList.add("text-blue-600", "bg-blue-100", "font-semibold");
+                }
+            }
 
         const dropdowns = [
             {
