@@ -490,7 +490,7 @@
         }
 
         async function validateSession() {
-            const res = await fetch("/materi-data");
+            const res = await fetch("/session-check");
             if (res.status === 401) {
                 alert("Session has expired");
                 window.location.href = "/login";

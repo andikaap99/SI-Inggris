@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.security import OAuth2PasswordBearer
 from models import User
-from auth import role_required
+from auth import role_required, get_current_user
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")

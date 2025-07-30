@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 
 SECRET_KEY = "your_super_secret_key"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 180
+ACCESS_TOKEN_EXPIRE_MINUTES = 1
 
 router = APIRouter()
 

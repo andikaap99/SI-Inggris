@@ -207,6 +207,80 @@
                         </div>
                     </div>
                 </div>
+
+                <button id="openTutorialBtn" class="fixed bottom-8 right-5 bg-blue-700 text-white border border-blue-300 px-16 py-2 rounded-lg shadow-md hover:bg-blue-800">
+                    Tutorial
+                </button>
+
+                <!-- Modal Background Overlay -->
+                <div id="modalOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <!-- Modal Content -->
+                    <div id="modalContent" class="bg-white w-11/12 max-w-xl p-6 rounded-2xl shadow-lg relative">
+                    <!-- Close Button -->
+                    <button id="closeTutorialBtn" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+                    <h2 class="text-2xl font-semibold mb-4">Tutorial Mengerjakan Kuis</h2>
+
+                    <!-- Dropdown Menu -->
+                    <div class="space-y-4">
+                        <!-- Dropdown Item -->
+                        <div>
+                        <button class="dropdown-btn w-full text-left bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200">
+                            Listening Sentence
+                        </button>
+                        <div class="dropdown-content hidden pl-4 mt-2 text-sm text-gray-600">
+                            <ol class="list-decimal space-y-1">
+                            <li>Baca instruksi soal dengan seksama.</li>
+                            <li>Dengarkan kalimat yang diputar.</li>
+                            <li>Pilih jawaban yang sesuai dengan kalimat yang didengar.</li>
+                            <li>Periksa jawaban sebelum mengirimkan.</li>
+                            </ol>
+                        </div>
+                        </div>
+
+                        <div>
+                        <button class="dropdown-btn w-full text-left bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200">
+                            Listening Word
+                        </button>
+                        <div class="dropdown-content hidden pl-4 mt-2 text-sm text-gray-600">
+                            <ol class="list-decimal space-y-1">
+                            <li>Baca instruksi soal terlebih dahulu.</li>
+                            <li>Dengarkan kata yang diucapkan.</li>
+                            <li>Pilih kata yang sesuai dari pilihan yang tersedia.</li>
+                            <li>Klik submit setelah yakin dengan jawaban.</li>
+                            </ol>
+                        </div>
+                        </div>
+
+                        <div>
+                        <button class="dropdown-btn w-full text-left bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200">
+                            Image Word
+                        </button>
+                        <div class="dropdown-content hidden pl-4 mt-2 text-sm text-gray-600">
+                            <ol class="list-decimal space-y-1">
+                            <li>Baca soal dan lihat gambar yang tersedia.</li>
+                            <li>Cocokkan kata dengan gambar yang benar.</li>
+                            <li>Pilih jawaban yang sesuai dengan gambar.</li>
+                            <li>Klik submit untuk melanjutkan soal berikutnya.</li>
+                            </ol>
+                        </div>
+                        </div>
+
+                        <div>
+                        <button class="dropdown-btn w-full text-left bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200">
+                            Complete Sentence
+                        </button>
+                        <div class="dropdown-content hidden pl-4 mt-2 text-sm text-gray-600">
+                            <ol class="list-decimal space-y-1">
+                            <li>Baca kalimat yang belum lengkap.</li>
+                            <li>Pilih kata yang tepat untuk melengkapi kalimat.</li>
+                            <li>Periksa kembali susunan kalimatnya.</li>
+                            <li>Submit jawaban untuk menyelesaikan soal.</li>
+                            </ol>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
             </main>
         </div>
     </div>
@@ -214,6 +288,45 @@
     <!-- Script to activate Lucide Icons and mobile sidebar functionality -->
     <script>
         lucide.createIcons();
+
+        const openTutorialBtn = document.getElementById('openTutorialBtn');
+        const closeTutorialBtn = document.getElementById('closeTutorialBtn');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalContent = document.getElementById('modalContent');
+        const dropdownBtns = document.querySelectorAll('.dropdown-btn');
+        const dropdownContents = document.querySelectorAll('.dropdown-content');
+
+        openTutorialBtn.addEventListener('click', () => {
+        modalOverlay.classList.remove('hidden');
+        });
+
+        closeTutorialBtn.addEventListener('click', () => {
+        modalOverlay.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside modalContent
+        modalOverlay.addEventListener('click', (e) => {
+        if (!modalContent.contains(e.target)) {
+            modalOverlay.classList.add('hidden');
+        }
+        });
+
+        // Accordion Behavior
+        dropdownBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const content = btn.nextElementSibling;
+
+            // Close all dropdowns except the one being clicked
+            dropdownContents.forEach(c => {
+            if (c !== content) {
+                c.classList.add('hidden');
+            }
+            });
+
+            // Toggle the clicked dropdown
+            content.classList.toggle('hidden');
+        });
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             const logoutButton = document.getElementById('logout-button');

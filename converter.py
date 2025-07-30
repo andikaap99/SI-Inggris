@@ -5,7 +5,7 @@ import base64
 import uuid
 
 # === CONFIG ===
-## token isi disini
+###GITHUB_TOKEN
 REPO_NAME = 'andikaap99/asset'
 BRANCH = 'main'
 TARGET_FOLDER = ''
