@@ -137,12 +137,12 @@
                     
                     <!-- Table -->
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left">
+                        <table class="w-full table-fixed text-center">
                             <thead class="bg-slate-50">
                                 <tr>
-                                    <th class="p-4 text-sm font-semibold text-gray-600">Questions</th>
-                                    <th class="p-4 text-sm font-semibold text-gray-600">Answer</th>
-                                    <th class="p-4 text-sm font-semibold text-gray-600">Action</th>
+                                    <th class="w-180 break-words p-4 text-sm font-semibold text-gray-600">Question Sentence</th>
+                                    <th class="w-40 break-words p-4 text-sm font-semibold text-gray-600">Answer</th>
+                                    <th class="w-40 break-words p-4 text-sm font-semibold text-gray-600">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="complete-sentence-table-body">
@@ -442,8 +442,8 @@
                 data.forEach((soal) => {
                     const tr = document.createElement("tr");
                     tr.innerHTML = `
-                        <td class="p-4 text-center">${soal.question_cs}</td>
-                        <td class="p-4 text-center">${soal.cs_answer}</td>
+                        <td class="p-4 text-center break-words w-180">${soal.question_cs}</td>
+                        <td class="p-4 text-center break-words w-40">${soal.cs_answer}</td>
                         <td class="p-4 flex space-x-2 justify-center items-center">
                             <button class="edit-btn bg-gray-200 text-gray-700 font-semibold px-4 py-1.5 rounded-lg hover:bg-gray-300 text-sm"
                                 edit-soal-id="${soal.id_cs}">
@@ -609,16 +609,23 @@
             fetchCategory();
         });
 
-        async function validateSession() {
-            const res = await fetch("/insertcs-data");
-            if (res.status === 401) {
-                alert("Session has expired");
-                window.location.href = "/login";
-                return;
+        async function validateAndLoadContent() {
+            try {
+                const res = await fetch("/insertcs-data");
+                if (res.status === 401 || res.status === 403) {
+                    alert("Session has expired or you are not authorized.");
+                    window.location.href = "/login";
+                    return;
+                }
+                const data = await res.json();
+                // Render konten berdasarkan data
+                console.log("Protected Content Loaded:", data);
+            } catch (err) {
+                console.error("Failed to load protected content:", err);
             }
         }
 
-        validateSession();
+        validateAndLoadContent();
     </script>
 </body>
 </html>

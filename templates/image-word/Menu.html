@@ -236,6 +236,24 @@
             // Inisialisasi ikon
             lucide.createIcons();
         });
+
+        async function validateAndLoadContent() {
+            try {
+                const res = await fetch("/image-word-data");
+                if (res.status === 401 || res.status === 403) {
+                    alert("Session has expired or you are not authorized.");
+                    window.location.href = "/login";
+                    return;
+                }
+                const data = await res.json();
+                // Render konten berdasarkan data
+                console.log("Protected Content Loaded:", data);
+            } catch (err) {
+                console.error("Failed to load protected content:", err);
+            }
+        }
+
+        validateAndLoadContent();
     </script>
 </body>
 </html>

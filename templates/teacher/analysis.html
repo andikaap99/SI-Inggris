@@ -166,9 +166,6 @@
 
     <!-- Script untuk fungsionalitas sidebar, dropdown, dan tabs -->
     <script>
-        // Contoh panggilan:
-        checkSessionAndRedirect("/listening-word");
-
         lucide.createIcons();
 
         // --- Sidebar & Dropdown Logic ---
@@ -305,19 +302,25 @@
         }
         window.onload = function () {
             fetchLeaderboard("listening-sentence");
-            validateSession();
         };
 
-        async function validateSession() {
-            const res = await fetch("/analysis-data");
-            if (res.status === 401) {
-                alert("Session has expired");
-                window.location.href = "/login";
-                return;
+        async function validateAndLoadContent() {
+            try {
+                const res = await fetch("/analysis-data");
+                if (res.status === 401 || res.status === 403) {
+                    alert("Session has expired or you are not authorized.");
+                    window.location.href = "/login";
+                    return;
+                }
+                const data = await res.json();
+                // Render konten berdasarkan data
+                console.log("Protected Content Loaded:", data);
+            } catch (err) {
+                console.error("Failed to load protected content:", err);
             }
         }
 
-        validateSession();
+        validateAndLoadContent();
     </script>
 </body>
 </html>
