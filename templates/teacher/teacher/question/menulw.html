@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Questions | Teacher Dashboard</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+</head>
+<body class="bg-slate-100">
+
+    <div class="flex h-screen bg-slate-100">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-md hidden md:flex flex-col transition-transform duration-300 ease-in-out fixed md:relative h-full z-20">
+            <!-- Sidebar Logo/Header -->
+            <div class="p-6 border-b">
+                <h1 class="text-2xl font-bold gradient-text text-center">Teacher Dashboard</h1>
+            </div>
+            
+            <<!-- Navigation Menu -->
+            <nav class="flex-grow p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="/homet" id="menu-dashboard" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/category" id="menu-category" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                            <span>Manage Category</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors" id="menu-question">
+                            <a href="/question"  class="flex items-center space-x-3">
+                                <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                                <span>Manage Questions</span>
+                            </a>
+                            <button id="questions-toggle" class="ml-auto">
+                                <i id="questions-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                            </button>
+                        </div>
+                        <div id="questions-menu" class="hidden pl-8 pt-1 space-y-1">
+                            <a href="/insertls" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
+                            <a href="/insertlw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
+                            <a href="/insertiw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Image Word</a>
+                            <a href="/insertcs" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complete Sentence</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/materi" id="menu-materi" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                            <span>Manage Materi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/student" id="menu-student" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                            <span>Manage Student</span>
+                        </a>
+                    </li>
+                    <li>
+                        <button id="reports-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                                <span>View Reports</span>
+                            </span>
+                            <i id="reports-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div id="reports-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="/leaderboard" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Leaderboard</a>
+                            <a href="/analysis" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Question Analysis</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Content Header -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-10">
+                <div class="flex items-center">
+                    <button id="sidebar-toggle" class="text-gray-700 focus:outline-none md:hidden mr-4">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-800 truncate">Manage Questions</h2>
+                        <p class="text-sm text-gray-500">Category : Listening Word</p>
+                    </div>
+                </div>
+                <div class="relative">
+                    <button id="profile-dropdown-button" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        <i data-lucide="user-round" class="w-6 h-6 text-gray-600"></i>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-40 border">
+                        <div class="px-4 py-2">
+                            <p class="text-sm font-semibold text-gray-800">Nama Guru</p>
+                            <p class="text-xs text-gray-500 truncate">teacher.name@example.com</p>
+                        </div>
+                        <div class="border-t border-gray-100"></div>
+                        <a href="#" class="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+                <!-- Questions List Table -->
+                <div class="bg-white rounded-lg shadow-lg">
+                    <div class="p-4 flex justify-between items-center border-b">
+                        <h4 class="text-lg font-semibold text-gray-800">List Questions</h4>
+                        <button id="add-question-button" class="bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+                            <i data-lucide="plus" class="w-5 h-5"></i>
+                            <span>Add Question</span>
+                        </button>
+                    </div>
+                    <!--Select Category-->
+                    <div>
+                        <select id="category-lw" name="category" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                            <option selected value="">-- Select Category --</option>
+                            <!-- Akan diisi melalui JavaScript -->
+                        </select>
+                        <hr>
+                    </div>
+                    
+                    <!-- Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full table-fixed text-center">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="w-180 break-words p-4 text-sm font-semibold text-gray-600">Audio Link</th>
+                                    <th class="w-40 break-words p-4 text-sm font-semibold text-gray-600">Answer</th>
+                                    <th class="w-40 break-words p-4 text-sm font-semibold text-gray-600">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listening-word-table-body">
+                               
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- See More Button -->
+                    <div class="p-4 text-center border-t">
+                        <button class="text-blue-600 font-semibold hover:underline">See More</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add New Question Modal -->
+    <div id="add-question-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg p-8 rounded-xl shadow-2xl transform transition-all">
+            <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">Add New Question</h3>
+            <form id="add-question-form" class="space-y-4">
+                <div>
+                    <label for="question_topic" class="block text-sm font-medium text-gray-700">Questions Topic</label>
+                    <select id="question_topic" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                        <option selected value="">-- Select Category --</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="audio_link" class="block text-sm font-medium text-gray-700">Audio Link :</label>
+                    <input type="text" id="audio_link" placeholder="Insert a google drive link" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div>
+                    <label for="correct_answer" class="block text-sm font-medium text-gray-700">Correct Answer :</label>
+                    <input type="text" id="correct_answer" placeholder="Enter Correct Answer" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div class="pt-4 flex justify-end space-x-4">
+                    <button type="button" class="cancel-btn px-6 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">Cancel</button>
+                    <button type="button" onclick="submitQuestion()" class="px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">Save Question</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Edit Question Modal -->
+    <div id="edit-question-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg p-8 rounded-xl shadow-2xl transform transition-all">
+            <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">Edit Question</h3>
+            <form id="edit-question-form" class="space-y-4">
+                <div>
+                    <label for="edit_audio_link" class="block text-sm font-medium text-gray-700">Audio Link :</label>
+                    <input type="text" id="edit_audio_link" placeholder="Insert a google drive link" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div>
+                    <label for="edit_correct_answer" class="block text-sm font-medium text-gray-700">Correct Answer :</label>
+                    <input type="text" id="edit_correct_answer" value="pizza" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div class="pt-4 flex justify-end space-x-4">
+                    <button type="button" class="cancel-btn px-6 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">Cancel</button>
+                    <button type="button" onclick="editQuestion()" class="px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">Save Question</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Question Modal -->
+    <div id="delete-question-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md p-8 rounded-xl shadow-2xl text-center">
+            <i data-lucide="alert-triangle" class="w-16 h-16 text-red-500 mx-auto mb-4"></i>
+            <input type="hidden" id="delete_soal_id"> 
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Delete Questions</h3>
+            <p class="text-gray-500 mb-6">Please confirm: deleting this question will permanently erase all their records.</p>
+            <input type="hidden" id="edit_question_id">
+            <div class="flex justify-center space-x-4">
+                <button type="button" class="cancel-btn px-8 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 font-semibold">Cancel</button>
+                <button id="confirm-delete-btn" onclick="submitDeleteQuestion()" type="submit" class="px-8 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 font-semibold">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script untuk fungsionalitas sidebar, dropdown, dan modal -->
+    <script>
+        lucide.createIcons();
+
+        // --- Sidebar & Dropdown Logic ---
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const backdrop = document.createElement('div');
+        backdrop.id = 'sidebar-backdrop';
+        backdrop.className = 'fixed inset-0 bg-black/50 z-10 hidden md:hidden';
+        document.body.appendChild(backdrop);
+        const path = window.location.pathname;
+
+        // Pemetaan menu berdasarkan path
+        const menuMap = {
+            '/homet': 'menu-dashboard',
+            '/category': 'menu-category',
+            '/student': 'menu-student',
+            '/materi': 'menu-materi',
+            '/leaderboard': 'menu-reports',
+            '/question': 'menu-question',
+            '/insertls': 'menu-question',
+            '/insertlw': 'menu-question',
+            '/insertiw': 'menu-question',
+            '/insertcs': 'menu-question'
+        };
+
+        // Tandai menu aktif berdasarkan path
+        const activeMenuId = menuMap[path];
+        if (activeMenuId) {
+            const activeLink = document.getElementById(activeMenuId);
+            if (activeLink) {
+                activeLink.classList.remove("text-gray-600");
+                activeLink.classList.add("text-blue-600", "bg-blue-100", "font-semibold");
+            }
+            if (path === '/insertls' || path === '/insertlw' || path === '/insertiw' || path === '/insertcs') {
+                    const questionToggle = document.getElementById('questions-toggle');
+                    if (questionToggle) {
+                        questionToggle.classList.remove("text-gray-600");
+                        questionToggle.classList.add("text-blue-600", "bg-blue-100", "font-semibold");
+
+                        // buka dropdown otomatis saat path cocok
+                        const questionMenu = document.getElementById('questions-menu');
+                        const questionArrow = document.getElementById('questions-arrow');
+                        if (questionMenu) questionMenu.classList.remove('hidden');
+                        if (questionArrow) questionArrow.classList.add('rotate-180');
+                    }
+                }
+        }
+
+        const dropdowns = [
+            {
+                toggle: document.getElementById('questions-toggle'),
+                menu: document.getElementById('questions-menu'),
+                arrow: document.getElementById('questions-arrow')
+            },
+            {
+                toggle: document.getElementById('reports-toggle'),
+                menu: document.getElementById('reports-menu'),
+                arrow: document.getElementById('reports-arrow')
+            }
+        ];
+
+        const toggleSidebar = () => {
+            sidebar.classList.toggle('hidden');
+            backdrop.classList.toggle('hidden');
+        };
+
+        sidebarToggle.addEventListener('click', toggleSidebar);
+        backdrop.addEventListener('click', toggleSidebar);
+
+        dropdowns.forEach(dropdown => {
+            if (dropdown.toggle) {
+                dropdown.toggle.addEventListener('click', () => {
+                    const isCurrentlyOpen = !dropdown.menu.classList.contains('hidden');
+                    dropdowns.forEach(d => {
+                        if (d.menu) d.menu.classList.add('hidden');
+                        if (d.arrow) d.arrow.classList.remove('rotate-180');
+                    });
+                    if (!isCurrentlyOpen) {
+                        dropdown.menu.classList.remove('hidden');
+                        dropdown.arrow.classList.add('rotate-180');
+                    }
+                });
+            }
+        });
+
+        // --- Modal Logic ---
+        const addQuestionButton = document.getElementById('add-question-button');
+        const addQuestionModal = document.getElementById('add-question-modal');
+        
+        const editButtons = document.querySelectorAll('.edit-btn');
+        const editQuestionModal = document.getElementById('edit-question-modal');
+
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        const deleteQuestionModal = document.getElementById('delete-question-modal');
+        
+        const cancelButtons = document.querySelectorAll('.cancel-btn');
+
+        const openModal = (modal) => modal.classList.remove('hidden');
+        const closeModal = (modal) => modal.classList.add('hidden');
+        
+        addQuestionButton.addEventListener('click', () => openModal(addQuestionModal));
+        
+        editButtons.forEach(btn => {
+            btn.addEventListener('click', () => openModal(editQuestionModal));
+        });
+
+        deleteButtons.forEach(btn => {
+            btn.addEventListener('click', () => openModal(deleteQuestionModal));
+        });
+
+        cancelButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                closeModal(addQuestionModal);
+                closeModal(editQuestionModal);
+                closeModal(deleteQuestionModal);
+            });
+        });
+        
+        // Close modal if backdrop is clicked
+        [addQuestionModal, editQuestionModal, deleteQuestionModal].forEach(modal => {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal(modal);
+                }
+            });
+        });
+
+        // // --- Profile Dropdown Logic ---
+        // const profileDropdownButton = document.getElementById('profile-dropdown-button');
+        // const profileDropdownMenu = document.getElementById('profile-dropdown-menu');
+
+        // // const closeAllDropdowns = () => {
+        // //      dropdowns.forEach(d => {
+        // //         if (d.menu) d.menu.classList.add('hidden');
+        // //         if (d.arrow) d.arrow.classList.remove('rotate-180');
+        // //     });
+        // //     if (profileDropdownMenu) profileDropdownMenu.classList.add('hidden');
+        // // };
+        
+        // if (profileDropdownButton) {
+        //     profileDropdownButton.addEventListener('click', (e) => {
+        //         e.stopPropagation();
+        //         const isCurrentlyOpen = !profileDropdownMenu.classList.contains('hidden');
+        //         closeAllDropdowns();
+        //         if (!isCurrentlyOpen) {
+        //             profileDropdownMenu.classList.remove('hidden');
+        //         }
+        //     });
+        // }
+
+        document.getElementById("category-lw").addEventListener("change", function () {
+            const selectedCatId = this.value;
+            if (selectedCatId) {
+                fetchListeningWordByCategory(selectedCatId);
+            } else {
+                document.getElementById("listening-word-table-body").innerHTML = "";
+            }
+        });
+
+        async function fetchCategory() {
+            try {
+                const res = await fetch("/api/categories");
+                if (!res.ok) throw new Error("Gagal memuat kategori");
+
+                const data = await res.json();
+                const select_add = document.getElementById("question_topic");;
+
+                // Hapus semua isi select (jaga-jaga)
+                select_add.innerHTML = `<option value="">-- Select Category --</option>`;
+                data.forEach(cat => {
+                    const option = document.createElement("option");
+                    option.value = cat.id_cat;
+                    option.textContent = cat.name;
+                    select_add.appendChild(option);
+                });
+            } catch (error) {
+                console.error("Gagal memuat kategori:", error);
+            }
+        }
+
+        async function fetchLwCategories() {
+            try {
+                const res = await fetch("/api/listening-word/categories");
+                if (!res.ok) throw new Error("Gagal memuat kategori LW");
+
+                const data = await res.json();
+                const select = document.getElementById("category-lw");
+
+                select.innerHTML = `<option value="">-- Select Category --</option>`;
+                data.forEach(cat => {
+                    const option = document.createElement("option");
+                    option.value = cat.id_cat;
+                    option.textContent = cat.name;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error("❌ Gagal load kategori LW:", error);
+            }
+        }
+
+        async function fetchListeningWordByCategory(id_cat) {
+            try {
+                const res = await fetch(`/api/listening-word/by-category/${id_cat}`);
+                if (!res.ok) throw new Error("Gagal memuat soal listening");
+
+                const data = await res.json();
+                const tbody = document.getElementById("listening-word-table-body");
+                tbody.innerHTML = "";
+
+                if (data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="3" class="text-center text-gray-500 py-4">Belum ada soal pada kategori ini.</td></tr>`;
+                    return;
+                }
+
+                data.forEach((soal) => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td class="p-4 text-center break-words w-180">${soal.audio}</td>
+                        <td class="p-4 text-center break-words w-40">${soal.answer}</td>
+                        <td class="p-4 flex space-x-2 justify-center items-center">
+                            <button class="edit-btn bg-gray-200 text-gray-700 font-semibold px-4 py-1.5 rounded-lg hover:bg-gray-300 text-sm"
+                                edit-soal-id="${soal.id_lw}">
+                                Edit
+                            </button>
+                            <button class="delete-soal-btn bg-red-500 text-white px-3 py-1 rounded"
+                                delete-soal-id="${soal.id_lw}">
+                                Delete
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                document.querySelectorAll('.edit-btn').forEach(btn => {
+                    btn.addEventListener('click', function (e) {
+                        const soalId = e.currentTarget.getAttribute("edit-soal-id");
+                        console.log("Soal ID yang akan dihapus:", soalId);
+                        openEditModal(soalId);
+                    });
+                });
+                document.querySelectorAll('.delete-soal-btn').forEach(btn => {
+                    btn.addEventListener('click', function (e) {
+                        const soalId = e.currentTarget.getAttribute("delete-soal-id");
+                        console.log("Soal ID yang akan dihapus:", soalId);
+                        openDeleteModal(soalId);
+                    });
+                });
+            } catch (error) {
+                console.error("❌ Gagal load soal:", error);
+            }
+        }
+
+        async function submitQuestion() {
+            const selectedCategory = document.getElementById("question_topic").value;
+            const payload = {
+                lw_answer: document.getElementById("correct_answer").value,
+                audio_lw: document.getElementById("audio_link").value,
+                Id_cat: parseInt(selectedCategory)
+            };
+
+            if (!selectedCategory || isNaN(parseInt(selectedCategory))) {
+                alert("Silakan pilih kategori terlebih dahulu.");
+                return;
+            }
+            console.log("Payload yang dikirim:", payload);
+
+            try {
+                const response = await fetch("/lw/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+            alert(data.message || "Data berhasil dikirim!");
+            location.reload();
+            } catch (error) {
+                console.error("Error detail:", error);
+                console.error("Error message:", error?.message);
+                console.error("Apakah error instanceof Error:", error instanceof Error);
+                alert(`Gagal mengirim data ke server: ${error?.message || "Unknown error"}`);
+            }
+        }
+
+        async function openEditModal(soalId) {
+            try {
+                console.log(soalId)
+                const res = await fetch(`/lw/detail/${soalId}`);
+                const question = await res.json();
+
+                document.getElementById("edit_audio_link").value = question.audio_lw;
+                document.getElementById("edit_correct_answer").value = question.lw_answer;
+
+                
+
+                // bisa disimpan juga ke hidden input kalau perlu kirim user_id saat submit
+                document.getElementById("edit_question_id").value = question.id_lw;
+
+                openModal(editQuestionModal);
+            } catch (error) {
+                alert("Gagal memuat data.");
+                console.error(error);
+            }
+        }
+
+        async function editQuestion() {
+            const payload = {
+                Id_lw: document.getElementById("edit_question_id").value,
+                audio_lw: document.getElementById("edit_audio_link").value,
+                lw_answer: document.getElementById("edit_correct_answer").value
+            };
+            console.log(payload)
+
+            try {
+                const response = await fetch("/lw/edit", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                alert(data.message || "Data berhasil dikirim!");
+                location.reload();
+            } catch (error) {
+                alert("Gagal mengirim data ke server.");
+                console.error(error);
+            }
+        }
+
+        function openDeleteModal(soalId) {
+            document.getElementById("delete_soal_id").value = soalId;
+            openModal(deleteQuestionModal);
+        }   
+
+        async function submitDeleteQuestion() {
+            const soalId = document.getElementById("delete_soal_id").value;
+            const category = document.getElementById("category-lw").value;
+
+            if (!soalId) {
+                alert("Materi ID tidak ditemukan.");
+                return;
+            }
+            console.log(soalId)
+            // if (!confirm("Apakah kamu yakin ingin menghapus kategori ini beserta seluruh data yang terkait?")) return;
+
+            try {
+                const res = await fetch("/lw/delete", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ soal_id: parseInt(soalId) })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    alert(data.message || "Soal berhasil dihapus.");
+                    fetchListeningWordByCategory(category); // panggil ulang daftar kategori
+                    closeModal(deleteQuestionModal); // tutup modal
+                    location.reload();
+                } else {
+                    alert(data.detail || "Gagal menghapus materi.");
+                }
+            } catch (err) {
+                alert("Terjadi kesalahan saat menghapus materi.");
+                console.error(err);
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            fetchLwCategories();
+            fetchCategory();
+        });
+
+        async function validateAndLoadContent() {
+            try {
+                const res = await fetch("/insertlw-data");
+                if (res.status === 401 || res.status === 403) {
+                    alert("Session has expired or you are not authorized.");
+                    window.location.href = "/login";
+                    return;
+                }
+                const data = await res.json();
+                // Render konten berdasarkan data
+                console.log("Protected Content Loaded:", data);
+            } catch (err) {
+                console.error("Failed to load protected content:", err);
+            }
+        }
+
+        validateAndLoadContent();
+    </script>
+</body>
+</html>

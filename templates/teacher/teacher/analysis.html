@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Submissions | Teacher Dashboard</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+</head>
+<body class="bg-slate-100">
+
+    <div class="flex h-screen bg-slate-100">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-md hidden md:flex flex-col transition-transform duration-300 ease-in-out fixed md:relative h-full z-20">
+            <!-- Sidebar Logo/Header -->
+            <div class="p-6 border-b">
+                <h1 class="text-2xl font-bold gradient-text text-center">Teacher Dashboard</h1>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <nav class="flex-grow p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="/homet" id="menu-dashboard" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/category" id="menu-category" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                            <span>Manage Category</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors" id="menu-question">
+                            <a href="/question" class="flex items-center space-x-3">
+                                <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                                <span>Manage Questions</span>
+                            </a>
+                            <button id="questions-toggle" class="ml-auto">
+                                <i id="questions-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                            </button>
+                        </div>
+                        <div id="questions-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="/insertls" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
+                            <a href="/insertlw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
+                            <a href="/insertiw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Image Word</a>
+                            <a href="/insertcs" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complete Sentence</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/materi" id="menu-materi" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                            <span>Manage Materi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/student" id="menu-student" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                            <span>Manage Student</span>
+                        </a>
+                    </li>
+                    <li>
+                        <button id="reports-toggle" id="menu-reports" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                                <span>View Reports</span>
+                            </span>
+                            <i id="reports-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div id="reports-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="/leaderboard" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Leaderboard</a>
+                            <a href="/analysis" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Question Analysis</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Content Header -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-10">
+                <div class="flex items-center">
+                    <button id="sidebar-toggle" class="text-gray-700 focus:outline-none md:hidden mr-4">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 truncate">Questions Analysis</h2>
+                </div>
+                <div class="relative">
+                    <button id="profile-dropdown-button" class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        <i data-lucide="user-round" class="w-6 h-6 text-gray-600"></i>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-40 border">
+                        <div class="px-4 py-2">
+                            <p class="text-sm font-semibold text-gray-800">Nama Guru</p>
+                            <p class="text-xs text-gray-500 truncate">teacher.name@example.com</p>
+                        </div>
+                        <div class="border-t border-gray-100"></div>
+                        <a href="#" class="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            <i data-lucide="log-out" class="w-4 h-4 mr-2"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h4 class="text-lg font-semibold text-gray-800 mb-4">Questions Category</h4>
+                    <!-- Tabs -->
+                    <div class="border-b border-gray-200">
+                        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                            <button id="listening-sentence" class="tab-btn tab-active py-4 px-1 border-b-2 font-medium text-sm">
+                                Listening Sentence
+                            </button>
+                            <button id="listening-word" class="tab-btn text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+                                Listening Word
+                            </button>
+                            <button id="image-word" class="tab-btn text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+                                Image Word
+                            </button>
+                            <button id="complete-sentence" class="tab-btn text-gray-500 hover:text-gray-700 hover:border-gray-300 py-4 px-1 border-b-2 border-transparent font-medium text-sm">
+                                Complete Sentence
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Student List Table -->
+                    <div class="mt-6">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-4">Student List</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50">
+                                    <tr>
+                                    <th class="p-4 text-sm text-center font-semibold text-gray-600">No</th>
+                                    <th class="p-4 text-sm text-center font-semibold text-gray-600">Name</th>
+                                    <th class="p-4 text-sm text-center font-semibold text-gray-600">Class</th>
+                                    <th class="p-4 text-sm text-center font-semibold text-gray-600 text-right">Points</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="leaderboard-table-body">
+                                    <tr>
+                                    <td colspan="4" class="py-4 text-center text-gray-400">Memuat data...</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- See More Button -->
+                        <div class="p-4 text-center border-t border-gray-200 mt-4">
+                            <button class="text-blue-600 font-semibold hover:underline">See More</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Script untuk fungsionalitas sidebar, dropdown, dan tabs -->
+    <script>
+        lucide.createIcons();
+
+        // --- Sidebar & Dropdown Logic ---
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const backdrop = document.createElement('div');
+        backdrop.id = 'sidebar-backdrop';
+        backdrop.className = 'fixed inset-0 bg-black/50 z-10 hidden md:hidden';
+        document.body.appendChild(backdrop);
+        const path = window.location.pathname;
+
+        const menuMap = {
+            '/homet': 'menu-dashboard',
+            '/category': 'menu-category',
+            '/student': 'menu-student',
+            '/materi': 'menu-materi',
+            '/leaderboard': 'menu-reports',
+            '/analysis': 'menu-reports',
+            '/question': 'menu-question' // jika perlu
+            // tambahkan jika ada lainnya
+        };
+
+        const activeMenuId = menuMap[path];
+            if (activeMenuId) {
+                const activeLink = document.getElementById(activeMenuId);
+                if (activeLink) {
+                    activeLink.classList.remove("text-gray-600");
+                    activeLink.classList.add("text-blue-600", "bg-blue-100", "font-semibold");
+                }
+                if (path === '/leaderboard' || path === '/analysis') {
+                    const reportsToggle = document.getElementById('reports-toggle');
+                    if (reportsToggle) {
+                        reportsToggle.classList.remove("text-gray-600");
+                        reportsToggle.classList.add("text-blue-600", "bg-blue-100", "font-semibold");
+
+                        // buka dropdown otomatis saat path cocok
+                        const reportsMenu = document.getElementById('reports-menu');
+                        const reportsArrow = document.getElementById('reports-arrow');
+                        if (reportsMenu) reportsMenu.classList.remove('hidden');
+                        if (reportsArrow) reportsArrow.classList.add('rotate-180');
+                    }
+                }
+            }
+
+        const dropdowns = [
+            {
+                toggle: document.getElementById('questions-toggle'),
+                menu: document.getElementById('questions-menu'),
+                arrow: document.getElementById('questions-arrow')
+            },
+            {
+                toggle: document.getElementById('reports-toggle'),
+                menu: document.getElementById('reports-menu'),
+                arrow: document.getElementById('reports-arrow')
+            }
+        ];
+
+        const toggleSidebar = () => {
+            sidebar.classList.toggle('hidden');
+            backdrop.classList.toggle('hidden');
+        };
+
+        sidebarToggle.addEventListener('click', toggleSidebar);
+        backdrop.addEventListener('click', toggleSidebar);
+
+        dropdowns.forEach(dropdown => {
+            if (dropdown.toggle) {
+                dropdown.toggle.addEventListener('click', () => {
+                    const isCurrentlyOpen = !dropdown.menu.classList.contains('hidden');
+                    dropdowns.forEach(d => {
+                        if (d.menu) d.menu.classList.add('hidden');
+                        if (d.arrow) d.arrow.classList.remove('rotate-180');
+                    });
+                    if (!isCurrentlyOpen) {
+                        dropdown.menu.classList.remove('hidden');
+                        dropdown.arrow.classList.add('rotate-180');
+                    }
+                });
+            }
+        });
+
+        // --- Tab Logic ---
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Hapus kelas aktif dari semua tombol
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'border-transparent');
+                });
+
+                // Tambahkan kelas aktif ke tombol yang diklik
+                button.classList.add('tab-active');
+                button.classList.remove('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'border-transparent');
+
+                // Ambil ID button sebagai feature param
+                const feature = button.id;
+
+                // Panggil fetchLeaderboard dengan feature tersebut
+                fetchLeaderboard(feature);
+            });
+        });
+
+        async function fetchLeaderboard(feature) {
+            const tbody = document.getElementById("leaderboard-table-body");
+            tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-gray-400">Memuat data...</td></tr>`;
+
+            try {
+                const res = await fetch(`/features-leaderboard?feature=${feature}`);
+                if (!res.ok) throw new Error("Gagal memuat data");
+
+                const data = await res.json();
+                tbody.innerHTML = "";
+
+                if (data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-gray-400">Belum ada data.</td></tr>`;
+                    return;
+                }
+
+                data.forEach(item => {
+                    const tr = document.createElement("tr");
+                    tr.className = "border-b hover:bg-gray-50 transition";
+                    tr.innerHTML = `
+                        <td class="p-4 text-center text-gray-800">${item.no}</td>
+                        <td class="p-4 text-center text-gray-600">${item.name}</td>
+                        <td class="p-4 text-center text-gray-600">${item.class_name}</td>
+                        <td class="p-4 text-right text-gray-600">${item.score}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-red-500">Gagal memuat data.</td></tr>`;
+            }
+        }
+        window.onload = function () {
+            fetchLeaderboard("listening-sentence");
+        };
+
+        async function validateAndLoadContent() {
+            try {
+                const res = await fetch("/analysis-data");
+                if (res.status === 401 || res.status === 403) {
+                    alert("Session has expired or you are not authorized.");
+                    window.location.href = "/login";
+                    return;
+                }
+                const data = await res.json();
+                // Render konten berdasarkan data
+                console.log("Protected Content Loaded:", data);
+            } catch (err) {
+                console.error("Failed to load protected content:", err);
+            }
+        }
+
+        validateAndLoadContent();
+    </script>
+</body>
+</html>

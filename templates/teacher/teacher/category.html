@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Category | Teacher Dashboard</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+</head>
+<body class="bg-slate-100">
+
+    <div class="flex h-screen bg-slate-100">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-md hidden md:flex flex-col transition-transform duration-300 ease-in-out fixed md:relative h-full z-20">
+            <!-- Sidebar Logo/Header -->
+            <div class="p-6 border-b">
+                <h1 class="text-2xl font-bold gradient-text text-center">Teacher Dashboard</h1>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <nav class="flex-grow p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="/homet" id="menu-dashboard" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/category" id="menu-category" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                            <span>Manage Category</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors" id="menu-question">
+                            <a href="/question" class="flex items-center space-x-3">
+                                <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                                <span>Manage Questions</span>
+                            </a>
+                            <button id="questions-toggle" class="ml-auto">
+                                <i id="questions-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                            </button>
+                        </div>
+                        <div id="questions-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="/insertls" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Sentence</a>
+                            <a href="/insertlw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Listening Word</a>
+                            <a href="/insertiw" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Image Word</a>
+                            <a href="/insertcs" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Complete Sentence</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="/materi" id="menu-materi" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                            <span>Manage Materi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/student" id="menu-student" class="flex items-center space-x-3 text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <i data-lucide="users" class="w-5 h-5"></i>
+                            <span>Manage Student</span>
+                        </a>
+                    </li>
+                    <li>
+                        <button id="reports-toggle" class="w-full flex items-center justify-between text-gray-600 hover:bg-slate-100 p-3 rounded-lg transition-colors">
+                            <span class="flex items-center space-x-3">
+                                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                                <span>View Reports</span>
+                            </span>
+                            <i id="reports-arrow" data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+                        </button>
+                        <div id="reports-menu" class="hidden pl-8 pt-2 space-y-1">
+                            <a href="/leaderboard" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Leaderboard</a>
+                            <a href="/analysis" class="block text-sm text-gray-500 hover:text-gray-900 p-2 rounded-lg hover:bg-slate-100">Question Analysis</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Content Header -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-10">
+                <div class="flex items-center">
+                    <button id="sidebar-toggle" class="text-gray-700 focus:outline-none md:hidden mr-4">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-800 truncate">Manage Category</h2>
+                </div>
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-blue-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        <i data-lucide="user-round" class="w-6 h-6"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-red-600 p-2 rounded-full hover:bg-red-100 transition-colors">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="flex-1 p-6 md:p-6 overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Data of Categories</h3>
+                    <button id="add-category-button" class="bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
+                        <i data-lucide="plus" class="w-5 h-5"></i>
+                        <span>Add Category</span>
+                    </button>
+                </div>
+
+                <!-- Cateofy List Table -->
+                <div class="bg-white rounded-lg shadow-lg">
+                    <!-- Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="text-center">
+                                <tr class="border-b text-gray-600">
+                                <th class="py-2">Category</th>
+                                <th class="py-2">Description</th>
+                                <th class="py-2">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="category-table-body">
+                                <tr>
+                                <td colspan="4" class="py-4 text-center text-gray-400">Memuat data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- See More Button -->
+                    <div class="p-4 text-center border-t">
+                        <button class="text-blue-600 font-semibold hover:underline">See More</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div id="add-category-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg p-8 rounded-xl shadow-2xl transform transition-all">
+            <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">Add New Category</h3>
+            <form id="add-category-form" class="space-y-6">
+                <div>
+                    <label for="category class="block text-sm font-medium text-gray-700">Category Name</label>
+                    <input type="text" id="category" name="category" placeholder="Enter category's name" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div>
+                    <label for="description class="block text-sm font-medium text-gray-700">Description</label>
+                    <input type="text" id="description" name="description" placeholder="Enter category's description" class="mt-1 w-full px-4 py-3 bg-gray-100 border-transparent rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-transparent">
+                </div>
+                <div class="pt-4 flex justify-end space-x-4">
+                    <button type="button" class="cancel-btn px-6 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">Cancel</button>
+                    <button type="submit" onclick="submitCategory()" class="px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Category Modal -->
+    <div id="delete-category-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md p-8 rounded-xl shadow-2xl text-center">
+             <i data-lucide="alert-triangle" class="w-16 h-16 text-red-500 mx-auto mb-4"></i>
+             <input type="hidden" id="delete_category_id">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">Delete Category</h3>
+            <p class="text-gray-500 mb-6">Please confirm: deleting this category will also permanently erase all questions that related to the category.</p>
+            <div class="flex justify-center space-x-4">
+                <button type="button" class="cancel-btn px-8 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 font-semibold">Cancel</button>
+                <button id="confirm-delete-btn"onclick="submitDeleteCategory()" type="submit" class="px-8 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 font-semibold">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm p-8 rounded-xl shadow-2xl text-center">
+            <div class="w-20 h-20 bg-green-100 rounded-full mx-auto flex items-center justify-center mb-6">
+                <i data-lucide="check" class="w-12 h-12 text-green-600"></i>
+            </div>
+            <h3 id="success-title" class="text-2xl font-bold text-gray-800">Success!</h3>
+            <p id="success-message" class="text-gray-500 mt-2 mb-6">The action was completed successfully.</p>
+            <button id="close-success-modal" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700">
+                OK
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Script untuk fungsionalitas sidebar, dropdown, dan modal -->
+    <script>
+        lucide.createIcons();
+
+        // --- Sidebar & Dropdown Logic ---
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const backdrop = document.createElement('div');
+        backdrop.id = 'sidebar-backdrop';
+        backdrop.className = 'fixed inset-0 bg-black/50 z-10 hidden md:hidden';
+        document.body.appendChild(backdrop);
+        const path = window.location.pathname;
+
+        const menuMap = {
+            '/homet': 'menu-dashboard',
+            '/category': 'menu-category',
+            '/student': 'menu-student',
+            '/materi': 'menu-materi',
+            '/leaderboard': 'menu-reports',
+            '/question': 'menu-question' // jika perlu
+            // tambahkan jika ada lainnya
+        };
+
+        const activeMenuId = menuMap[path];
+            if (activeMenuId) {
+                const activeLink = document.getElementById(activeMenuId);
+                if (activeLink) {
+                    activeLink.classList.remove("text-gray-600");
+                    activeLink.classList.add("text-blue-600", "bg-blue-100", "font-semibold");
+                }
+            }
+
+        const dropdowns = [
+            {
+                toggle: document.getElementById('questions-toggle'),
+                menu: document.getElementById('questions-menu'),
+                arrow: document.getElementById('questions-arrow')
+            },
+            {
+                toggle: document.getElementById('reports-toggle'),
+                menu: document.getElementById('reports-menu'),
+                arrow: document.getElementById('reports-arrow')
+            }
+        ];
+
+        const toggleSidebar = () => {
+            sidebar.classList.toggle('hidden');
+            backdrop.classList.toggle('hidden');
+        };
+
+        sidebarToggle.addEventListener('click', toggleSidebar);
+        backdrop.addEventListener('click', toggleSidebar);
+
+        dropdowns.forEach(dropdown => {
+            if (dropdown.toggle) {
+                dropdown.toggle.addEventListener('click', () => {
+                    const isCurrentlyOpen = !dropdown.menu.classList.contains('hidden');
+                    dropdowns.forEach(d => {
+                        if (d.menu) d.menu.classList.add('hidden');
+                        if (d.arrow) d.arrow.classList.remove('rotate-180');
+                    });
+                    if (!isCurrentlyOpen) {
+                        dropdown.menu.classList.remove('hidden');
+                        dropdown.arrow.classList.add('rotate-180');
+                    }
+                });
+            }
+        });
+
+        // --- Modal Logic ---
+        const addCategoryButton = document.getElementById('add-category-button');
+        const addCategoryModal = document.getElementById('add-category-modal');
+        const addCategoryForm = document.getElementById('add-category-form');
+
+        const deleteCategoryButtons = document.querySelectorAll('.delete-category-btn');
+        const deleteCategoryModal = document.getElementById('delete-category-modal');
+        const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+        
+        const successModal = document.getElementById('success-modal');
+        const successTitle = document.getElementById('success-title');
+        const successMessage = document.getElementById('success-message');
+        const closeSuccessModalBtn = document.getElementById('close-success-modal');
+        
+        const cancelButtons = document.querySelectorAll('.cancel-btn');
+
+        const openModal = (modal) => modal.classList.remove('hidden');
+        const closeModal = (modal) => modal.classList.add('hidden');
+        
+        const showSuccessModal = (title, message) => {
+            successTitle.textContent = title;
+            successMessage.textContent = message;
+            openModal(successModal);
+        };
+
+        // Event Listeners for Modals
+        addCategoryButton.addEventListener('click', () => openModal(addCategoryModal));
+
+        deleteCategoryButtons.forEach(btn => {
+            btn.addEventListener('click', () => openModal(deleteCategoryModal));
+        });
+
+        cancelButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                closeModal(addCategoryModal);
+                closeModal(deleteCategoryModal);
+            });
+        });
+
+        // Form Submissions
+        addCategoryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            closeModal(addCategoryModal);
+            showSuccessModal('Category Added!', 'The new category has been successfully added to the system.');
+        });
+
+        confirmDeleteBtn.addEventListener('click', () => {
+            closeModal(deleteCategoryModal);
+            showSuccessModal('Category Deleted!', 'The category has been permanently removed from the system.');
+        });
+
+        // Close Modals
+        closeSuccessModalBtn.addEventListener('click', () => closeModal(successModal));
+
+        [addCategoryModal, deleteCategoryModal, successModal].forEach(modal => {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal(modal);
+                }
+            });
+        });
+
+
+        async function fetchCategory() {
+            try {
+                const res = await fetch("/api/categories");
+                if (!res.ok) throw new Error("Gagal memuat kategori");
+
+                const data = await res.json();
+                const tbody = document.getElementById("category-table-body");
+                tbody.innerHTML = "";
+
+                if (data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-gray-400">Belum ada kategory.</td></tr>`;
+                    return;
+                }
+
+                data.forEach(category => {
+                    const tr = document.createElement("tr");
+                    tr.className = "border-b hover:bg-gray-50 transition";
+                    tr.innerHTML = `
+                        <td class="p-4 font-medium text-gray-800 text-center">${category.name}</td>
+                        <td class="p-4 text-gray-600 text-center">${category.desc}</td>
+                        <td class="p-4 flex space-x-2 justify-center items-center">
+                        <button 
+                            class="delete-category-btn bg-red-500 text-white font-semibold px-4 py-1.5 rounded-lg hover:bg-red-600 text-sm"
+                            delete-category-id="${category.id_cat}"
+                            >Delete
+                        </button>
+                    </td>
+
+                    `;
+                    tbody.appendChild(tr);
+                });
+                document.querySelectorAll('.delete-category-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const catId = btn.getAttribute("delete-category-id");
+                        console.log(catId)
+                        openDeleteModal(catId); // ini jalan saat tombol diklik, bukan saat halaman dimuat
+                    });
+                });
+            } catch (err) {
+                console.error("❌ Gagal memuat data kategori:", err);
+                document.getElementById("category-table-body").innerHTML = `
+                    <tr>
+                        <td colspan="4" class="py-4 text-center text-red-500">Gagal memuat data kategory.</td>
+                    </tr>
+                `;
+            }
+        }
+
+        async function submitCategory() {
+            const payload = {
+                category: document.getElementById("category").value,
+                desc: document.getElementById("description").value,
+            };
+
+            try {
+                const response = await fetch("/category/add", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                alert(data.message || "Data berhasil dikirim!");
+
+            } catch (error) {
+                alert("Gagal mengirim data ke server.");
+                console.error(error);
+            }
+            }
+        window.onload = function () {
+            fetchCategory();
+        };
+
+        function openDeleteModal(categoryId) {
+            document.getElementById("delete_category_id").value = categoryId;
+            openModal(deleteCategoryModal);
+        }   
+
+        async function submitDeleteCategory() {
+            const catId = document.getElementById("delete_category_id").value;
+
+            if (!catId) {
+                alert("Category ID tidak ditemukan.");
+                return;
+            }
+            console.log(catId)
+            // if (!confirm("Apakah kamu yakin ingin menghapus kategori ini beserta seluruh data yang terkait?")) return;
+
+            try {
+                const res = await fetch("/category/delete", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ category_id: parseInt(catId) })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    alert(data.message || "Kategori berhasil dihapus.");
+                    fetchCategory(); // panggil ulang daftar kategori
+                    closeModal(deleteCategoryModal); // tutup modal
+                } else {
+                    alert(data.detail || "Gagal menghapus kategori.");
+                }
+            } catch (err) {
+                alert("Terjadi kesalahan saat menghapus kategori.");
+                console.error(err);
+            }
+        }
+
+        window.onload = function () {
+            fetchCategory(); // Tambahkan ini!
+        };
+
+        async function validateAndLoadContent() {
+            try {
+                const res = await fetch("/category-data");
+                if (res.status === 401 || res.status === 403) {
+                    alert("Session has expired or you are not authorized.");
+                    window.location.href = "/login";
+                    return;
+                }
+                const data = await res.json();
+                // Render konten berdasarkan data
+                console.log("Protected Content Loaded:", data);
+            } catch (err) {
+                console.error("Failed to load protected content:", err);
+            }
+        }
+
+        validateAndLoadContent();
+    </script>
+
+</body>
+</html>
